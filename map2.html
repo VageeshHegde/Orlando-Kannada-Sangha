@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>US Map - Orlando Marker</title>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {
+        packages: ['geochart']
+      });
+
+      google.charts.setOnLoadCallback(drawChart);
+
+      function drawChart() {
+        const rawData = google.visualization.arrayToDataTable([
+          ['Latitude', 'Longitude', 'City', 'Intensity'],
+          [28.5383, -81.3792, 'Orlando Kannada Sangha', 100]
+        ]);
+
+        // Hide the intensity from tooltip
+        const view = new google.visualization.DataView(rawData);
+        view.setColumns([0, 1, 2]); // omit the intensity column from tooltip
+
+        const options = {
+          region: 'US',
+          resolution: 'provinces',
+          displayMode: 'markers',
+          backgroundColor: '#f5ede1',
+          datalessRegionColor: '#ede1cf',
+          colorAxis: { colors: ['#ffcccc', '#ff0000'] },
+          legend: 'none',
+          tooltip: { trigger: 'focus' }
+        };
+
+        const chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
+        chart.draw(view, options);
+      }
+    </script>
+    <style>
+      body {
+        background-color: #f5ede1;
+        font-family: 'Georgia', serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="regions_div" style="width: 900px; height: 500px;"></div>
+  </body>
+</html>

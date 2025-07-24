@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Today's Date Calendar</title>
+  <style>
+    body {
+      background-color: #f5ede1;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .calendar-wrapper {
+      position: relative;
+    }
+
+    .calendar-today {
+      width: 120px;
+      height: 120px;
+      background-color: #fff;
+      border: 2px solid #7a1f1f;
+      border-radius: 12px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
+    }
+
+    .calendar-month {
+      background-color: #f26c4f;
+      color: white;
+      font-size: 1rem;
+      padding: 5px;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .calendar-day {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-top: 10px;
+      color: #7a1f1f;
+    }
+
+    .calendar-year {
+      font-size: 0.9rem;
+      margin-top: 5px;
+      color: #444;
+    }
+
+    .hook {
+      width: 10px;
+      height: 10px;
+      background-color: #444;
+      border-radius: 50%;
+      position: absolute;
+      top: -10px;
+    }
+
+    .hook.left {
+      left: 20px;
+    }
+
+    .hook.right {
+      right: 20px;
+    }
+
+    .hook::after {
+      content: '';
+      display: block;
+      width: 2px;
+      height: 10px;
+      background-color: #444;
+      margin: 0 auto;
+    }
+  </style>
+</head>
+<body>
+  <div class="calendar-wrapper">
+    <div class="hook left"></div>
+    <div class="hook right"></div>
+    <div class="calendar-today">
+      <div class="calendar-month" id="month">---</div>
+      <div class="calendar-day" id="day">--</div>
+      <div class="calendar-year" id="year">----</div>
+    </div>
+  </div>
+
+  <script>
+    const now = new Date();
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN",
+                    "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
+    document.getElementById("month").textContent = months[now.getMonth()];
+    document.getElementById("day").textContent = now.getDate();
+    document.getElementById("year").textContent = now.getFullYear();
+  </script>
+</body>
+</html>

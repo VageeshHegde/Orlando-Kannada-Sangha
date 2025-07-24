@@ -1,0 +1,19 @@
+{
+    "name": "Orlando Kannada Sangha",
+    "short_name": "OKS",
+    "icons": [
+        {
+            "src": "/images/okslogo.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/images/okslogo.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#7a1f1f",
+    "background_color": "#f5ede1",
+    "display": "standalone"
+} 

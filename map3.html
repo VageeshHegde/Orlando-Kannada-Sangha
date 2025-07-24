@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>US Map with Orlando Pin</title>
+  <style>
+    body {
+      background-color: #f5ede1;
+      font-family: 'Georgia', serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .map-container {
+      position: relative;
+      width: 900px;
+      height: 600px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/3/32/Blank_US_Map_%28states_only%29.svg') no-repeat center;
+      background-size: contain;
+    }
+
+    .pin {
+      position: absolute;
+      top: 72%;  /* Adjusted for Orlando */
+      left: 87%; /* Adjusted for Orlando */
+      transform: translate(-50%, -100%);
+      width: 30px;
+      height: 30px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/e/ec/RedDot.svg') no-repeat center;
+      background-size: cover;
+    }
+
+    .pin::after {
+      content: 'Orlando';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      margin-top: 4px;
+      font-size: 14px;
+      color: #7a1f1f;
+    }
+  </style>
+</head>
+<body>
+  <div class="map-container">
+    <div class="pin"></div>
+  </div>
+</body>
+</html>
