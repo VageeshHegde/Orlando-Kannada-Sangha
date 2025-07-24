@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Karnataka Flag - Full Curve Animation</title>
+  <style>
+    body {
+      background-color: #f5ede1;
+      margin: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: Georgia, serif;
+    }
+
+    .flag-container {
+      display: flex;
+      align-items: center;
+    }
+
+    .flag-pole {
+      width: 10px;
+      height: 120px;
+      background-color: #444;
+      margin-right: 10px;
+    }
+
+    .flag {
+      width: 200px;
+      height: 100px;
+    }
+
+    .yellow {
+        background-color: yellow;
+    }
+
+    .yellow,
+    .red {
+      transform-origin: left center;
+      animation: wavePath 2s ease-in-out infinite;
+    }
+
+    @keyframes wavePath {
+      0% {
+        d: path("M0,0 Q50,5 100,0 T200,0 V50 Q150,55 100,50 T0,50 Z");
+      }
+      50% {
+        d: path("M0,0 Q50,-5 100,0 T200,0 V50 Q150,45 100,50 T0,50 Z");
+      }
+      100% {
+        d: path("M0,0 Q50,5 100,0 T200,0 V50 Q150,55 100,50 T0,50 Z");
+      }
+    }
+
+    @keyframes waveBottom {
+      0% {
+        d: path("M0,50 Q50,55 100,50 T200,50 V100 Q150,95 100,100 T0,100 Z");
+      }
+      50% {
+        d: path("M0,50 Q50,45 100,50 T200,50 V100 Q150,105 100,100 T0,100 Z");
+      }
+      100% {
+        d: path("M0,50 Q50,55 100,50 T200,50 V100 Q150,95 100,100 T0,100 Z");
+      }
+    }
+
+    .red {
+      animation-name: waveBottom;
+    }
+  </style>
+</head>
+<body>
+  <div class="flag-container">
+    <div class="flag-pole"></div>
+    <svg class="flag" viewBox="0 0 200 100" xmlns="http://www.w3.org/2000/svg">
+      <!-- Top half (Yellow) -->
+      <path class="yellow" fill="#FFFF00"
+        d="M0,0 Q50,5 100,0 T200,0 V50 Q150,55 100,50 T0,50 Z" />
+      <!-- Bottom half (Red) -->
+      <path class="red" fill="#FF0000"
+        d="M0,50 Q50,55 100,50 T200,50 V100 Q150,95 100,100 T0,100 Z" />
+    </svg>
+  </div>
+  <div class="tenor-gif-embed" data-postid="18973301" data-share-method="host" data-aspect-ratio="1.50235" data-width="100%"></div> <script type="text/javascript" async src="https://tenor.com/embed.js"></script>
+</body>
+</html>
