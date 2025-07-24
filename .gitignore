@@ -1,6 +1,6 @@
 # Config files
-js/config.js
-js/config.*.js
+# js/config.js
+# js/config.*.js
 
 # Environment files
 .env
