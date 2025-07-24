@@ -90,78 +90,83 @@ google.charts.load('current', {
 
   async function getOrlandoWeather() {
     const city = 'Orlando';
-    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${config.weatherApiKey}`;
+    // Make sure to use the correct API endpoint and parameters
+    const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${config.weatherApiKey}&units=metric`;
     
     try {
-        const response = await fetch(url);
-        if (!response.ok) throw new Error('Failed to fetch weather data');
-        
-        const data = await response.json();
-        
-        // Extract relevant information
-        const temperature = data.main.temp;
-        const description = data.weather[0].description;
-        const iconCode = data.weather[0].icon;
-        const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
-        
-        // Update your HTML elements
-        document.getElementById('weather-info').innerHTML = `
-            <p><img src="${iconUrl}" alt="${description}" /> ${data.name}</p>
-            <p>${temperature} °C</p>
-            <p>${description}</p>
-        `;
+      const response = await fetch(url);
+      if (!response.ok) {
+        const errorData = await response.json();
+        console.error('Weather API Error:', errorData);
+        throw new Error('Failed to fetch weather data');
+      }
+      
+      const data = await response.json();
+      
+      // Extract relevant information
+      const temperature = Math.round(data.main.temp);
+      const description = data.weather[0].description;
+      const iconCode = data.weather[0].icon;
+      const iconUrl = `https://openweathermap.org/img/wn/${iconCode}@2x.png`;
+      
+      // Update your HTML elements
+      document.getElementById('weather-info').innerHTML = `
+        <p><img src="${iconUrl}" alt="${description}" /> ${data.name}</p>
+        <p>${temperature}°C</p>
+        <p>${description}</p>
+      `;
     } catch (error) {
-        console.error('Weather error:', error);
-        document.getElementById('weather-info').textContent = 'Unable to load weather data.';
+      console.error('Weather error:', error);
+      document.getElementById('weather-info').textContent = 'Unable to load weather data.';
     }
-}
+  }
 
-// Call the weather function when the page loads
-document.addEventListener('DOMContentLoaded', () => {
+  // Call the weather function when the page loads
+  document.addEventListener('DOMContentLoaded', () => {
     getOrlandoWeather();
     // Update weather every 30 minutes
     setInterval(getOrlandoWeather, 30 * 60 * 1000);
-});
-
-// Initialize infinite scroll
-document.addEventListener('DOMContentLoaded', () => {
-  const scrollContent = document.querySelector('.scroll-content');
-  const images = scrollContent.querySelectorAll('.scroll-image');
-  
-  // Clone images for infinite effect
-  images.forEach(img => {
-    const clone = img.cloneNode(true);
-    scrollContent.appendChild(clone);
   });
 
-  // Pause animation on hover
-  scrollContent.addEventListener('mouseenter', () => {
-    scrollContent.style.animationPlayState = 'paused';
-  });
-  
-  scrollContent.addEventListener('mouseleave', () => {
-    scrollContent.style.animationPlayState = 'running';
-  });
-});
-
-// Remove old scroll functions since we're using CSS animation
-function scrollImages(direction) {
-  const content = document.querySelector('.scroll-content');
-  if (direction === 'left') {
-    content.style.animationDirection = 'reverse';
-  } else {
-    content.style.animationDirection = 'normal';
-  }
-} 
-
-// Update membership year
-document.addEventListener('DOMContentLoaded', () => {
-    // Get current year
-    const currentYear = new Date().getFullYear();
+  // Initialize infinite scroll
+  document.addEventListener('DOMContentLoaded', () => {
+    const scrollContent = document.querySelector('.scroll-content');
+    const images = scrollContent.querySelectorAll('.scroll-image');
     
-    // Update membership year
-    const membershipYearElement = document.getElementById('membership-year');
-    if (membershipYearElement) {
-        membershipYearElement.textContent = currentYear;
+    // Clone images for infinite effect
+    images.forEach(img => {
+      const clone = img.cloneNode(true);
+      scrollContent.appendChild(clone);
+    });
+
+    // Pause animation on hover
+    scrollContent.addEventListener('mouseenter', () => {
+      scrollContent.style.animationPlayState = 'paused';
+    });
+    
+    scrollContent.addEventListener('mouseleave', () => {
+      scrollContent.style.animationPlayState = 'running';
+    });
+  });
+
+  // Remove old scroll functions since we're using CSS animation
+  function scrollImages(direction) {
+    const content = document.querySelector('.scroll-content');
+    if (direction === 'left') {
+      content.style.animationDirection = 'reverse';
+    } else {
+      content.style.animationDirection = 'normal';
     }
-}); 
+  } 
+
+  // Update membership year
+  document.addEventListener('DOMContentLoaded', () => {
+      // Get current year
+      const currentYear = new Date().getFullYear();
+      
+      // Update membership year
+      const membershipYearElement = document.getElementById('membership-year');
+      if (membershipYearElement) {
+          membershipYearElement.textContent = currentYear;
+      }
+  }); 
