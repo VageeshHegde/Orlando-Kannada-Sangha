@@ -1,7 +1,5 @@
 {
   "buildCommand": "cd OKS && npm run build",
   "outputDirectory": "OKS/build",
-  "framework": "sveltekit",
-  "installCommand": "cd OKS && npm install",
-  "rootDirectory": "OKS"
+  "installCommand": "cd OKS && npm install"
 }
