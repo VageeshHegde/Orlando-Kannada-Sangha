@@ -1,0 +1,302 @@
+<script>
+  // Props for the simple event card
+  export let month = "MAR";
+  export let day = "3";
+  export let title = "Music Concert";
+  export let date = "March 3, 2024";
+  export let location = "123 Main St, Anytown, CA";
+  export let imageSrc = "https://picsum.photos/150/100";
+  export let imageAlt = "Map";
+  export let mapLink = "";
+
+  // Lightbox functionality
+  let showLightbox = false;
+
+  function openLightbox() {
+    showLightbox = true;
+    document.body.style.overflow = 'hidden'; // Prevent background scrolling
+  }
+
+  function closeLightbox() {
+    showLightbox = false;
+    document.body.style.overflow = 'auto'; // Restore scrolling
+  }
+
+  // Close lightbox on escape key
+  function handleKeydown(event) {
+    if (event.key === 'Escape' && showLightbox) {
+      closeLightbox();
+    }
+  }
+</script>
+
+<svelte:window on:keydown={handleKeydown} />
+
+<!-- Simple Event Card -->
+<div class="event-card">
+  <div class="calendar-box">
+    <div class="calendar-month-E">{month}</div>
+    <div class="calendar-day-E">{day}</div>
+  </div>
+  <div class="event-info">
+    <h5>{title}</h5>
+    <p>{date}<br>{location}</p>
+    {#if mapLink}
+      <a href={mapLink} target="_blank" rel="noopener noreferrer" class="card-map-link">
+        <i class="fas fa-map-marker-alt"></i> Location on Google Map
+      </a>
+    {/if}
+  </div>
+  <img src={imageSrc} alt={imageAlt} class="event-img" on:click={openLightbox} />
+</div>
+
+<!-- Lightbox Overlay -->
+{#if showLightbox}
+  <div class="lightbox-overlay" on:click={closeLightbox}>
+    <div class="lightbox-content" on:click|stopPropagation>
+      <button class="lightbox-close" on:click={closeLightbox}>×</button>
+      <img src={imageSrc} alt={imageAlt} class="lightbox-image" />
+             <div class="lightbox-caption">
+         <h4>{title}</h4>
+         <p>{date} • {location}</p>
+         {#if mapLink}
+           <a href={mapLink} target="_blank" rel="noopener noreferrer" class="map-link">
+             <i class="fas fa-map-marker-alt"></i> View Location on Google Maps
+           </a>
+         {/if}
+       </div>
+    </div>
+  </div>
+{/if}
+
+<style>
+  /* Calendar Box */
+  .calendar-box {
+    background: #fff2e2;
+    border: 2px solid #d4b07c;
+    border-radius: 12px;
+    text-align: center;
+    padding: 1rem;
+    font-weight: bold;
+    font-size: 1.2rem;
+    color: #7a1f1f;
+    width: 80px;
+  }
+
+  .calendar-month-E {
+    background-color: #f26c4f;
+    color: white;
+    padding: 0.2rem 0;
+    border-radius: 4px 4px 0 0;
+    font-size: 0.9rem;
+  }
+
+  .calendar-day-E {
+    background-color: white;
+    font-size: 1.5rem;
+    padding: 0.3rem 0;
+    border-radius: 0 0 4px 4px;
+  }
+
+  /* Event Card */
+  .event-card {
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  .event-info {
+    flex: 1;
+    margin-left: 1rem;
+  }
+
+  .event-info h5 {
+    margin: 0 0 0.5rem 0;
+    color: #333;
+    font-size: 1.1rem;
+  }
+
+  .event-info p {
+    margin: 0;
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+
+  .card-map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 8px;
+    padding: 4px 8px;
+    background: #7a1f1f;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .card-map-link:hover {
+    background: #8a4b4b;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(122, 31, 31, 0.3);
+  }
+
+  .card-map-link i {
+    font-size: 0.8rem;
+  }
+
+  .event-img {
+    width: 150px;
+    height: 100px;
+    border-radius: 8px;
+    background-color: #ddd;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .event-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Lightbox Styles */
+  .lightbox-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(5px);
+  }
+
+  .lightbox-content {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    max-width: 95%;
+    max-height: 95%;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .lightbox-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 24px;
+    cursor: pointer;
+    z-index: 10;
+    transition: background-color 0.2s ease;
+  }
+
+  .lightbox-close:hover {
+    background: rgba(0, 0, 0, 0.9);
+  }
+
+  .lightbox-image {
+    width: 100%;
+    height: 450px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .lightbox-caption {
+    padding: 20px;
+    background: white;
+    height: 130px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .lightbox-caption h4 {
+    margin: 0 0 10px 0;
+    color: #333;
+    font-size: 1.4rem;
+  }
+
+  .lightbox-caption p {
+    margin: 0;
+    color: #666;
+    font-size: 1rem;
+  }
+
+  .map-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+    padding: 8px 16px;
+    background: #7a1f1f;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .map-link:hover {
+    background: #8a4b4b;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(122, 31, 31, 0.3);
+  }
+
+  .map-link i {
+    font-size: 1rem;
+  }
+
+  /* Responsive Lightbox */
+  @media (max-width: 768px) {
+    .lightbox-content {
+      width: 95%;
+      height: 500px;
+      max-width: 98%;
+      max-height: 98%;
+    }
+
+    .lightbox-image {
+      height: 350px;
+    }
+
+    .lightbox-caption {
+      height: 100px;
+      padding: 15px;
+    }
+
+    .lightbox-caption {
+      padding: 15px;
+    }
+
+    .lightbox-caption h4 {
+      font-size: 1.2rem;
+    }
+
+    .lightbox-caption p {
+      font-size: 0.9rem;
+    }
+  }
+</style> 
