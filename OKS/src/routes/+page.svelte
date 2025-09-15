@@ -7,11 +7,16 @@
   import { browser } from '$app/environment';
   import { getSliderImages } from '$lib/services/sliderService.js';
   import { user } from '$lib/stores/auth.js';
+  import { supabase } from '$lib/supabase.js';
   let scrollContent;
   let googleChartsReady = false;
   let cleanupResize;
   let membershipYear = new Date().getFullYear();
   let yearsSinceFounded = new Date().getFullYear() - 2012;
+  
+  // Event images from Supabase Storage
+  let eventImages = {};
+  let eventImagesLoaded = false;
   
   // Slider images from S3
   let sliderImages = [];
@@ -33,6 +38,49 @@
       imagesLoaded = true;
       // Setup slider after images are loaded
       setTimeout(setupSlider, 100);
+    }
+  }
+
+  // Function to load event images from Supabase Storage
+  async function loadEventImages() {
+    try {
+      console.log('🔍 Loading event images from Supabase Storage...');
+      
+      // Define event image files (you can customize these names)
+      const eventImageFiles = {
+        'kannada-rajyotsava': 'kannada-rajyotsava.jpeg',
+        'art-exhibition': 'art-exhibition.jpg', 
+        'music-concert': 'music-concert.jpg',
+        'cultural-program': 'cultural-program.jpg'
+      };
+      
+      // Load images from events folder in OKS bucket
+      for (const [eventKey, fileName] of Object.entries(eventImageFiles)) {
+        try {
+          const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+            .from('OKS')
+            .createSignedUrl(`events/${fileName}`, 3600); // 1 hour expiration
+          
+          if (signedUrlError) {
+            console.warn(`⚠️ Failed to load ${fileName}:`, signedUrlError.message);
+            // Fallback to placeholder
+            eventImages[eventKey] = `https://picsum.photos/150/100?random=${Math.floor(Math.random() * 100)}`;
+          } else {
+            console.log(`✅ Successfully loaded ${fileName}`);
+            eventImages[eventKey] = signedUrlData.signedUrl;
+          }
+        } catch (error) {
+          console.warn(`⚠️ Error loading ${fileName}:`, error.message);
+          eventImages[eventKey] = `https://picsum.photos/150/100?random=${Math.floor(Math.random() * 100)}`;
+        }
+      }
+      
+      eventImagesLoaded = true;
+      console.log('🖼️ Event images loaded:', Object.keys(eventImages).length);
+      
+    } catch (error) {
+      console.error('❌ Failed to load event images:', error);
+      eventImagesLoaded = true;
     }
   }
 
@@ -154,6 +202,9 @@
   onMount(async () => {
     // Load slider images from S3
     await loadSliderImages();
+    
+    // Load event images from S3
+    await loadEventImages();
     
     
     // Image scroller setup
@@ -456,11 +507,11 @@
         <SimpleEventCard 
           month="NOV"
           day="1"
-          title="Music Concert"
+          title="Kannada Rajyotsava"
           date="November 1, 2025"
-          location="123 Main St, Anytown, CA"
-          imageSrc="https://picsum.photos/150/100?random=1"
-          imageAlt="Music Concert"
+          location="1994 E Lake Dr, Casselberry, FL"
+          imageSrc={eventImagesLoaded ? (eventImages['kannada-rajyotsava'] || 'https://picsum.photos/150/100?random=1') : 'https://picsum.photos/150/100?random=1'}
+          imageAlt="Kannada Rajyotsava"
           mapLink="https://maps.google.com/?q=123+Main+St+Anytown+CA"
           memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
           nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
@@ -472,7 +523,7 @@
           title="Art Exhibition"
           date="April 10, 2024"
           location="456 Elm St, Othertown, NY"
-          imageSrc="https://picsum.photos/150/100?random=2"
+          imageSrc={eventImagesLoaded ? (eventImages['art-exhibition'] || 'https://picsum.photos/150/100?random=2') : 'https://picsum.photos/150/100?random=2'}
           imageAlt="Art Exhibition"
           mapLink="https://maps.google.com/?q=456+Elm+St+Othertown+NY"
           memberFormUrl=""
@@ -482,11 +533,11 @@
         <SimpleEventCard 
           month="NOV"
           day="15"
-          title="Kannada Rajyotsava"
+          title="Kannada Kali"
           date="November 15, 2024"
           location="Orlando Convention Center"
-          imageSrc="https://picsum.photos/150/100?random=3"
-          imageAlt="Kannada Rajyotsava"
+          imageSrc={eventImagesLoaded ? (eventImages['kannada-kali'] || 'https://picsum.photos/150/100?random=3') : 'https://picsum.photos/150/100?random=3'}
+          imageAlt="Kannada Kali"
           mapLink="https://maps.google.com/?q=Orlando+Convention+Center"
           memberFormUrl=""
           nonMemberFormUrl=""
@@ -498,7 +549,7 @@
           title="New Year Celebration"
           date="December 31, 2024"
           location="Community Center Orlando"
-          imageSrc="https://picsum.photos/150/100?random=4"
+          imageSrc={eventImagesLoaded ? (eventImages['cultural-program'] || 'https://picsum.photos/150/100?random=4') : 'https://picsum.photos/150/100?random=4'}
           imageAlt="New Year Celebration"
           mapLink="https://maps.google.com/?q=Community+Center+Orlando"
           memberFormUrl=""

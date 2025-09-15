@@ -246,8 +246,8 @@
 
   .lightbox-image {
     width: 100%;
-    height: 450px;
-    object-fit: cover;
+    height: auto;
+    object-fit: fill;
     display: block;
   }
 
