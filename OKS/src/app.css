@@ -1,4 +1,5 @@
-@import "tailwindcss";
+/* @import "tailwindcss"; */
+/* Temporarily disabled Tailwind to avoid conflicts with Bootstrap */
 
 * {
     padding: 0;
