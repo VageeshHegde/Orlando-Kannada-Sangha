@@ -425,12 +425,12 @@
         <div class="pricing-options">
           <div class="price-card">
             <div class="price-header">Family</div>
-            <div class="price-amount">$35</div>
+            <div class="price-amount">$50</div>
             <div class="price-period">per Family</div>
           </div>
           <div class="price-card mt-3">
             <div class="price-header">Individual</div>
-            <div class="price-amount">$20</div>
+            <div class="price-amount">$25</div>
             <div class="price-period">per Individual</div>
           </div>
         </div>
