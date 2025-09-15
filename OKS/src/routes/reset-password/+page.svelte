@@ -35,18 +35,8 @@
       }
       
       if ($user) {
-        // Check if user is first-time user (from Zapier)
-        const userMetadata = $user.user_metadata || {};
-        isFirstTimeUser = userMetadata.source === 'zapier_import' || 
-                         userMetadata.created_via === 'zapier_import' ||
-                         userMetadata.source === 'Zapier Import';
-        
-        // For first-time users, they already have password set to Kannada@163
-        // They can change it here if they want
-        if (isFirstTimeUser) {
-          newPassword = 'Kannada@163';
-          confirmPassword = 'Kannada@163';
-        }
+        // User is logged in, they can set a new password
+        isFirstTimeUser = false;
       }
     }, 100); // Small delay to let auth initialize
   });

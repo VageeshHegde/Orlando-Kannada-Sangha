@@ -1,7 +1,8 @@
 <script>
 	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
-	import { authActions } from '$lib/stores/auth.js';
+	import { authActions, user } from '$lib/stores/auth.js';
+	import { onMount } from 'svelte';
 	
 	// Form state
 	let firstName = '';
@@ -17,6 +18,10 @@
 	let successMessage = '';
 	let showPassword = false;
 	let showConfirmPassword = false;
+	
+	// Invitation handling
+	let isInvitation = false;
+	let invitationToken = '';
 	
 	// Form validation errors
 	let firstNameError = '';
@@ -121,7 +126,21 @@
 		isLoading = true;
 		
 		try {
-			// Use Supabase authentication for registration
+			// Only invitation-based registration allowed
+			if (!isInvitation) {
+				errorMessage = 'Access denied. Registration is by invitation only.';
+				return;
+			}
+			
+			// This is an invitation - update user password
+			const { data, error } = await authActions.updatePassword(password);
+			
+			if (error) {
+				errorMessage = error.message;
+				return;
+			}
+			
+			// Update user profile with additional info
 			const userData = {
 				first_name: firstName.trim(),
 				last_name: lastName.trim(),
@@ -129,57 +148,14 @@
 				subscribe_newsletter: subscribeNewsletter
 			};
 			
-			const { data, error } = await authActions.signUp(
-				email.toLowerCase(), 
-				password, 
-				userData
-			);
+			await authActions.updateProfile(userData);
 			
-			if (error) {
-				// Handle specific Supabase errors
-				if (error.message.includes('User already registered')) {
-					errorMessage = 'An account with this email already exists. Please try logging in instead.';
-				} else if (error.message.includes('Password should be at least')) {
-					errorMessage = 'Password must be at least 6 characters long.';
-				} else if (error.message.includes('Invalid email')) {
-					errorMessage = 'Please enter a valid email address.';
-				} else if (error.message.includes('signup is disabled')) {
-					errorMessage = 'Registration is currently disabled. Please contact support.';
-				} else {
-					errorMessage = error.message || 'Registration failed. Please try again.';
-				}
-				return;
-			}
+			successMessage = 'Password set successfully! You can now login with your credentials.';
 			
-			if (data?.user) {
-				// Check if email confirmation is required
-				if (data.user && !data.session) {
-					// Email confirmation required
-					errorMessage = '';
-					successMessage = 'Registration successful! Please check your email and click the confirmation link to activate your account.';
-					
-					// Clear form
-					firstName = '';
-					lastName = '';
-					email = '';
-					password = '';
-					confirmPassword = '';
-					phone = '';
-					agreeToTerms = false;
-					subscribeNewsletter = true;
-					
-					// Redirect to login after showing message
-					setTimeout(() => {
-						goto('/login?registered=true');
-					}, 3000);
-				} else {
-					// Auto-login successful
-					successMessage = 'Registration successful! You are now logged in. Redirecting...';
-					setTimeout(() => {
-						goto('/');
-					}, 1500);
-				}
-			}
+			// Redirect to login after success
+			setTimeout(() => {
+				goto('/login?message=password-set');
+			}, 2000);
 			
 		} catch (error) {
 			console.error('Registration error:', error);
@@ -198,12 +174,27 @@
 		showConfirmPassword = !showConfirmPassword;
 	}
 	
-	// Get email from invitation URL parameters
+	// Check if user is already logged in and redirect
+	$: if ($user) {
+		// User is already logged in, redirect to home
+		goto('/');
+	}
+	
+	// Get email and token from invitation URL parameters
 	$: {
 		const urlParams = new URLSearchParams($page.url.search);
 		const inviteEmail = urlParams.get('email');
-		if (inviteEmail) {
+		const token = urlParams.get('token');
+		
+		if (inviteEmail && token) {
+			// This is an invitation - user sets password for existing email
 			email = inviteEmail;
+			isInvitation = true;
+			invitationToken = token;
+			errorMessage = ''; // Clear any error message
+		} else if (!$user) {
+			// No invitation and not logged in - show error
+			errorMessage = 'Access denied. Registration is by invitation only.';
 		}
 	}
 	
@@ -212,8 +203,8 @@
 </script>
 
 <svelte:head>
-	<title>Register - Orlando Kannada Sangha</title>
-	<meta name="description" content="Join the Orlando Kannada Sangha community. Create your account to access member features and connect with fellow Kannadigas." />
+	<title>Set Password - Orlando Kannada Sangha</title>
+	<meta name="description" content="Set your password to complete your Orlando Kannada Sangha account setup." />
 </svelte:head>
 
 <!-- Navigation removed for clean registration experience -->
@@ -228,8 +219,8 @@
 						<div class="logo-container">
 							<img src="/images/OKSlogo.png" alt="OKS Logo" class="register-logo" />
 						</div>
-						<h2>Join OKS Community</h2>
-						<p class="register-subtitle">Create your Orlando Kannada Sangha account</p>
+						<h2>Set Your Password</h2>
+						<p class="register-subtitle">Complete your Orlando Kannada Sangha account setup</p>
 					</div>
 					
 					<!-- Back to Home Link -->
@@ -261,6 +252,24 @@
 					
 					<!-- Registration Form -->
 					<form on:submit={handleRegister} class="register-form">
+						<!-- Email Field (invitation-only) -->
+						<div class="form-group">
+							<label for="email" class="form-label">Email Address</label>
+							<div class="input-group">
+								<span class="input-group-text">
+									<i class="fas fa-envelope"></i>
+								</span>
+								<input
+									type="email"
+									id="email"
+									bind:value={email}
+									class="form-control"
+									readonly
+									style="background-color: #f8f9fa;"
+								/>
+							</div>
+						</div>
+						
 						<!-- Name Fields -->
 						<div class="row">
 							<div class="col-md-6">

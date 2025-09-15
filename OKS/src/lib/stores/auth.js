@@ -15,9 +15,23 @@ export const initAuth = async () => {
 
   try {
     // Get initial session
+    console.log('🔍 Initializing auth...')
+    console.log('🔍 Current URL:', window.location.href)
+    console.log('🔍 URL params:', window.location.search)
+    
+    // Check for invitation redirect (no magic link processing)
+    const urlParams = new URLSearchParams(window.location.search)
+    if (urlParams.get('from') === 'invite') {
+      console.log('🎯 Invitation redirect detected - user should signup manually')
+      // Let the signup page handle the invitation
+    }
+    
     const { session: initialSession } = await auth.getSession()
     
+    console.log('🔍 Initial session check:', initialSession ? 'Found session' : 'No session')
+    
     if (initialSession) {
+      console.log('🔍 Setting user:', initialSession.user?.email || 'No email')
       session.set(initialSession)
       user.set(initialSession.user)
     }
@@ -94,5 +108,29 @@ export const authActions = {
   async resetPassword(email) {
     const result = await auth.resetPassword(email)
     return result
+  },
+
+  async updatePassword(newPassword) {
+    loading.set(true)
+    try {
+      const result = await auth.updatePassword(newPassword)
+      loading.set(false)
+      return result
+    } catch (error) {
+      loading.set(false)
+      throw error
+    }
+  },
+
+  async updateProfile(userData) {
+    loading.set(true)
+    try {
+      const result = await auth.updateProfile(userData)
+      loading.set(false)
+      return result
+    } catch (error) {
+      loading.set(false)
+      throw error
+    }
   }
 }

@@ -23,6 +23,8 @@
 			const urlParams = new URLSearchParams(window.location.search);
 			if (urlParams.get('registered') === 'true') {
 				successMessage = 'Registration successful! Please check your email to verify your account, then login.';
+			} else if (urlParams.get('message') === 'password-set') {
+				successMessage = 'Password set successfully! You can now login with your credentials.';
 			}
 		}
 	});
@@ -85,25 +87,11 @@
 			}
 			
 			if (data?.user) {
-				
-				// Check if user was created via Zapier (temp password user)
-				const createdViaZapier = data.user.user_metadata?.created_via === 'zapier_import';
-				const isFirstLogin = data.user.user_metadata?.source === 'Zapier Import' || 
-				                    data.user.user_metadata?.source === 'Zapier';
-				
-				if (createdViaZapier || isFirstLogin) {
-					// Show success message for temp password users
-					successMessage = 'Login successful!';
-					setTimeout(() => {
-						goto('/');
-					}, 2000);
-				} else {
-					// Regular login - redirect to home page
-					successMessage = 'Login successful! Redirecting...';
-					setTimeout(() => {
-						goto('/');
-					}, 1000);
-				}
+				// Show success message for all users
+				successMessage = 'Login successful! Redirecting...';
+				setTimeout(() => {
+					goto('/');
+				}, 1000);
 			}
 		} catch (error) {
 			console.error('Login error:', error);

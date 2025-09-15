@@ -1,9 +1,24 @@
 import { createClient } from '@supabase/supabase-js'
 import { browser } from '$app/environment'
+import { PUBLIC_SUPABASE_URL, PUBLIC_SUPABASE_ANON_KEY } from '$env/static/public'
 
-// Get Supabase credentials from environment variables
-const supabaseUrl = import.meta.env.SUPABASE_URL || 'https://placeholder.supabase.co'
-const supabaseAnonKey = import.meta.env.SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder'
+// Use environment variables from .env file
+const supabaseUrl = PUBLIC_SUPABASE_URL
+const supabaseAnonKey = PUBLIC_SUPABASE_ANON_KEY
+
+// Debug: Check if env vars are loaded
+console.log('🔍 Environment variables:', {
+  url: supabaseUrl ? 'Loaded' : 'Missing',
+  key: supabaseAnonKey ? 'Loaded' : 'Missing'
+})
+
+if (!supabaseUrl || !supabaseAnonKey) {
+  console.error('❌ Supabase environment variables not loaded!')
+  console.log('🔍 Make sure your .env file has:')
+  console.log('PUBLIC_SUPABASE_URL=https://your-project.supabase.co')
+  console.log('PUBLIC_SUPABASE_ANON_KEY=your_anon_key')
+  console.log('🔍 And restart the dev server!')
+}
 
 // Regular client for client-side operations
 export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
@@ -14,18 +29,8 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
   }
 })
 
-// Admin client for server-side operations (requires service role key)
-// Only create on server side to avoid multiple client instances
-export const supabaseAdmin = typeof window === 'undefined' ? createClient(
-  supabaseUrl, 
-  process.env.SUPABASE_SERVICE_ROLE_KEY || import.meta.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.placeholder_service',
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false
-    }
-  }
-) : null
+// Admin client removed - not needed for manual invitations
+// Use Supabase dashboard for invitations instead
 
 // Auth helper functions
 export const auth = {
@@ -157,6 +162,22 @@ export const auth = {
   // Update user profile or password
   async updateUser(updates) {
     const { data, error } = await supabase.auth.updateUser(updates)
+    return { data, error }
+  },
+
+  // Update user password specifically
+  async updatePassword(newPassword) {
+    const { data, error } = await supabase.auth.updateUser({
+      password: newPassword
+    })
+    return { data, error }
+  },
+
+  // Update user profile metadata
+  async updateProfile(userData) {
+    const { data, error } = await supabase.auth.updateUser({
+      data: userData
+    })
     return { data, error }
   }
 }

@@ -10,6 +10,8 @@ export class SliderService {
   // Get slider images from S3
   async getSliderImages() {
     try {
+      console.log('🔍 Loading slider images from Supabase Storage...')
+      
       // Try slider folder first
       const { data: sliderFiles, error: sliderError } = await supabase.storage
         .from(this.bucketName)
@@ -18,6 +20,11 @@ export class SliderService {
           offset: 0,
           sortBy: { column: 'name', order: 'asc' }
         });
+
+      console.log('🔍 Slider folder result:', { 
+        files: sliderFiles?.length || 0, 
+        error: sliderError?.message || 'None' 
+      });
 
       let files = sliderFiles;
       let folderPath = 'slider';
@@ -61,24 +68,68 @@ export class SliderService {
         return imageExtensions.includes(extension);
       });
 
-      // Generate image objects for slider
-      const images = imageFiles.map((file, index) => {
-        const publicUrl = `${this.baseUrl}/${folderPath}/${file.name}`.replace('//', '/');
-        
-        return {
-          name: file.name,
-          url: publicUrl,
-          alt: `OKS Event ${index + 1}`,
-          title: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' '),
-          size: file.metadata?.size || 0,
-          lastModified: file.updated_at,
-          extension: file.name.toLowerCase().split('.').pop()
-        };
-      });
+      // Generate signed URLs for authenticated access
+      const images = await Promise.all(
+        imageFiles.map(async (file, index) => {
+          try {
+            // Get signed URL with 1 hour expiration
+            const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+              .from(this.bucketName)
+              .createSignedUrl(`${folderPath}/${file.name}`, 3600); // 1 hour expiration
 
+            if (signedUrlError) {
+              console.warn('⚠️ Failed to create signed URL for', file.name, ':', signedUrlError.message);
+              // Fallback to public URL if signed URL fails
+              const publicUrl = `${this.baseUrl}/${folderPath}/${file.name}`.replace('//', '/');
+              return {
+                name: file.name,
+                url: publicUrl,
+                alt: `OKS Event ${index + 1}`,
+                title: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' '),
+                size: file.metadata?.size || 0,
+                lastModified: file.updated_at,
+                extension: file.name.toLowerCase().split('.').pop(),
+                signed: false
+              };
+            }
+
+            return {
+              name: file.name,
+              url: signedUrlData.signedUrl,
+              alt: `OKS Event ${index + 1}`,
+              title: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' '),
+              size: file.metadata?.size || 0,
+              lastModified: file.updated_at,
+              extension: file.name.toLowerCase().split('.').pop(),
+              signed: true
+            };
+          } catch (error) {
+            console.warn('⚠️ Error processing file', file.name, ':', error.message);
+            // Fallback to public URL
+            const publicUrl = `${this.baseUrl}/${folderPath}/${file.name}`.replace('//', '/');
+            return {
+              name: file.name,
+              url: publicUrl,
+              alt: `OKS Event ${index + 1}`,
+              title: file.name.replace(/\.[^/.]+$/, "").replace(/[-_]/g, ' '),
+              size: file.metadata?.size || 0,
+              lastModified: file.updated_at,
+              extension: file.name.toLowerCase().split('.').pop(),
+              signed: false
+            };
+          }
+        })
+      );
+
+      const signedCount = images.filter(img => img.signed).length;
+      const publicCount = images.length - signedCount;
+      
+      console.log('✅ Successfully loaded', images.length, 'slider images from Supabase Storage')
+      console.log('🔐', signedCount, 'signed URLs,', publicCount, 'public URLs')
       return { success: true, images };
       
     } catch (error) {
+      console.error('❌ Failed to load slider images:', error.message)
       return { success: false, error: error.message, images: [] };
     }
   }

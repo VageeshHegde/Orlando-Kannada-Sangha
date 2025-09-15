@@ -1,4 +1,6 @@
 <script>
+  import { user } from '$lib/stores/auth.js';
+  
   // Props for the simple event card
   export let month = "MAR";
   export let day = "3";
@@ -8,6 +10,8 @@
   export let imageSrc = "https://picsum.photos/150/100";
   export let imageAlt = "Map";
   export let mapLink = "";
+  export let memberFormUrl = "https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft";
+  export let nonMemberFormUrl = "https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft";
 
   // Lightbox functionality
   let showLightbox = false;
@@ -56,15 +60,50 @@
     <div class="lightbox-content" on:click|stopPropagation>
       <button class="lightbox-close" on:click={closeLightbox}>×</button>
       <img src={imageSrc} alt={imageAlt} class="lightbox-image" />
-             <div class="lightbox-caption">
-         <h4>{title}</h4>
-         <p>{date} • {location}</p>
-         {#if mapLink}
-           <a href={mapLink} target="_blank" rel="noopener noreferrer" class="map-link">
-             <i class="fas fa-map-marker-alt"></i> View Location on Google Maps
-           </a>
-         {/if}
-       </div>
+      <div class="lightbox-caption">
+        <h4>{title}</h4>
+        <p>{date} • {location}</p>
+        {#if mapLink}
+          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="map-link">
+            <i class="fas fa-map-marker-alt"></i> View Location on Google Maps
+          </a>
+        {/if}
+      </div>
+      
+      <!-- Zeffy Donation Form -->
+      <div class="donation-form-container">
+        <h5 class="text-center mb-3">Register for this Event</h5>
+        
+        {#if $user}
+          <!-- Member Form - Show when user is logged in -->
+          <div class="member-badge mb-3">
+            <i class="fas fa-user-check"></i> Welcome back, member!
+          </div>
+          <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
+            <iframe 
+              title='Donation form powered by Zeffy - Member' 
+              style='position: absolute; border: 0; top:0;left:0;bottom:0;right:0;width:100%;height:100%' 
+              src={memberFormUrl} 
+              allowpaymentrequest 
+              allowTransparency="true">
+            </iframe>
+          </div>
+        {:else}
+          <!-- Non-Member Form - Show when user is not logged in -->
+          <div class="non-member-info mb-3">
+            <i class="fas fa-info-circle"></i> Non-member registration
+          </div>
+          <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
+            <iframe 
+              title='Donation form powered by Zeffy - Non-Member' 
+              style='position: absolute; border: 0; top:0;left:0;bottom:0;right:0;width:100%;height:100%' 
+              src={nonMemberFormUrl} 
+              allowpaymentrequest 
+              allowTransparency="true">
+            </iframe>
+          </div>
+        {/if}
+      </div>
     </div>
   </div>
 {/if}
@@ -186,13 +225,13 @@
 
   .lightbox-content {
     position: relative;
-    width: 800px;
-    height: 600px;
+    width: 1000px;
+    height: auto;
     max-width: 95%;
     max-height: 95%;
     background: white;
     border-radius: 12px;
-    overflow: hidden;
+    overflow-y: auto;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
   }
 
@@ -267,6 +306,50 @@
 
   .map-link i {
     font-size: 1rem;
+  }
+
+  /* Donation Form Container */
+  .donation-form-container {
+    padding: 20px;
+    background: #f8f9fa;
+    border-top: 1px solid #e9ecef;
+  }
+
+  .donation-form-container h5 {
+    color: #7a1f1f;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  /* Member and Non-Member Badges */
+  .member-badge {
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
+  }
+
+  .member-badge i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+
+  .non-member-info {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    color: white;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(23, 162, 184, 0.3);
+  }
+
+  .non-member-info i {
+    margin-right: 8px;
+    font-size: 1.1rem;
   }
 
   /* Responsive Lightbox */

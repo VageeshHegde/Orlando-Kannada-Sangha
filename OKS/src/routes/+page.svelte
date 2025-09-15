@@ -6,6 +6,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import { getSliderImages } from '$lib/services/sliderService.js';
+  import { user } from '$lib/stores/auth.js';
   let scrollContent;
   let googleChartsReady = false;
   let cleanupResize;
@@ -461,6 +462,8 @@
           imageSrc="https://picsum.photos/150/100?random=1"
           imageAlt="Music Concert"
           mapLink="https://maps.google.com/?q=123+Main+St+Anytown+CA"
+          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
+          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
         />
 
         <SimpleEventCard 
@@ -472,28 +475,34 @@
           imageSrc="https://picsum.photos/150/100?random=2"
           imageAlt="Art Exhibition"
           mapLink="https://maps.google.com/?q=456+Elm+St+Othertown+NY"
+          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
+          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
         />
 
         <SimpleEventCard 
-          month="APR"
-          day="10"
-          title="Art Exhibition"
-          date="April 10, 2024"
-          location="456 Elm St, Othertown, NY"
+          month="NOV"
+          day="15"
+          title="Kannada Rajyotsava"
+          date="November 15, 2024"
+          location="Orlando Convention Center"
           imageSrc="https://picsum.photos/150/100?random=3"
-          imageAlt="Art Exhibition"
-          mapLink="https://maps.google.com/?q=456+Elm+St+Othertown+NY"
+          imageAlt="Kannada Rajyotsava"
+          mapLink="https://maps.google.com/?q=Orlando+Convention+Center"
+          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
+          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
         />
 
         <SimpleEventCard 
-          month="MAY"
-          day="20"
-          title="Tech Conference"
-          date="May 20, 2024"
-          location="789 Oak St, Sometown, IL"
+          month="DEC"
+          day="31"
+          title="New Year Celebration"
+          date="December 31, 2024"
+          location="Community Center Orlando"
           imageSrc="https://picsum.photos/150/100?random=4"
-          imageAlt="Tech Conference"
-          mapLink="https://maps.google.com/?q=789+Oak+St+Sometown+IL"
+          imageAlt="New Year Celebration"
+          mapLink="https://maps.google.com/?q=Community+Center+Orlando"
+          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
+          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
         />
       </div>
     </div>

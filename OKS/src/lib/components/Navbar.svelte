@@ -265,7 +265,7 @@
 				          <i class="fas fa-sign-in-alt me-2"></i>Login
 				        </a>
                 <a href="/membership" class="dropdown-item">
-                  <i class="fas fa-user-plus me-2"></i>Register
+                  <i class="fas fa-users me-2"></i>Membership
                 </a>
               {/if}
             </div>
