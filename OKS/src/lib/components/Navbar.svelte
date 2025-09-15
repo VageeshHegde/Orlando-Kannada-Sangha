@@ -194,8 +194,9 @@
     </button>
           <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav me-3">
+        <li class="nav-item"><a class="nav-link {isActive('/') ? 'active' : ''}" href="/"><i class="fas fa-home me-2" aria-hidden="true"></i>Home</a></li>
         <li class="nav-item"><a class="nav-link {isActive('/about') ? 'active' : ''}" href="/about"><i class="fas fa-users me-2" aria-hidden="true"></i>About</a></li>
-        <li class="nav-item"><a class="nav-link {isActive('/events') ? 'active' : ''}" href="/events"><i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>Events</a></li>
+        <!-- <li class="nav-item"><a class="nav-link {isActive('/events') ? 'active' : ''}" href="/events"><i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>Events</a></li> -->
         <li class="nav-item"><a class="nav-link {isActive('/kannada-kali') ? 'active' : ''}" href="/kannada-kali"><i class="fas fa-book me-2" aria-hidden="true"></i>Kannada Kali</a></li>
         <li class="nav-item"><a class="nav-link {isActive('/gallery') ? 'active' : ''}" href="/gallery"><i class="fas fa-image me-2" aria-hidden="true"></i>Gallery</a></li>
         {#if isLoggedIn}

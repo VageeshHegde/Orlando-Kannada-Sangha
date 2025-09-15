@@ -2,6 +2,124 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import { onMount } from 'svelte';
+	import { supabase } from '$lib/supabase.js';
+	
+	// Board member images from Supabase Storage
+	let boardMemberImages = {};
+	let imagesLoaded = false;
+	
+	// Board members data with their image file names
+	const boardMembers = [
+		{
+			id: 'venugopal',
+			name: 'Mr. Venugopal Kulkarni',
+			position: 'President',
+			description: 'Leading the organization with dedication and vision for Kannada culture preservation.',
+			imageFile: 'venugopal.jpg' // Update with actual file name
+		},
+		{
+			id: 'vishwa',
+			name: 'Mr. Vishwa',
+			position: 'Vice President', 
+			description: 'Supporting cultural initiatives and community engagement programs.',
+			imageFile: 'vishwa.jpg' // Update with actual file name
+		},
+		{
+			id: 'supreeta',
+			name: 'Mrs. Supreeta Bolar',
+			position: 'Secretary',
+			description: 'Managing organizational communications and event coordination.',
+			imageFile: 'supreeta.jpg' // Update with actual file name
+		},
+		{
+			id: 'sindhu',
+			name: 'Mrs. Sindhu Raju',
+			position: 'Treasurer',
+			description: 'Overseeing financial management and resource allocation.',
+			imageFile: 'sindhu.jpg' // Update with actual file name
+		}
+	];
+	
+	// Load board member images from Supabase Storage
+	async function loadBoardMemberImages() {
+		try {
+			console.log('🔍 Loading board member images from Supabase Storage...');
+			
+			// First, let's check what files exist in the board_members folder
+			const { data: files, error: listError } = await supabase.storage
+				.from('OKS')
+				.list('board_members', {
+					limit: 100,
+					offset: 0
+				});
+			
+			if (listError) {
+				console.error('❌ Failed to list files in board_members folder:', listError.message);
+			} else {
+				console.log('📁 Files found in board_members folder:', files?.map(f => f.name) || []);
+			}
+			
+			const imagePromises = boardMembers.map(async (member) => {
+				try {
+					console.log(`🔍 Trying to load: board_members/${member.imageFile}`);
+					
+					// Get signed URL for each board member image
+					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+						.from('OKS')
+						.createSignedUrl(`board_members/${member.imageFile}`, 3600); // 1 hour expiration
+					
+					if (signedUrlError) {
+						console.warn(`⚠️ Failed to create signed URL for ${member.imageFile}:`, signedUrlError.message);
+						// No fallback - just mark as failed
+						return {
+							id: member.id,
+							url: null,
+							success: false
+						};
+					}
+					
+					console.log(`✅ Successfully created signed URL for ${member.imageFile}`);
+					return {
+						id: member.id,
+						url: signedUrlData.signedUrl,
+						success: true
+					};
+				} catch (error) {
+					console.warn(`⚠️ Error processing ${member.imageFile}:`, error.message);
+					return {
+						id: member.id,
+						url: null,
+						success: false
+					};
+				}
+			});
+			
+			const imageResults = await Promise.all(imagePromises);
+			
+			// Convert to object for easy lookup
+			boardMemberImages = imageResults.reduce((acc, result) => {
+				acc[result.id] = result.url;
+				return acc;
+			}, {});
+			
+			const successCount = imageResults.filter(r => r.success).length;
+			console.log(`✅ Successfully loaded ${successCount}/${boardMembers.length} board member images from storage`);
+			console.log('🖼️ Image URLs:', boardMemberImages);
+			
+			imagesLoaded = true;
+			
+		} catch (error) {
+			console.error('❌ Failed to load board member images:', error.message);
+			// No fallback images - just mark as loaded with empty object
+			boardMemberImages = {};
+			imagesLoaded = true;
+		}
+	}
+	
+	onMount(() => {
+		loadBoardMemberImages();
+	});
 </script>
 
 <Navbar />
@@ -107,57 +225,88 @@
 				<div class="col-12">
 					<h2 class="text-center mb-5 board-members-title">Present Board Members</h2>
 					<div class="row">
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="board-member-card">
-								<div class="member-image">
-									<img src="https://picsum.photos/300/300?random=10" alt="Board Member 1" class="member-img">
+						{#if imagesLoaded}
+							{#each boardMembers as member}
+								<div class="col-lg-3 col-md-6 mb-4">
+									<div class="board-member-card">
+										<div class="member-image">
+											{#if boardMemberImages[member.id]}
+												<img 
+													src={boardMemberImages[member.id]} 
+													alt={member.name} 
+													class="member-img"
+													loading="lazy"
+												>
+											{:else}
+												<div class="image-placeholder">
+													<i class="fas fa-user fa-3x text-muted"></i>
+													<p class="text-muted small mt-2">Image not available</p>
+												</div>
+											{/if}
+										</div>
+										<div class="member-info">
+											<h4 class="member-name">{member.name}</h4>
+											<p class="member-position">{member.position}</p>
+											<p class="member-description">{member.description}</p>
+										</div>
+									</div>
 								</div>
-								<div class="member-info">
-									<h4 class="member-name">Mr. Venugopal Kulkarni</h4>
-									<p class="member-position">President</p>
-									<p class="member-description">Leading the organization with dedication and vision for Kannada culture preservation.</p>
+							{/each}
+						{:else}
+							<!-- Loading state -->
+							{#each Array(4) as _, index}
+								<div class="col-lg-3 col-md-6 mb-4">
+									<div class="board-member-card">
+										<div class="member-image">
+											<div class="member-img loading-placeholder">
+												<i class="fas fa-spinner fa-spin"></i>
+											</div>
+										</div>
+										<div class="member-info">
+											<div class="loading-text"></div>
+											<div class="loading-text-small"></div>
+											<div class="loading-text-description"></div>
+										</div>
+									</div>
 								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="board-member-card">
-								<div class="member-image">
-									<img src="https://picsum.photos/300/300?random=11" alt="Board Member 2" class="member-img">
-								</div>
-								<div class="member-info">
-									<h4 class="member-name">Mr. Vishwa</h4>
-									<p class="member-position">Vice President</p>
-									<p class="member-description">Supporting cultural initiatives and community engagement programs.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="board-member-card">
-								<div class="member-image">
-									<img src="https://picsum.photos/300/300?random=12" alt="Board Member 3" class="member-img">
-								</div>
-								<div class="member-info">
-									<h4 class="member-name">Mrs. Supreeta Bolar</h4>
-									<p class="member-position">Secretary</p>
-									<p class="member-description">Managing organizational communications and event coordination.</p>
-								</div>
-							</div>
-						</div>
-						<div class="col-lg-3 col-md-6 mb-4">
-							<div class="board-member-card">
-								<div class="member-image">
-									<img src="https://picsum.photos/300/300?random=13" alt="Board Member 4" class="member-img">
-								</div>
-								<div class="member-info">
-									<h4 class="member-name">Mrs. Sindhu Raju</h4>
-									<p class="member-position">Treasurer</p>
-									<p class="member-description">Overseeing financial management and resource allocation.</p>
-								</div>
-							</div>
-						</div>
+							{/each}
+						{/if}
 					</div>
 				</div>
 			</div>
+
+			<!-- Web Development Team Section -->
+			<!-- <div class="row mt-5">
+				<div class="col-12">
+					<h2 class="text-center mb-5 board-members-title">Web Development Team</h2>
+					<div class="row justify-content-center">
+						<div class="col-lg-4 col-md-6 mb-4">
+							<div class="board-member-card web-team-card">
+								<div class="member-image">
+									<img src="https://picsum.photos/300/300?random=20" alt="Web Developer" class="member-img">
+								</div>
+								<div class="member-info">
+									<h4 class="member-name">Your Name Here</h4>
+									<p class="member-position">Web Developer</p>
+									<p class="member-description">Designed and developed the Orlando Kannada Sangha website using modern web technologies.</p>
+									<div class="web-tech-stack">
+										<span class="tech-badge">SvelteKit</span>
+										<span class="tech-badge">Supabase</span>
+										<span class="tech-badge">Bootstrap</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- Add more team members here if needed 
+					</div>
+					<div class="text-center mt-4">
+						<p class="text-muted">
+							<i class="fas fa-code me-2"></i>
+							Built with ❤️ for the Orlando Kannada Community
+						</p>
+					</div>
+				</div>
+			</div> -->
 		</div>
 	</div>
 </main>
@@ -503,6 +652,19 @@
 		filter: brightness(1.1);
 	}
 
+	.image-placeholder {
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		background-color: #f8f9fa;
+		border: 2px dashed #dee2e6;
+		border-radius: 15px;
+		color: #6c757d;
+	}
+
 	.member-info {
 		padding: 1.5rem;
 		text-align: center;
@@ -545,5 +707,101 @@
 		font-style: italic;
 		margin: 0;
 		font-weight: 500;
+	}
+
+	/* Web Team Section Styles */
+	.web-team-card {
+		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+		border: 2px solid #6c757d;
+		transition: all 0.3s ease;
+	}
+
+	.web-team-card:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 8px 25px rgba(108, 117, 125, 0.2);
+		border-color: #495057;
+	}
+
+	.web-tech-stack {
+		margin-top: 1rem;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+		justify-content: center;
+	}
+
+	.tech-badge {
+		background: linear-gradient(135deg, #7a1f1f 0%, #a52a2a 100%);
+		color: white;
+		padding: 0.25rem 0.75rem;
+		border-radius: 15px;
+		font-size: 0.75rem;
+		font-weight: 500;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	}
+
+	.web-team-card .member-name {
+		color: #495057;
+	}
+
+	.web-team-card .member-position {
+		color: #6c757d;
+		font-weight: 600;
+	}
+
+	/* Loading Placeholder Styles */
+	.loading-placeholder {
+		background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: #999;
+		font-size: 1.5rem;
+	}
+
+	@keyframes loading {
+		0% {
+			background-position: 200% 0;
+		}
+		100% {
+			background-position: -200% 0;
+		}
+	}
+
+	.loading-text {
+		height: 1.3rem;
+		background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+		border-radius: 4px;
+		margin-bottom: 0.5rem;
+		width: 80%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.loading-text-small {
+		height: 1rem;
+		background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+		border-radius: 4px;
+		margin-bottom: 1rem;
+		width: 60%;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.loading-text-description {
+		height: 0.95rem;
+		background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+		background-size: 200% 100%;
+		animation: loading 1.5s infinite;
+		border-radius: 4px;
+		width: 90%;
+		margin-left: auto;
+		margin-right: auto;
 	}
 </style> 

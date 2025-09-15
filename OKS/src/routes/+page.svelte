@@ -454,10 +454,10 @@
     <div class="col-md-6">
       <div class="events-container">
         <SimpleEventCard 
-          month="MAR"
-          day="3"
+          month="NOV"
+          day="1"
           title="Music Concert"
-          date="March 3, 2024"
+          date="November 1, 2025"
           location="123 Main St, Anytown, CA"
           imageSrc="https://picsum.photos/150/100?random=1"
           imageAlt="Music Concert"
@@ -475,8 +475,8 @@
           imageSrc="https://picsum.photos/150/100?random=2"
           imageAlt="Art Exhibition"
           mapLink="https://maps.google.com/?q=456+Elm+St+Othertown+NY"
-          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
-          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
+          memberFormUrl=""
+          nonMemberFormUrl=""
         />
 
         <SimpleEventCard 
@@ -488,8 +488,8 @@
           imageSrc="https://picsum.photos/150/100?random=3"
           imageAlt="Kannada Rajyotsava"
           mapLink="https://maps.google.com/?q=Orlando+Convention+Center"
-          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
-          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
+          memberFormUrl=""
+          nonMemberFormUrl=""
         />
 
         <SimpleEventCard 
@@ -501,8 +501,8 @@
           imageSrc="https://picsum.photos/150/100?random=4"
           imageAlt="New Year Celebration"
           mapLink="https://maps.google.com/?q=Community+Center+Orlando"
-          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
-          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
+          memberFormUrl=""
+          nonMemberFormUrl=""
         />
       </div>
     </div>

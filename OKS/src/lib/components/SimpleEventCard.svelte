@@ -13,28 +13,16 @@
   export let memberFormUrl = "https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft";
   export let nonMemberFormUrl = "https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft";
 
-  // Lightbox functionality
-  let showLightbox = false;
+  // Bootstrap modal functionality
+  let modalId = `eventModal${Math.random().toString(36).substr(2, 9)}`;
 
   function openLightbox() {
-    showLightbox = true;
-    document.body.style.overflow = 'hidden'; // Prevent background scrolling
-  }
-
-  function closeLightbox() {
-    showLightbox = false;
-    document.body.style.overflow = 'auto'; // Restore scrolling
-  }
-
-  // Close lightbox on escape key
-  function handleKeydown(event) {
-    if (event.key === 'Escape' && showLightbox) {
-      closeLightbox();
-    }
+    // Use Bootstrap's modal API
+    const modal = new bootstrap.Modal(document.getElementById(modalId));
+    modal.show();
   }
 </script>
 
-<svelte:window on:keydown={handleKeydown} />
 
 <!-- Simple Event Card -->
 <div class="event-card">
@@ -54,11 +42,12 @@
   <img src={imageSrc} alt={imageAlt} class="event-img" on:click={openLightbox} />
 </div>
 
-<!-- Lightbox Overlay -->
-{#if showLightbox}
-  <div class="lightbox-overlay" on:click={closeLightbox}>
-    <div class="lightbox-content" on:click|stopPropagation>
-      <button class="lightbox-close" on:click={closeLightbox}>×</button>
+<!-- Bootstrap Modal with Lightbox Content -->
+<div class="modal fade" id={modalId} tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" style="max-width: 1000px;">
+    <div class="modal-content" style="border-radius: 12px; overflow: hidden;">
+      <!-- Keep all the existing lightbox content structure -->
+      <button type="button" class="lightbox-close" data-bs-dismiss="modal" aria-label="Close">×</button>
       <img src={imageSrc} alt={imageAlt} class="lightbox-image" />
       <div class="lightbox-caption">
         <h4>{title}</h4>
@@ -106,7 +95,7 @@
       </div>
     </div>
   </div>
-{/if}
+</div>
 
 <style>
   /* Calendar Box */
