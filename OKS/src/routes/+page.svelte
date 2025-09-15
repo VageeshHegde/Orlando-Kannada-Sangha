@@ -509,6 +509,7 @@
           day="1"
           title="Kannada Rajyotsava"
           date="November 1, 2025"
+          time="2:00 PM"
           location="1994 E Lake Dr, Casselberry, FL"
           imageSrc={eventImagesLoaded ? (eventImages['kannada-rajyotsava'] || 'https://picsum.photos/150/100?random=1') : 'https://picsum.photos/150/100?random=1'}
           imageAlt="Kannada Rajyotsava"
@@ -522,6 +523,7 @@
           day="10"
           title="Art Exhibition"
           date="April 10, 2024"
+          time="2:00 PM"
           location="456 Elm St, Othertown, NY"
           imageSrc={eventImagesLoaded ? (eventImages['art-exhibition'] || 'https://picsum.photos/150/100?random=2') : 'https://picsum.photos/150/100?random=2'}
           imageAlt="Art Exhibition"
@@ -535,6 +537,7 @@
           day="15"
           title="Kannada Kali"
           date="November 15, 2024"
+          time="4:00 PM"
           location="Orlando Convention Center"
           imageSrc={eventImagesLoaded ? (eventImages['kannada-kali'] || 'https://picsum.photos/150/100?random=3') : 'https://picsum.photos/150/100?random=3'}
           imageAlt="Kannada Kali"
@@ -548,6 +551,7 @@
           day="31"
           title="New Year Celebration"
           date="December 31, 2024"
+          time="8:00 PM"
           location="Community Center Orlando"
           imageSrc={eventImagesLoaded ? (eventImages['cultural-program'] || 'https://picsum.photos/150/100?random=4') : 'https://picsum.photos/150/100?random=4'}
           imageAlt="New Year Celebration"

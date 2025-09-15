@@ -144,15 +144,19 @@
 					<!-- History Section - First Part (wraps around gallery) -->
 					<div class="history-content">
 						<div class="history-paragraph">
-							<p>In September 2024, wherever you looked there was a crowd of people; the temple hall was packed with around <strong>500 Kannadigas</strong> who had come to watch the Yakshagana performance. Everyone there was enjoying the program. Seeing this filled my heart with great joy. So many people! And especially seeing our Kannadigas united together made me very happy. It made me wonder—had it been about thirty or forty years since this last happened?</p>
+							<p><span class="highlight-date">September 2024</span> - Wherever you looked, there was a festive buzz. About <strong>500 Kannadigas</strong> packed the temple hall to watch Yakshagana, and the joy on everyone's faces was palpable. Seeing so many of our own together filled me with pride—and made me wonder: what was it like thirty or forty years ago?</p>
 						</div>
 
 						<div class="history-paragraph">
-							<p>In the <span class="highlight-year">1990s</span>, it became rare for Kannadigas living in Orlando, away from their native land, to hear their mother tongue. At that time, scattered Kannadigas from here and there came together to create a <em>"mailing list."</em> This effort was initiated by <strong>Mr. Guruprasad, Mr. Girish Budibetta, and Mr. Badarish</strong>.</p>
+							<p>Back in the <span class="highlight-year">1990s</span>, for Kannadigas living in Orlando, simply hearing their mother tongue was rare. At that time, a single <em>"mailing list"</em> brought together those scattered across the city—an effort led by <strong>Sri Guruprasad, Sri Girish Budibetta, and Sri Badarish</strong>.</p>
 						</div>
 
 						<div class="history-paragraph">
-							<p>In <span class="highlight-year">2000</span>, Orlando hosted its first Kannadiga picnic. Since then, this united picnic has been held every year. In <span class="highlight-year">2004</span>, the popularity of the Orlando Kannada Koota reached the point where it hosted the <strong>Akhila Bharatiya Kannada Sammelana</strong>. Orlando Kannadigas enthusiastically joined hands with the Shrigandha Kannada Koota to make the event a success.</p>
+							<p>In <span class="highlight-year">2000</span>, Orlando's Kannadigas held their first community picnic. The tradition continued annually, and in <span class="highlight-year">2004</span> the growing popularity of the Orlando Kannada Koota helped attract the <strong>AKKA Sammelana</strong>. With great enthusiasm, the community partnered with Tampa's Shrigandha Kannada Koota to make the event a success.</p>
+						</div>
+
+						<div class="history-paragraph">
+							<p>As Kannada families flourished in Orlando, the Koota began hosting yearly cultural programs from <span class="highlight-year">2010</span> onward. A milestone came on <span class="highlight-date">August 24, 2012</span>, when <strong>Orlando Kannada Sangha Inc.</strong> was officially registered; with support from <strong>Sri Kiran Babaladi</strong> and team, it became a nonprofit in <span class="highlight-year">2015</span>.</p>
 						</div>
 					</div>
 				</div>
@@ -177,9 +181,9 @@
 							<img src="images/Yakshagana2.png" alt="OKS Community" class="gallery-image">
 						</div>
 					</div>
-					<button class="btn btn-primary community-btn">
+					<a href="/membership" class="btn btn-primary community-btn">
 						<i class="fas fa-users me-2"></i>Join Our Community
-					</button>
+					</a>
 				</div>
 			</div>
 
@@ -187,34 +191,21 @@
 			<div class="row mt-4">
 				<div class="col-12">
 					<div class="history-content-full">
+
 						<div class="history-paragraph">
-							<p>As the Kannada families in Orlando grew, from <span class="highlight-year">2010</span> onward the Kannada Koota began organizing annual cultural programs. <span class="highlight-date">August 24, 2012</span>, was a landmark day, when the <strong>"Orlando Kannada Sangha Inc."</strong> was officially registered. With the support of <strong>Mr. Kiran Babaladi</strong> and his team, it became a non-profit organization in <span class="highlight-year">2015</span>.</p>
+							<p>Each year now begins with <em>Ugadi celebrations</em> and features events throughout—summer beach parties and a <em>Rajyotsava program</em> in November that showcases local talent. For children, under the leadership of <strong>Sri Pradeep Krishnamurthy, Smt. Vedashri Bhat, and Smt. Shyamala Purohit</strong>, the Sangha runs <strong>Kannada Kali School</strong>, supported by many volunteer teachers and helping students earn bilingual credit.</p>
 						</div>
 
 						<div class="history-paragraph">
-							<p>Every year, starting with the <em>Yugadi celebration</em>, the Sangha organizes various programs throughout the year. In summer, there is a <em>beach party</em>, and in November during <em>Rajyotsava</em>, Kannadigas get a chance to showcase their talents.</p>
+							<p>The Sangha also invites artists from India to celebrate Kannada culture. Highlights include two <em>Yakshagana productions</em> and concerts by renowned singers <strong>Sri Vidyabhushana, Smt. B. R. Chaya, and Smt. Manjula Gururaj</strong>.</p>
 						</div>
 
 						<div class="history-paragraph">
-							<p>For our children, under the guidance of <strong>Mr. Pradeep Krishnamurthy, Mrs. Vedashree Bhat, and Mrs. Shyamala Purohit</strong>, the Sangha runs the <strong>"Kannada Kali"</strong> school to teach Kannada. Many dedicated volunteer teachers conduct the classes, and the school helps children earn bilingual credits.</p>
+							<p>True to its mission, the Sangha embraces every opportunity to bring Kannada families together, while contributing to social causes and nurturing a spirit of service among children. Thanks to the dedication of past and present office-bearers, the Orlando Kannada Sangha continues to grow—welcoming new faces at every gathering.</p>
 						</div>
 
 						<div class="history-paragraph">
-							<p>In addition, artists from India are invited to showcase Kannada culture. There have been two <em>Yakshagana performances</em> and concerts by some of the finest Kannada singers such as <strong>Vidyabhushan, B. R. Chaya, and Manjula Gururaj</strong>.</p>
-						</div>
-
-						<div class="history-paragraph">
-							<p>The Kannada Sangha never misses an opportunity to bring Kannada families together. It also carries out various community service activities according to need, and makes children aware of these efforts.</p>
-						</div>
-
-						<div class="history-paragraph">
-							<p>Thanks to the hard work of all past and current office bearers who have taken on the responsibilities of the Sangha, the Orlando Kannada Sangha has been growing, welcoming new faces at every gathering. This year, <strong>"Navika,"</strong> a Kannada festival, is being planned in collaboration with other Kannada associations in Florida.</p>
-						</div>
-						
-						<div class="author-section">
-							<p class="author-text">
-								<em>— Written by Mrs. Ranjini Somayaji</em>
-							</p>
+							<p>In <span class="highlight-date">August 2025</span>, together with other Kannada associations across Florida, the Sangha helped organize the <strong>8th NAVIKA World Kannada Convention</strong>. Its resounding success further elevated the stature of the Orlando Kannada Sangha.</p>
 						</div>
 					</div>
 				</div>
@@ -343,7 +334,7 @@
 	}
 
 	.history-paragraph {
-		margin-bottom: 2rem;
+		margin-bottom: 1.2rem;
 		transition: all 0.3s ease;
 	}
 
@@ -450,10 +441,10 @@
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
 		gap: 12px;
-		grid-auto-rows: 100px;
+		grid-auto-rows: 115px;
 		grid-auto-flow: dense;
 		height: auto;
-		min-height: 450px;
+		min-height: 645px;
 		padding: 0.8rem;
 		max-width: 100%;
 		/* overflow: hidden; */

@@ -6,6 +6,7 @@
   export let day = "3";
   export let title = "Music Concert";
   export let date = "March 3, 2024";
+  export let time = "6:00 PM";
   export let location = "123 Main St, Anytown, CA";
   export let imageSrc = "https://picsum.photos/150/100";
   export let imageAlt = "Map";
@@ -49,21 +50,33 @@
       <!-- Keep all the existing lightbox content structure -->
       <button type="button" class="lightbox-close" data-bs-dismiss="modal" aria-label="Close">×</button>
       <img src={imageSrc} alt={imageAlt} class="lightbox-image" />
-      <div class="lightbox-caption">
-        <h4>{title}</h4>
-        <p>{date} • {location}</p>
-        {#if mapLink}
-          <a href={mapLink} target="_blank" rel="noopener noreferrer" class="map-link">
-            <i class="fas fa-map-marker-alt"></i> View Location on Google Maps
-          </a>
-        {/if}
-      </div>
       
-      <!-- Zeffy Donation Form -->
-      <div class="donation-form-container">
-        <h5 class="text-center mb-3">Register for this Event</h5>
-        
-        {#if $user}
+        <!-- Zeffy Donation Form -->
+        <div class="donation-form-container">
+          <h5 class="text-center mb-3">Register for this Event</h5>
+          
+          <!-- Event Details -->
+          <div class="event-details-section mb-4">
+            <h4 class="event-title-reg">{title}</h4>
+            <div class="event-details-buttons">
+              <span class="detail-button date-button">
+                <i class="fas fa-calendar-alt me-1"></i>{date}
+              </span>
+              <span class="detail-button time-button">
+                <i class="fas fa-clock me-1"></i>{time}
+              </span>
+              <span class="detail-button location-button">
+                <i class="fas fa-map-marker-alt me-1"></i>{location}
+              </span>
+              {#if mapLink}
+                <a href={mapLink} target="_blank" rel="noopener noreferrer" class="detail-button map-button">
+                  <i class="fas fa-external-link-alt me-1"></i>View on Google Maps
+                </a>
+              {/if}
+            </div>
+          </div>
+          
+          {#if $user}
           <!-- Member Form - Show when user is logged in -->
           <div class="member-badge mb-3">
             <i class="fas fa-user-check"></i> Welcome back, {$user?.user_metadata?.name || $user?.email || 'member'}!
@@ -272,6 +285,58 @@
     font-size: 1rem;
   }
 
+  /* Event Details Button Styles */
+  .event-details-buttons {
+    display: flex;
+    gap: 12px;
+    margin: 15px 0;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .detail-button {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .date-button {
+    background: linear-gradient(135deg, #7a1f1f, #8a4b4b);
+  }
+
+  .time-button {
+    background: linear-gradient(135deg, #28a745, #34ce57);
+  }
+
+  .location-button {
+    background: linear-gradient(135deg, #d4b07c, #e6c896);
+    color: #333;
+  }
+
+  .map-button {
+    background: linear-gradient(135deg, #17a2b8, #138496);
+    text-decoration: none;
+  }
+
+  .map-button:hover {
+    background: linear-gradient(135deg, #138496, #117a8b);
+    text-decoration: none;
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  .detail-button i {
+    font-size: 0.8rem;
+  }
+
   .map-link {
     display: inline-flex;
     align-items: center;
@@ -308,6 +373,22 @@
     color: #7a1f1f;
     font-weight: 600;
     margin-bottom: 20px;
+  }
+
+  /* Event Details Section */
+  .event-details-section {
+    text-align: center;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .event-title-reg {
+    color: #7a1f1f;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 15px;
   }
 
   /* Member and Non-Member Badges */
