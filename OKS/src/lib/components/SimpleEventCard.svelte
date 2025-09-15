@@ -66,8 +66,8 @@
         {#if $user}
           <!-- Member Form - Show when user is logged in -->
           <div class="member-badge mb-3">
-            <i class="fas fa-user-check"></i> Welcome back, member!
-          </div>
+            <i class="fas fa-user-check"></i> Welcome back, {$user?.user_metadata?.name || $user?.email || 'member'}!
+          </div>     
           <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
             <iframe 
               title='Donation form powered by Zeffy - Member' 
