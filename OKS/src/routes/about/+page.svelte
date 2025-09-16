@@ -16,28 +16,28 @@
 			name: 'Mr. Venugopal Kulkarni',
 			position: 'President',
 			description: 'Leading the organization with dedication and vision for Kannada culture preservation.',
-			imageFile: 'venugopal.jpg' // Update with actual file name
+			imageFile: 'Venugopal.jpeg' // Update with actual file name
 		},
 		{
 			id: 'vishwa',
 			name: 'Mr. Vishwa',
 			position: 'Vice President', 
 			description: 'Supporting cultural initiatives and community engagement programs.',
-			imageFile: 'vishwa.jpg' // Update with actual file name
+			imageFile: 'Vishwa.jpg' // Update with actual file name
 		},
 		{
 			id: 'supreeta',
 			name: 'Mrs. Supreeta Bolar',
 			position: 'Secretary',
 			description: 'Managing organizational communications and event coordination.',
-			imageFile: 'supreeta.jpg' // Update with actual file name
+			imageFile: 'Supreeta.jpg' // Update with actual file name
 		},
 		{
 			id: 'sindhu',
 			name: 'Mrs. Sindhu Raju',
 			position: 'Treasurer',
 			description: 'Overseeing financial management and resource allocation.',
-			imageFile: 'sindhu.jpg' // Update with actual file name
+			imageFile: 'Sindhu.jpeg' // Update with actual file name
 		}
 	];
 	
@@ -49,7 +49,7 @@
 			// First, let's check what files exist in the board_members folder
 			const { data: files, error: listError } = await supabase.storage
 				.from('OKS')
-				.list('board_members', {
+				.list('board_members_2025', {
 					limit: 100,
 					offset: 0
 				});
@@ -67,7 +67,7 @@
 					// Get signed URL for each board member image
 					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
 						.from('OKS')
-						.createSignedUrl(`board_members/${member.imageFile}`, 3600); // 1 hour expiration
+						.createSignedUrl(`board_members_2025/${member.imageFile}`, 3600); // 1 hour expiration
 					
 					if (signedUrlError) {
 						console.warn(`⚠️ Failed to create signed URL for ${member.imageFile}:`, signedUrlError.message);
