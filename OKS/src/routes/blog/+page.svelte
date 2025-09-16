@@ -153,7 +153,7 @@
 <!-- Hero Section -->
 <Hero 
   page="Blog Page" 
-  leftImage="/images/disney-castle-sketch.png"
+  leftImage="/images/Disney-castle.png"
   rightImage="/images/Yakshagana.png"
   topLeftImage="/images/Karnataka.png"
   bottomRightImage="/images/mysore-palace-vector.svg"

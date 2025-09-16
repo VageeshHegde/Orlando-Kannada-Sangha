@@ -207,6 +207,15 @@
 						<div class="history-paragraph">
 							<p>In <span class="highlight-date">August 2025</span>, together with other Kannada associations across Florida, the Sangha helped organize the <strong>8th NAVIKA World Kannada Convention</strong>. Its resounding success further elevated the stature of the Orlando Kannada Sangha.</p>
 						</div>
+
+						<!-- Author Attribution for History Content -->
+						<div class="history-author">
+							<div class="author-divider-small"></div>
+							<p class="history-author-text">
+								<i class="fas fa-feather-alt me-2"></i>
+								<em>— Mrs. Ranjani Somayaji</em>
+							</p>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -295,6 +304,29 @@
 							<i class="fas fa-code me-2"></i>
 							Built with ❤️ for the Orlando Kannada Community
 						</p>
+					</div>
+				</div>
+			</div> -->
+
+			<!-- Author Section -->
+			<!-- <div class="row mt-5">
+				<div class="col-12">
+					<div class="author-section">
+						<div class="author-divider"></div>
+						<div class="author-content">
+							<p class="author-text">
+								<i class="fas fa-feather-alt me-2"></i>
+								<em>Written with pride and dedication for the Orlando Kannada Community</em>
+							</p>
+							<p class="author-signature">
+								— Orlando Kannada Sangha Board
+							</p>
+							<p class="author-date text-muted">
+								<i class="far fa-calendar-alt me-2"></i>
+								Updated September 2024
+							</p>
+						</div>
+						<div class="author-divider"></div>
 					</div>
 				</div>
 			</div> -->
@@ -771,6 +803,86 @@
 		width: 80%;
 		margin-left: auto;
 		margin-right: auto;
+	}
+
+	/* Author Section Styles */
+	.author-section {
+		text-align: center;
+		padding: 2rem 1rem;
+		margin: 2rem 0;
+		background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+		border-radius: 15px;
+		border: 1px solid rgba(122, 31, 31, 0.1);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+	}
+
+	.author-divider {
+		height: 2px;
+		background: linear-gradient(90deg, transparent 0%, #7a1f1f 50%, transparent 100%);
+		margin: 1rem auto;
+		width: 200px;
+		border-radius: 1px;
+	}
+
+	.author-content {
+		padding: 1rem 0;
+	}
+
+	.author-text {
+		font-size: 1.1rem;
+		color: #2c3e50;
+		margin-bottom: 1rem;
+		font-style: italic;
+	}
+
+	.author-text i {
+		color: #7a1f1f;
+	}
+
+	.author-signature {
+		font-size: 1.2rem;
+		font-weight: 600;
+		color: #7a1f1f;
+		margin-bottom: 0.5rem;
+		font-family: 'Georgia', serif;
+	}
+
+	.author-date {
+		font-size: 0.9rem;
+		margin-bottom: 0;
+	}
+
+	.author-date i {
+		color: #6c757d;
+	}
+
+	/* History Author Styles */
+	.history-author {
+		text-align: right;
+		margin-top: 1rem;
+		padding-top: 0.5rem;
+	}
+
+	.author-divider-small {
+		height: 1px;
+		background: linear-gradient(90deg, transparent 0%, #7a1f1f 70%, transparent 100%);
+		margin: 0.5rem 0;
+		width: 150px;
+		margin-left: auto;
+		border-radius: 0.5px;
+	}
+
+	.history-author-text {
+		font-size: 1rem;
+		color: #7a1f1f;
+		margin-bottom: 0;
+		font-style: italic;
+		font-weight: 500;
+	}
+
+	.history-author-text i {
+		color: #7a1f1f;
+		opacity: 0.8;
 	}
 
 	.loading-text-small {
