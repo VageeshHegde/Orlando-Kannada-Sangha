@@ -22,6 +22,9 @@
   let sliderImages = [];
   let imagesLoaded = false;
 
+  // Auto-popup functionality
+  let autoShowPopup = false;
+
   // Function to load slider images from S3
   async function loadSliderImages() {
     try {
@@ -240,6 +243,17 @@
       });
       calendar.render();
     }
+
+    // Auto-show first event popup after page loads (only once per browser tab)
+    const popupShown = sessionStorage.getItem('oks-popup-shown');
+    
+    if (!popupShown) {
+      setTimeout(() => {
+        autoShowPopup = true;
+        // Mark popup as shown for this browser tab
+        sessionStorage.setItem('oks-popup-shown', 'true');
+      }, 1000); // Show popup after 2 seconds
+    }
   });
 
   onDestroy(() => {
@@ -250,7 +264,7 @@
 <Navbar />
 <Hero 
   page="Home Page" 
-  leftImage="/images/NASA.svg"
+  leftImage="/images/Hampi.png"
   rightImage="/images/Florida.png"
   topLeftImage="/images/OKSlogo.png"
   bottomRightImage="/images/mysore-palace-vector.svg"
@@ -516,6 +530,7 @@
           mapLink="https://maps.google.com/?q=123+Main+St+Anytown+CA"
           memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
           nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
+          autoShow={autoShowPopup}
         />
 
         <SimpleEventCard 

@@ -125,7 +125,7 @@
 <Navbar />
 <Hero 
   page="About Page" 
-  leftImage="/images/NASA.svg"
+  leftImage="/images/Hampi.png"
   rightImage="/images/OKSlogo.png"
   topLeftImage="/images/Yakshagana2.png"
   bottomRightImage="/images/disney-castle-sketch.png"

@@ -13,14 +13,24 @@
   export let mapLink = "";
   export let memberFormUrl = "https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft";
   export let nonMemberFormUrl = "https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft";
+  export let autoShow = false;
 
   // Bootstrap modal functionality
   let modalId = `eventModal${Math.random().toString(36).substr(2, 9)}`;
+  let modalShown = false;
 
   function openLightbox() {
     // Use Bootstrap's modal API
     const modal = new bootstrap.Modal(document.getElementById(modalId));
     modal.show();
+  }
+
+  // Auto-show modal when autoShow prop becomes true
+  $: if (autoShow && !modalShown) {
+    setTimeout(() => {
+      openLightbox();
+      modalShown = true;
+    }, 100);
   }
 </script>
 
