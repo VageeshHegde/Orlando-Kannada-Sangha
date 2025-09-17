@@ -12,6 +12,7 @@
   let errorMessage = '';
   let successMessage = '';
   let isFirstTimeUser = false;
+  let isForgotPassword = false;
   let isCheckingAuth = true;
   
   // Wait for auth to finish loading before checking
@@ -26,6 +27,18 @@
   }
   
   onMount(() => {
+    // Check if this is a forgot password flow (from email link)
+    const urlParams = new URLSearchParams(window.location.search);
+    const accessToken = urlParams.get('access_token');
+    const refreshToken = urlParams.get('refresh_token');
+    
+    if (accessToken && refreshToken) {
+      // This is a forgot password flow from email link
+      isForgotPassword = true;
+      isCheckingAuth = false;
+      return;
+    }
+    
     // Wait a bit for auth to initialize, then check
     setTimeout(() => {
       if (!$authLoading && !$user) {
@@ -43,8 +56,8 @@
 
   // Handle form submission
   async function handleSubmit() {
-    // For first-time users, current password is optional
-    if (!isFirstTimeUser && !currentPassword) {
+    // For forgot password flow, no current password needed
+    if (!isForgotPassword && !isFirstTimeUser && !currentPassword) {
       errorMessage = 'Please enter your current password';
       return;
     }
@@ -68,8 +81,8 @@
     errorMessage = '';
 
     try {
-      // For non-first-time users, verify current password first
-      if (!isFirstTimeUser) {
+      // For non-first-time users and non-forgot-password flow, verify current password first
+      if (!isFirstTimeUser && !isForgotPassword) {
         // Reauthenticate with current password to verify it
         const { error: reauthError } = await supabase.auth.signInWithPassword({
           email: $user.email,
@@ -105,7 +118,7 @@
 </script>
 
 <svelte:head>
-  <title>{isFirstTimeUser ? 'Set Password' : 'Reset Password'} - Orlando Kannada Sangha</title>
+  <title>{isForgotPassword ? 'Reset Password' : (isFirstTimeUser ? 'Set Password' : 'Change Password')} - Orlando Kannada Sangha</title>
 </svelte:head>
 
 <div class="reset-password-container">
@@ -124,12 +137,15 @@
           <img class="logo" src="/images/OKSlogo.png" alt="OKS Logo" />
         </div>
         <h1 class="page-title">
-          {isFirstTimeUser ? 'Set Your Password' : 'Reset Your Password'}
+          {isForgotPassword ? 'Reset Your Password' : (isFirstTimeUser ? 'Set Your Password' : 'Change Your Password')}
         </h1>
         <p class="page-subtitle">
-          {isFirstTimeUser 
-            ? 'Welcome! Your password is already set to the default. You can change it below or keep it as is.'
-            : 'To change your password, enter your current password and choose a new one.'
+          {isForgotPassword 
+            ? 'You\'ve been redirected here from your password reset email. Please enter a new password below.'
+            : (isFirstTimeUser 
+              ? 'Welcome! Your password is already set to the default. You can change it below or keep it as is.'
+              : 'To change your password, enter your current password and choose a new one.'
+            )
           }
         </p>
         {#if isFirstTimeUser}
@@ -151,7 +167,7 @@
         </a>
       </div>
       <form class="password-form" on:submit|preventDefault={handleSubmit}>
-        {#if !isFirstTimeUser}
+        {#if !isFirstTimeUser && !isForgotPassword}
           <div class="form-group">
             <label for="current-password" class="form-label">
               <i class="fas fa-lock me-2"></i>Current Password
@@ -242,10 +258,10 @@
           >
             {#if loading}
               <i class="fas fa-spinner fa-spin me-2"></i>
-              {isFirstTimeUser ? 'Setting Password...' : 'Resetting Password...'}
+              {isForgotPassword ? 'Resetting Password...' : (isFirstTimeUser ? 'Setting Password...' : 'Changing Password...')}
             {:else}
               <i class="fas fa-save me-2"></i>
-              {isFirstTimeUser ? 'Set Password' : 'Reset Password'}
+              {isForgotPassword ? 'Reset Password' : (isFirstTimeUser ? 'Set Password' : 'Change Password')}
             {/if}
           </button>
         </div>

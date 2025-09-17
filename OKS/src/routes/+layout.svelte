@@ -5,12 +5,14 @@
 	import { onMount } from 'svelte';
 	import { initAuth } from '$lib/stores/auth.js';
 	import { page } from '$app/stores';
+	import { injectAnalytics } from '@vercel/analytics/sveltekit';
 
 	let { children } = $props();
 
 	// Initialize authentication on app startup
 	onMount(() => {
 		initAuth();
+		injectAnalytics();
 	});
 
 	// Check if current page is an authentication page

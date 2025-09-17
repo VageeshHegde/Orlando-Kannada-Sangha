@@ -15,13 +15,15 @@
 			id: 'venugopal',
 			name: 'Mr. Venugopal Kulkarni',
 			position: 'President',
+			year: '2024-2026',
 			description: 'Leading the organization with dedication and vision for Kannada culture preservation.',
 			imageFile: 'Venugopal.jpeg' // Update with actual file name
 		},
 		{
 			id: 'vishwa',
 			name: 'Mr. Vishwa',
-			position: 'Vice President', 
+			position: 'Vice President',
+			year: '2024-2026', 
 			description: 'Supporting cultural initiatives and community engagement programs.',
 			imageFile: 'Vishwa.jpg' // Update with actual file name
 		},
@@ -29,6 +31,7 @@
 			id: 'supreeta',
 			name: 'Mrs. Supreeta Bolar',
 			position: 'Secretary',
+			year: '2024-2026',
 			description: 'Managing organizational communications and event coordination.',
 			imageFile: 'Supreeta.jpg' // Update with actual file name
 		},
@@ -36,8 +39,43 @@
 			id: 'sindhu',
 			name: 'Mrs. Sindhu Raju',
 			position: 'Treasurer',
+			year: '2024-2026',
 			description: 'Overseeing financial management and resource allocation.',
 			imageFile: 'Sindhu.jpeg' // Update with actual file name
+		}
+	];
+	
+	// Past board members data
+	const pastMembers = [
+		{
+			name: 'Mr. Rajesh Kumar',
+			position: 'Former President',
+			year: '2020-2022'
+		},
+		{
+			name: 'Mrs. Priya Sharma',
+			position: 'Former Secretary',
+			year: '2019-2021'
+		},
+		{
+			name: 'Mr. Suresh Reddy',
+			position: 'Former Treasurer',
+			year: '2018-2020'
+		},
+		{
+			name: 'Mrs. Lakshmi Patel',
+			position: 'Former Vice President',
+			year: '2017-2019'
+		},
+		{
+			name: 'Mr. Anand Rao',
+			position: 'Former President',
+			year: '2015-2017'
+		},
+		{
+			name: 'Mrs. Sunita Joshi',
+			position: 'Former Secretary',
+			year: '2013-2015'
 		}
 	];
 	
@@ -247,6 +285,7 @@
 										<div class="member-info">
 											<h4 class="member-name">{member.name}</h4>
 											<p class="member-position">{member.position}</p>
+											<p class="member-year">{member.year}</p>
 											<p class="member-description">{member.description}</p>
 										</div>
 									</div>
@@ -271,6 +310,44 @@
 								</div>
 							{/each}
 						{/if}
+					</div>
+				</div>
+			</div>
+
+			<!-- Past Board Members Section -->
+			<div class="row mt-5">
+				<div class="col-12">
+					<h2 class="text-center mb-5 board-members-title">Past Board Members</h2>
+					
+					<!-- Past Members Slider -->
+					<div class="past-members-scroller my-5">
+						<div class="past-scroll-container">
+							<div class="past-scroll-content">
+								<!-- Duplicate the members for seamless loop -->
+								{#each [...pastMembers, ...pastMembers] as member, index}
+									<div class="past-member-slide">
+										<div class="member-image">
+											<div class="image-placeholder">
+												<i class="fas fa-user fa-3x text-muted"></i>
+												<p class="text-muted small mt-2">Image not available</p>
+											</div>
+											<div class="image-overlay">
+												<h4 class="member-name">{member.name}</h4>
+												<p class="member-position">{member.position}</p>
+												<p class="member-year">{member.year}</p>
+											</div>
+										</div>
+									</div>
+								{/each}
+							</div>
+						</div>
+					</div>
+					
+					<div class="text-center mt-4">
+						<p class="text-muted">
+							<i class="fas fa-history me-2"></i>
+							We honor and appreciate the contributions of all past board members who have helped build our community.
+						</p>
 					</div>
 				</div>
 			</div>
@@ -659,7 +736,7 @@
 	.member-image {
 		position: relative;
 		overflow: hidden;
-		height: 250px;
+		height: 300px;
 	}
 
 	.member-img {
@@ -705,9 +782,21 @@
 		font-size: 1rem;
 		font-weight: 600;
 		color: #f26c4f;
-		margin-bottom: 1rem;
+		margin-bottom: 0.5rem;
 		text-transform: uppercase;
 		letter-spacing: 1px;
+	}
+
+	.member-year {
+		font-size: 0.9rem;
+		font-weight: 700;
+		color: #7a1f1f;
+		margin-bottom: 1rem;
+		background: rgba(122, 31, 31, 0.1);
+		padding: 0.3rem 0.8rem;
+		border-radius: 15px;
+		display: inline-block;
+		border: 1px solid rgba(122, 31, 31, 0.2);
 	}
 
 	.member-description {
@@ -770,6 +859,196 @@
 	.web-team-card .member-position {
 		color: #6c757d;
 		font-weight: 600;
+	}
+
+	/* Past Board Members Styles */
+	.past-member-card {
+		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+		border: 2px solid #6c757d;
+		transition: all 0.3s ease;
+		opacity: 0.9;
+	}
+
+	.past-member-card:hover {
+		transform: translateY(-3px);
+		box-shadow: 0 6px 20px rgba(108, 117, 125, 0.15);
+		border-color: #495057;
+		opacity: 1;
+	}
+
+	.past-member-card .member-name {
+		color: #495057;
+		font-weight: 600;
+	}
+
+	.past-member-card .member-position {
+		color: #6c757d;
+		font-weight: 500;
+		font-style: italic;
+	}
+
+	.past-member-card .member-year {
+		color: #7a1f1f;
+		font-weight: 600;
+		font-size: 0.9rem;
+		margin-top: 0.5rem;
+	}
+
+	.past-member-card .image-placeholder {
+		background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+		border: 2px dashed #6c757d;
+		position: relative;
+	}
+
+	.past-member-card .image-overlay {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+		color: white;
+		padding: 1rem 0.5rem 0.5rem 0.5rem;
+		text-align: center;
+		border-radius: 0 0 15px 15px;
+	}
+
+	.past-member-card .image-overlay .member-name {
+		color: white;
+		font-size: 1rem;
+		font-weight: 600;
+		margin: 0 0 0.25rem 0;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+	}
+
+	.past-member-card .image-overlay .member-position {
+		color: #f0f0f0;
+		font-size: 0.85rem;
+		font-weight: 500;
+		font-style: italic;
+		margin: 0 0 0.25rem 0;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+	}
+
+	.past-member-card .image-overlay .member-year {
+		color: #7a1f1f;
+		font-size: 0.8rem;
+		font-weight: 700;
+		margin: 0;
+		background: rgba(255, 255, 255, 0.9);
+		padding: 0.2rem 0.5rem;
+		border-radius: 10px;
+		display: inline-block;
+		text-shadow: none;
+	}
+
+	/* Past Members Slider Styles */
+	.past-members-scroller {
+		position: relative;
+		width: 100%;
+		overflow: hidden;
+		margin: 2rem 0;
+	}
+
+	.past-scroll-container {
+		overflow: hidden;
+		position: relative;
+		padding: 10px;
+	}
+
+	.past-scroll-content {
+		display: flex;
+		gap: 1.8rem;
+		position: relative;
+		animation: pastScroll 50s linear infinite;
+		width: max-content;
+	}
+
+	.past-scroll-content:hover {
+		animation-play-state: paused;
+	}
+
+	@keyframes pastScroll {
+		0% {
+			transform: translateX(0);
+		}
+		100% {
+			transform: translateX(calc(-320px * 6));
+		}
+	}
+
+	.past-member-slide {
+		flex: 0 0 auto;
+		width: 250px;
+		height: 300px;
+		border-radius: 20px;
+		overflow: hidden;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+		border: 2px solid #f8a07a;
+		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+		transition: all 0.4s ease;
+	}
+
+	.past-member-slide:hover {
+		transform: translateY(-5px);
+		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+		border-color: #7a1f1f;
+	}
+
+	.past-member-slide .member-image {
+		height: 100%;
+		position: relative;
+	}
+
+	.past-member-slide .image-placeholder {
+		height: 100%;
+		background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+		border: 2px dashed #6c757d;
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.past-member-slide .image-overlay {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		right: 0;
+		background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+		color: white;
+		padding: 1rem 0.5rem 0.5rem 0.5rem;
+		text-align: center;
+		border-radius: 0 0 20px 20px;
+	}
+
+	.past-member-slide .image-overlay .member-name {
+		color: white;
+		font-size: 1rem;
+		font-weight: 600;
+		margin: 0 0 0.25rem 0;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+	}
+
+	.past-member-slide .image-overlay .member-position {
+		color: #f0f0f0;
+		font-size: 0.85rem;
+		font-weight: 500;
+		font-style: italic;
+		margin: 0 0 0.25rem 0;
+		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+	}
+
+	.past-member-slide .image-overlay .member-year {
+		color: #7a1f1f;
+		font-size: 0.8rem;
+		font-weight: 700;
+		margin: 0;
+		background: rgba(255, 255, 255, 0.9);
+		padding: 0.2rem 0.5rem;
+		border-radius: 10px;
+		display: inline-block;
+		text-shadow: none;
 	}
 
 	/* Loading Placeholder Styles */

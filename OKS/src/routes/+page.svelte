@@ -8,7 +8,6 @@
   import { getSliderImages } from '$lib/services/sliderService.js';
   import { user } from '$lib/stores/auth.js';
   import { supabase } from '$lib/supabase.js';
-  import { injectAnalytics } from '@vercel/analytics/sveltekit';
   let scrollContent;
   let googleChartsReady = false;
   let cleanupResize;

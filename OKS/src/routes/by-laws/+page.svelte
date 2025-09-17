@@ -104,20 +104,49 @@
   }
 
   function printPDF() {
+    // Simple print function - opens PDF in new tab for printing
     if (pdfUrl) {
       window.open(pdfUrl, '_blank');
+    } else {
+      alert('PDF not loaded yet. Please wait for the document to load.');
     }
   }
 
-  // Download function for the button
+  // Enhanced download function
   async function downloadPDF() {
-    if (pdfUrl) {
+    if (!pdfDoc) {
+      console.error('PDF document not loaded');
+      return;
+    }
+
+    try {
+      // Get the PDF data as array buffer
+      const pdfData = await pdfDoc.getData();
+      
+      // Create blob and download
+      const blob = new Blob([pdfData], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      
       const link = document.createElement('a');
-      link.href = pdfUrl;
+      link.href = url;
       link.download = 'OKS_Bylaws.pdf';
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
+      
+      // Clean up the URL
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+      // Fallback to direct URL download
+      if (pdfUrl) {
+        const link = document.createElement('a');
+        link.href = pdfUrl;
+        link.download = 'OKS_Bylaws.pdf';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }
     }
   }
 </script>
