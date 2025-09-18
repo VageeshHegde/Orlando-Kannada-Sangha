@@ -58,7 +58,7 @@ async function sendInvitation(data) {
 		if (supabaseAdmin) {
 			// Use admin invite function if service role key is available
 			const { data: result, error } = await supabaseAdmin.auth.admin.inviteUserByEmail(email, {
-				redirectTo: `${process.env.ORIGIN || 'http://localhost:5173'}${redirectTo}`
+				redirectTo: `${process.env.ORIGIN || 'http://localhost:5173'}${redirectTo}?email=${encodeURIComponent(email)}`
 			});
 
 			if (error) {
@@ -75,7 +75,7 @@ async function sendInvitation(data) {
 			const { data: result, error } = await supabaseClient.auth.signInWithOtp({
 				email: email,
 				options: {
-					emailRedirectTo: `${process.env.ORIGIN || 'http://localhost:5173'}${redirectTo}`
+					emailRedirectTo: `${process.env.ORIGIN || 'http://localhost:5173'}${redirectTo}?email=${encodeURIComponent(email)}`
 				}
 			});
 

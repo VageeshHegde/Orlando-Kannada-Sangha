@@ -1,7 +1,6 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { page } from '$app/stores';
-	import { authActions, user } from '$lib/stores/auth.js';
+	import { user } from '$lib/stores/auth.js';
 	import { onMount } from 'svelte';
 	
 	// Form state
@@ -19,14 +18,9 @@
 	let showPassword = false;
 	let showConfirmPassword = false;
 	
-	// Invitation handling
-	let isInvitation = false;
-	let invitationToken = '';
-	
 	// Form validation errors
 	let firstNameError = '';
 	let lastNameError = '';
-	// Email error not needed for invite-only registration
 	let passwordError = '';
 	let confirmPasswordError = '';
 	let phoneError = '';
@@ -36,6 +30,12 @@
 	function validateEmail(email) {
 		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 		return emailRegex.test(email);
+	}
+	
+	// Validate name
+	function validateName(name) {
+		const nameRegex = /^[a-zA-Z\s'-]+$/;
+		return name.trim().length >= 2 && nameRegex.test(name.trim());
 	}
 	
 	// Validate phone
@@ -62,21 +62,14 @@
 		};
 	}
 	
-	// Extract email and token from URL parameters (optional)
+	// Auto-fill email from URL parameters
 	onMount(() => {
-		if (typeof window !== 'undefined') {
-			const urlParams = new URLSearchParams(window.location.search);
-			const emailParam = urlParams.get('email');
-			const tokenParam = urlParams.get('token');
-			
-			if (emailParam && tokenParam) {
-				email = emailParam;
-				token = tokenParam;
-				isInvitation = true;
-			} else {
-				// No invitation parameters - allow manual registration
-				isInvitation = false;
-			}
+		const urlParams = new URLSearchParams(window.location.search);
+		const inviteEmail = urlParams.get('email');
+		
+		if (inviteEmail) {
+			email = inviteEmail;
+			errorMessage = '';
 		}
 	});
 
@@ -88,7 +81,6 @@
 		// Reset errors
 		firstNameError = '';
 		lastNameError = '';
-		// Email error not needed for invite-only registration
 		passwordError = '';
 		confirmPasswordError = '';
 		phoneError = '';
@@ -101,14 +93,27 @@
 		if (!firstName.trim()) {
 			firstNameError = 'First name is required';
 			hasErrors = true;
+		} else if (!validateName(firstName)) {
+			firstNameError = 'First name must be at least 2 characters and contain only letters, spaces, hyphens, and apostrophes';
+			hasErrors = true;
 		}
 		
 		if (!lastName.trim()) {
 			lastNameError = 'Last name is required';
 			hasErrors = true;
+		} else if (!validateName(lastName)) {
+			lastNameError = 'Last name must be at least 2 characters and contain only letters, spaces, hyphens, and apostrophes';
+			hasErrors = true;
 		}
 		
-		// Email is set from invitation, no validation needed
+		if (!email.trim()) {
+			errorMessage = 'Email address is required';
+			hasErrors = true;
+		} else if (!validateEmail(email)) {
+			errorMessage = 'Please enter a valid email address';
+			hasErrors = true;
+		}
+		
 		
 		const passwordValidation = validatePassword(password);
 		if (!password) {
@@ -145,12 +150,6 @@
 		isLoading = true;
 		
 		try {
-			// Only invitation-based registration allowed
-			if (!isInvitation) {
-				errorMessage = 'Access denied. Registration is by invitation only.';
-				return;
-			}
-			
 			// Prepare user data
 			const userData = {
 				first_name: firstName.trim(),
@@ -184,7 +183,7 @@
 				return;
 			}
 			
-			successMessage = 'Password set successfully! You can now login with your credentials.';
+			successMessage = 'Account created successfully! You can now login with your credentials.';
 			
 			// Redirect to login after success
 			setTimeout(() => {
@@ -208,31 +207,18 @@
 		showConfirmPassword = !showConfirmPassword;
 	}
 	
-	// Get email and token from invitation URL parameters
-	$: {
-		const urlParams = new URLSearchParams($page.url.search);
-		const inviteEmail = urlParams.get('email');
-		const token = urlParams.get('token');
-		
-		if (inviteEmail && token) {
-			// This is an invitation - user sets password for existing email
-			email = inviteEmail;
-			isInvitation = true;
-			invitationToken = token;
-			errorMessage = ''; // Clear any error message
-		} else if (!$user) {
-			// No invitation and not logged in - show error
-			errorMessage = 'Access denied. Registration is by invitation only.';
-		}
-	}
 	
-	// Real-time password validation feedback
+	// Real-time validation feedback
+	$: firstNameValidation = firstName ? validateName(firstName) : null;
+	$: lastNameValidation = lastName ? validateName(lastName) : null;
+	$: emailValidation = email ? validateEmail(email) : null;
+	$: phoneValidation = phone ? validatePhone(phone) : null;
 	$: passwordValidation = validatePassword(password);
 </script>
 
 <svelte:head>
-	<title>Set Password - Orlando Kannada Sangha</title>
-	<meta name="description" content="Set your password to complete your Orlando Kannada Sangha account setup." />
+	<title>Register - Orlando Kannada Sangha</title>
+	<meta name="description" content="Create your Orlando Kannada Sangha account." />
 </svelte:head>
 
 <!-- Navigation removed for clean registration experience -->
@@ -247,8 +233,8 @@
 						<div class="logo-container">
 							<img src="/images/OKSlogo.png" alt="OKS Logo" class="register-logo" />
 						</div>
-						<h2>Set Your Password</h2>
-						<p class="register-subtitle">Complete your Orlando Kannada Sangha account setup</p>
+						<h2>Create Account</h2>
+						<p class="register-subtitle">Join the Orlando Kannada Sangha community</p>
 					</div>
 					
 					<!-- Back to Home Link -->
@@ -291,12 +277,18 @@
 									type="email"
 									id="email"
 									bind:value={email}
-									class="form-control"
+									class="form-control {emailValidation === false ? 'is-invalid' : emailValidation === true ? 'is-valid' : ''}"
 									placeholder="Enter your email address"
 									disabled={isLoading}
 									autocomplete="email"
 								/>
 							</div>
+							{#if emailValidation === true}
+								<div class="valid-feedback d-block">
+									<i class="fas fa-check-circle me-1"></i>
+									Valid email address
+								</div>
+							{/if}
 						</div>
 						
 						<!-- Name Fields -->
@@ -312,7 +304,7 @@
 											type="text"
 											id="firstName"
 											bind:value={firstName}
-											class="form-control {firstNameError ? 'is-invalid' : ''}"
+											class="form-control {firstNameError ? 'is-invalid' : firstNameValidation === true ? 'is-valid' : ''}"
 											placeholder="First name"
 											disabled={isLoading}
 											autocomplete="given-name"
@@ -321,6 +313,11 @@
 									{#if firstNameError}
 										<div class="invalid-feedback d-block">
 											{firstNameError}
+										</div>
+									{:else if firstNameValidation === true}
+										<div class="valid-feedback d-block">
+											<i class="fas fa-check-circle me-1"></i>
+											Valid first name
 										</div>
 									{/if}
 								</div>
@@ -336,7 +333,7 @@
 											type="text"
 											id="lastName"
 											bind:value={lastName}
-											class="form-control {lastNameError ? 'is-invalid' : ''}"
+											class="form-control {lastNameError ? 'is-invalid' : lastNameValidation === true ? 'is-valid' : ''}"
 											placeholder="Last name"
 											disabled={isLoading}
 											autocomplete="family-name"
@@ -345,6 +342,11 @@
 									{#if lastNameError}
 										<div class="invalid-feedback d-block">
 											{lastNameError}
+										</div>
+									{:else if lastNameValidation === true}
+										<div class="valid-feedback d-block">
+											<i class="fas fa-check-circle me-1"></i>
+											Valid last name
 										</div>
 									{/if}
 								</div>
@@ -362,7 +364,7 @@
 									type="tel"
 									id="phone"
 									bind:value={phone}
-									class="form-control {phoneError ? 'is-invalid' : ''}"
+									class="form-control {phoneError ? 'is-invalid' : phoneValidation === true ? 'is-valid' : ''}"
 									placeholder="+1 (555) 123-4567"
 									disabled={isLoading}
 									autocomplete="tel"
@@ -372,6 +374,11 @@
 							{#if phoneError}
 								<div class="invalid-feedback d-block">
 									{phoneError}
+								</div>
+							{:else if phoneValidation === true}
+								<div class="valid-feedback d-block">
+									<i class="fas fa-check-circle me-1"></i>
+									Valid phone number
 								</div>
 							{/if}
 							<small class="form-text text-muted">
@@ -391,7 +398,7 @@
 									type={showPassword ? 'text' : 'password'}
 									id="password"
 									bind:value={password}
-									class="form-control {passwordError ? 'is-invalid' : ''}"
+									class="form-control {passwordError ? 'is-invalid' : passwordValidation.isValid ? 'is-valid' : ''}"
 									placeholder="Create a secure password"
 									disabled={isLoading}
 									autocomplete="new-password"
@@ -451,7 +458,7 @@
 									type={showConfirmPassword ? 'text' : 'password'}
 									id="confirmPassword"
 									bind:value={confirmPassword}
-									class="form-control {confirmPasswordError ? 'is-invalid' : ''}"
+									class="form-control {confirmPasswordError ? 'is-invalid' : confirmPassword && password === confirmPassword ? 'is-valid' : ''}"
 									placeholder="Confirm your password"
 									disabled={isLoading}
 									autocomplete="new-password"
@@ -469,6 +476,11 @@
 							{#if confirmPasswordError}
 								<div class="invalid-feedback d-block">
 									{confirmPasswordError}
+								</div>
+							{:else if confirmPassword && password === confirmPassword}
+								<div class="valid-feedback d-block">
+									<i class="fas fa-check-circle me-1"></i>
+									Passwords match
 								</div>
 							{/if}
 						</div>
@@ -521,7 +533,7 @@
 								Processing...
 							{:else}
 								<i class="fas fa-user-plus me-2"></i>
-								Create Account
+								Register
 							{/if}
 						</button>
 					</form>
@@ -661,8 +673,24 @@
 		border-color: #dc3545;
 	}
 	
+	.form-control.is-valid {
+		border-color: #28a745;
+	}
+	
+	.form-control.is-valid:focus {
+		border-color: #28a745;
+		box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+	}
+	
 	.invalid-feedback {
 		color: #dc3545;
+		font-size: 14px;
+		margin-top: 5px;
+		display: block;
+	}
+	
+	.valid-feedback {
+		color: #28a745;
 		font-size: 14px;
 		margin-top: 5px;
 		display: block;
