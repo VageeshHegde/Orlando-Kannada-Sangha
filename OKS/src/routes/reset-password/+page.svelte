@@ -13,6 +13,8 @@
   let isFirstTimeUser = false;
   let isForgotPassword = false;
   let isCheckingAuth = true;
+  let showPassword = false;
+  let showConfirmPassword = false;
   
   // Wait for auth to finish loading before checking
   $: if (!$authLoading && typeof window !== 'undefined') {
@@ -107,6 +109,15 @@
       loading = false;
     }
   }
+
+  // Toggle password visibility
+  function togglePasswordVisibility() {
+    showPassword = !showPassword;
+  }
+
+  function toggleConfirmPasswordVisibility() {
+    showConfirmPassword = !showConfirmPassword;
+  }
 </script>
 
 <svelte:head>
@@ -156,37 +167,59 @@
 
         <div class="form-group">
           <label for="new-password" class="form-label">
-            <i class="fas fa-key me-2"></i>
             {isFirstTimeUser ? 'Password' : 'New Password'}
           </label>
-          <div class="input-container">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-lock"></i>
+            </span>
             <input
               id="new-password"
               name="new-password"
-              type="password"
+              type={showPassword ? 'text' : 'password'}
               required
               bind:value={newPassword}
-              class="form-input"
+              class="form-control"
               placeholder={isFirstTimeUser ? 'Enter your password' : 'Enter new password'}
             />
+            <button
+              type="button"
+              class="btn btn-outline-secondary password-toggle"
+              on:click={togglePasswordVisibility}
+              disabled={loading}
+              aria-label="Toggle password visibility"
+            >
+              <i class="fas {showPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
+            </button>
           </div>
         </div>
 
         <div class="form-group">
           <label for="confirm-password" class="form-label">
-            <i class="fas fa-check-circle me-2"></i>
             {isFirstTimeUser ? 'Confirm Password' : 'Confirm New Password'}
           </label>
-          <div class="input-container">
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="fas fa-check-circle"></i>
+            </span>
             <input
               id="confirm-password"
               name="confirm-password"
-              type="password"
+              type={showConfirmPassword ? 'text' : 'password'}
               required
               bind:value={confirmPassword}
-              class="form-input"
+              class="form-control"
               placeholder={isFirstTimeUser ? 'Confirm your password' : 'Confirm new password'}
             />
+            <button
+              type="button"
+              class="btn btn-outline-secondary password-toggle"
+              on:click={toggleConfirmPasswordVisibility}
+              disabled={loading}
+              aria-label="Toggle confirm password visibility"
+            >
+              <i class="fas {showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
+            </button>
           </div>
         </div>
 
@@ -310,37 +343,70 @@
     color: #7a1f1f;
     font-weight: 600;
     margin-bottom: 8px;
+    display: block;
+  }
+
+  .input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .input-group-text {
     display: flex;
     align-items: center;
-  }
-
-  .form-label i {
-    color: #f26c4f;
-    margin-right: 8px;
-  }
-
-  .input-container {
-    position: relative;
-  }
-
-  .form-input {
-    width: 100%;
-    border-color: #ddd;
     padding: 12px 15px;
     font-size: 16px;
-    transition: all 0.3s ease;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #f26c4f;
+    text-align: center;
+    white-space: nowrap;
+    background-color: #f8f4e6;
     border: 1px solid #ddd;
-    border-radius: 8px;
+    border-radius: 8px 0 0 8px;
   }
 
-  .form-input:focus {
-    outline: none;
+  .form-control {
+    position: relative;
+    flex: 1 1 auto;
+    width: 1%;
+    min-width: 0;
+    padding: 12px 15px;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #212529;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ddd;
+    border-left: 0;
+    border-radius: 0 8px 8px 0;
+    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+  }
+
+  .form-control:focus {
+    color: #212529;
+    background-color: #fff;
     border-color: #f26c4f;
+    outline: 0;
     box-shadow: 0 0 0 0.2rem rgba(242, 108, 79, 0.25);
   }
 
-  .form-input::placeholder {
+  .form-control::placeholder {
     color: #999;
+    opacity: 1;
+  }
+
+  .password-toggle {
+    border-left: none;
+    color: #666;
+  }
+
+  .password-toggle:hover {
+    color: #f26c4f;
   }
 
   .alert {
@@ -511,9 +577,6 @@
       font-size: 1.8rem;
     }
 
-    .form-input {
-      padding: 0.9rem 1rem;
-    }
 
     .submit-button {
       padding: 1rem 1.5rem;

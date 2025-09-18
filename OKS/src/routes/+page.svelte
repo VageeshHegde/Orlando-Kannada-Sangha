@@ -527,19 +527,19 @@
           location="1994 E Lake Dr, Casselberry, FL"
           imageSrc={eventImagesLoaded ? (eventImages['kannada-rajyotsava'] || 'https://picsum.photos/150/100?random=1') : 'https://picsum.photos/150/100?random=1'}
           imageAlt="Kannada Rajyotsava"
-          mapLink="https://maps.google.com/?q=123+Main+St+Anytown+CA"
+          mapLink="https://maps.app.goo.gl/gHWRHS8Y3ng4qmgT9"
           memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
           nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
           autoShow={autoShowPopup}
         />
 
         <SimpleEventCard 
-          month="APR"
-          day="10"
-          title="Art Exhibition"
-          date="April 10, 2024"
-          time="2:00 PM"
-          location="456 Elm St, Othertown, NY"
+          month="MON"
+          day="DD"
+          title="To Be Announced"
+          date="TBA"
+          time="TBA"
+          location="TBA"
           imageSrc={eventImagesLoaded ? (eventImages['art-exhibition'] || 'https://picsum.photos/150/100?random=2') : 'https://picsum.photos/150/100?random=2'}
           imageAlt="Art Exhibition"
           mapLink="https://maps.google.com/?q=456+Elm+St+Othertown+NY"
@@ -548,12 +548,12 @@
         />
 
         <SimpleEventCard 
-          month="NOV"
-          day="15"
-          title="Kannada Kali"
-          date="November 15, 2024"
-          time="4:00 PM"
-          location="Orlando Convention Center"
+          month="MON"
+          day="DD"
+          title="To Be Announced"
+          date="TBA"
+          time="TBA"
+          location="TBA"
           imageSrc={eventImagesLoaded ? (eventImages['kannada-kali'] || 'https://picsum.photos/150/100?random=3') : 'https://picsum.photos/150/100?random=3'}
           imageAlt="Kannada Kali"
           mapLink="https://maps.google.com/?q=Orlando+Convention+Center"
@@ -562,12 +562,12 @@
         />
 
         <SimpleEventCard 
-          month="DEC"
-          day="31"
-          title="New Year Celebration"
-          date="December 31, 2024"
-          time="8:00 PM"
-          location="Community Center Orlando"
+          month="MON"
+          day="DD"
+          title="To Be Announced"
+          date="TBA"
+          time="TBA"
+          location="TBA"
           imageSrc={eventImagesLoaded ? (eventImages['cultural-program'] || 'https://picsum.photos/150/100?random=4') : 'https://picsum.photos/150/100?random=4'}
           imageAlt="New Year Celebration"
           mapLink="https://maps.google.com/?q=Community+Center+Orlando"
