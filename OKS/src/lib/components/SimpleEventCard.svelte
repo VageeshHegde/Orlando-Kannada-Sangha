@@ -32,6 +32,53 @@
       modalShown = true;
     }, 100);
   }
+
+  // Get user display name from various sources
+  function getUserDisplayName(user) {
+    if (!user) return 'member';
+    
+    // Priority 1: Check for 'name' field in metadata (most direct)
+    if (user.user_metadata?.name) {
+      return user.user_metadata.name;
+    }
+    
+    // Priority 2: Try to get full name from first_name and last_name
+    const firstName = user.user_metadata?.first_name || '';
+    const lastName = user.user_metadata?.last_name || '';
+    
+    if (firstName && lastName) {
+      return `${firstName} ${lastName}`;
+    } else if (firstName) {
+      return firstName;
+    } else if (lastName) {
+      return lastName;
+    }
+    
+    // Priority 3: Enhanced email parsing for better name extraction
+    if (user.email) {
+      const emailUser = user.email.split('@')[0];
+      
+      // Handle common email patterns
+      if (emailUser.includes('.')) {
+        // Handle patterns like "john.doe" or "first.last"
+        const parts = emailUser.split('.');
+        const firstName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+        const lastName = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
+        return lastName ? `${firstName} ${lastName}` : firstName;
+      } else if (emailUser.includes('_')) {
+        // Handle patterns like "john_doe"
+        const parts = emailUser.split('_');
+        const firstName = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+        const lastName = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
+        return lastName ? `${firstName} ${lastName}` : firstName;
+      } else {
+        // Simple capitalization for single words
+        return emailUser.charAt(0).toUpperCase() + emailUser.slice(1);
+      }
+    }
+    
+    return 'member';
+  }
 </script>
 
 
@@ -89,7 +136,7 @@
           {#if $user}
           <!-- Member Form - Show when user is logged in -->
           <div class="member-badge mb-3">
-            <i class="fas fa-user-check"></i> Welcome back, {$user?.user_metadata?.name || $user?.email || 'member'}!
+            <i class="fas fa-user-check"></i> Welcome back, {getUserDisplayName($user)}!
           </div>     
           <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
             <iframe 

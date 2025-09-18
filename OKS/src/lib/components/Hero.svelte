@@ -16,7 +16,12 @@
   function getUserDisplayName(user) {
     if (!user) return '';
     
-    // Try to get full name from metadata
+    // Priority 1: Check for 'name' field in metadata (most direct)
+    if (user.user_metadata?.name) {
+      return user.user_metadata.name;
+    }
+    
+    // Priority 2: Try to get full name from first_name and last_name
     const firstName = user.user_metadata?.first_name || '';
     const lastName = user.user_metadata?.last_name || '';
     
@@ -28,7 +33,7 @@
       return lastName;
     }
     
-    // Enhanced email parsing for better name extraction
+    // Priority 3: Enhanced email parsing for better name extraction
     if (user.email) {
       const emailUser = user.email.split('@')[0];
       
@@ -254,11 +259,7 @@
         <div class="logo-circle-small">
           <img src="/images/OKSlogo.png" alt="OKS Logo" class="oks-logo-small"/>
         </div>
-        {#if page === 'Home' && isLoggedIn && userName}
-          Welcome back to OKS, {userName}!
-        {:else}
-          {page}
-        {/if}
+        {page}
       </h4>
       <h2>ಒರ್ಲ್ಯಾಂಡೋ ಕನ್ನಡ ಸಂಘ</h2>
       <h6 class="text-muted">A not-for-profit 501(c)(3) organization. Tax ID 46-2253530</h6>

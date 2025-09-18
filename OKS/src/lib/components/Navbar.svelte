@@ -44,29 +44,37 @@
 	// Update user profile from Supabase user data
 	function updateUserProfile(currentUser) {
 		if (currentUser) {
-			const firstName = currentUser.user_metadata?.first_name || '';
-			const lastName = currentUser.user_metadata?.last_name || '';
-			let fullName = `${firstName} ${lastName}`.trim();
+			let fullName = '';
 			
-			// If no name in metadata, try to extract from email
-			if (!fullName && currentUser.email) {
-				const emailUser = currentUser.email.split('@')[0];
+			// Priority 1: Check for 'name' field in metadata (most direct)
+			if (currentUser.user_metadata?.name) {
+				fullName = currentUser.user_metadata.name;
+			} else {
+				// Priority 2: Try to get full name from first_name and last_name
+				const firstName = currentUser.user_metadata?.first_name || '';
+				const lastName = currentUser.user_metadata?.last_name || '';
+				fullName = `${firstName} ${lastName}`.trim();
 				
-				if (emailUser.includes('.')) {
-					// Handle patterns like "john.doe"
-					const parts = emailUser.split('.');
-					const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-					const last = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
-					fullName = last ? `${first} ${last}` : first;
-				} else if (emailUser.includes('_')) {
-					// Handle patterns like "john_doe"
-					const parts = emailUser.split('_');
-					const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-					const last = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
-					fullName = last ? `${first} ${last}` : first;
-				} else {
-					// Simple capitalization
-					fullName = emailUser.charAt(0).toUpperCase() + emailUser.slice(1);
+				// Priority 3: If no name in metadata, try to extract from email
+				if (!fullName && currentUser.email) {
+					const emailUser = currentUser.email.split('@')[0];
+					
+					if (emailUser.includes('.')) {
+						// Handle patterns like "john.doe"
+						const parts = emailUser.split('.');
+						const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+						const last = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
+						fullName = last ? `${first} ${last}` : first;
+					} else if (emailUser.includes('_')) {
+						// Handle patterns like "john_doe"
+						const parts = emailUser.split('_');
+						const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
+						const last = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
+						fullName = last ? `${first} ${last}` : first;
+					} else {
+						// Simple capitalization
+						fullName = emailUser.charAt(0).toUpperCase() + emailUser.slice(1);
+					}
 				}
 			}
 			
