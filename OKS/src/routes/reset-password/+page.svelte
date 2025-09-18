@@ -5,7 +5,6 @@
   import { supabase } from '$lib/supabase.js';
   import { user, loading as authLoading } from '$lib/stores/auth.js';
 
-  let currentPassword = '';
   let newPassword = '';
   let confirmPassword = '';
   let loading = false;
@@ -28,7 +27,19 @@
   
   onMount(() => {
     // Check if this is a forgot password flow (from email link)
+    // Supabase sends tokens in URL hash, not search params
+    const urlHash = window.location.hash;
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check for tokens in hash (Supabase standard)
+    if (urlHash.includes('access_token=') && urlHash.includes('refresh_token=')) {
+      // This is a forgot password flow from email link
+      isForgotPassword = true;
+      isCheckingAuth = false;
+      return;
+    }
+    
+    // Also check search params as fallback
     const accessToken = urlParams.get('access_token');
     const refreshToken = urlParams.get('refresh_token');
     
@@ -54,13 +65,8 @@
     }, 100); // Small delay to let auth initialize
   });
 
-  // Handle form submission
-  async function handleSubmit() {
-    // For forgot password flow, no current password needed
-    if (!isForgotPassword && !isFirstTimeUser && !currentPassword) {
-      errorMessage = 'Please enter your current password';
-      return;
-    }
+    // Handle form submission
+    async function handleSubmit() {
     
     if (!newPassword || !confirmPassword) {
       errorMessage = 'Please fill in all required fields';
@@ -80,21 +86,7 @@
     loading = true;
     errorMessage = '';
 
-    try {
-      // For non-first-time users and non-forgot-password flow, verify current password first
-      if (!isFirstTimeUser && !isForgotPassword) {
-        // Reauthenticate with current password to verify it
-        const { error: reauthError } = await supabase.auth.signInWithPassword({
-          email: $user.email,
-          password: currentPassword
-        });
-
-        if (reauthError) {
-          errorMessage = 'Current password is incorrect';
-          loading = false;
-          return;
-        }
-      }
+      try {
 
       // Update password using Supabase
       const { error: updateError } = await supabase.auth.updateUser({
@@ -143,17 +135,11 @@
           {isForgotPassword 
             ? 'You\'ve been redirected here from your password reset email. Please enter a new password below.'
             : (isFirstTimeUser 
-              ? 'Welcome! Your password is already set to the default. You can change it below or keep it as is.'
-              : 'To change your password, enter your current password and choose a new one.'
+              ? 'Welcome! Please set your password below.'
+              : 'To change your password, enter a new password below.'
             )
           }
         </p>
-        {#if isFirstTimeUser}
-          <div class="info-note">
-            <i class="fas fa-info-circle"></i>
-            <span>Your current password is: <strong>Kannada@163</strong> - You can change it below or keep it as is.</span>
-          </div>
-        {/if}
       </div>
       
       <!-- Back to Home Link -->
@@ -166,25 +152,7 @@
           Back to Home
         </a>
       </div>
-      <form class="password-form" on:submit|preventDefault={handleSubmit}>
-        {#if !isFirstTimeUser && !isForgotPassword}
-          <div class="form-group">
-            <label for="current-password" class="form-label">
-              <i class="fas fa-lock me-2"></i>Current Password
-            </label>
-            <div class="input-container">
-              <input
-                id="current-password"
-                name="current-password"
-                type="password"
-                required
-                bind:value={currentPassword}
-                class="form-input"
-                placeholder="Enter current password"
-              />
-            </div>
-          </div>
-        {/if}
+        <form class="password-form" on:submit|preventDefault={handleSubmit}>
 
         <div class="form-group">
           <label for="new-password" class="form-label">
@@ -329,38 +297,6 @@
     font-size: 16px;
   }
 
-  .welcome-banner {
-    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
-    border: 1px solid #2196f3;
-    border-radius: 12px;
-    padding: 1.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .banner-content {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-
-  .banner-icon {
-    color: #1976d2;
-    font-size: 1.5rem;
-    margin-top: 0.2rem;
-  }
-
-  .banner-text h3 {
-    color: #1976d2;
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 1.1rem;
-  }
-
-  .banner-text p {
-    color: #1565c0;
-    margin: 0;
-    line-height: 1.5;
-  }
 
   .password-form {
     margin-bottom: 30px;
@@ -488,17 +424,6 @@
     transform: none;
   }
 
-  .form-footer {
-    margin-top: 2rem;
-    text-align: center;
-  }
-
-  .divider {
-    height: 1px;
-    background: #e0e0e0;
-    margin: 1.5rem auto;
-    width: 90%;
-  }
 
   .back-to-home {
     text-align: center;
@@ -534,23 +459,6 @@
     transform: translateX(-2px);
   }
 
-  .info-note {
-    background-color: rgba(33, 150, 243, 0.1);
-    border: 1px solid rgba(33, 150, 243, 0.2);
-    border-radius: 8px;
-    padding: 0.75rem 1rem;
-    margin-top: 1rem;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 0.9rem;
-    color: #1976d2;
-  }
-
-  .info-note i {
-    color: #1976d2;
-    flex-shrink: 0;
-  }
 
   .auth-checking {
     text-align: center;

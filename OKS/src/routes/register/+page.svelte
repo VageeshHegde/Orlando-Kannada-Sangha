@@ -26,7 +26,7 @@
 	// Form validation errors
 	let firstNameError = '';
 	let lastNameError = '';
-	// Email is set from invitation, no error handling needed
+	// Email error not needed for invite-only registration
 	let passwordError = '';
 	let confirmPasswordError = '';
 	let phoneError = '';
@@ -62,6 +62,25 @@
 		};
 	}
 	
+	// Extract email and token from URL parameters (optional)
+	onMount(() => {
+		if (typeof window !== 'undefined') {
+			const urlParams = new URLSearchParams(window.location.search);
+			const emailParam = urlParams.get('email');
+			const tokenParam = urlParams.get('token');
+			
+			if (emailParam && tokenParam) {
+				email = emailParam;
+				token = tokenParam;
+				isInvitation = true;
+			} else {
+				// No invitation parameters - allow manual registration
+				isInvitation = false;
+			}
+		}
+	});
+
+
 	// Handle form submission
 	async function handleRegister(event) {
 		event.preventDefault();
@@ -372,6 +391,7 @@
 									class="btn btn-outline-secondary password-toggle"
 									on:click={togglePasswordVisibility}
 									disabled={isLoading}
+									aria-label="Toggle password visibility"
 								>
 									<i class="fas {showPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
 								</button>
@@ -431,6 +451,7 @@
 									class="btn btn-outline-secondary password-toggle"
 									on:click={toggleConfirmPasswordVisibility}
 									disabled={isLoading}
+									aria-label="Toggle confirm password visibility"
 								>
 									<i class="fas {showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
 								</button>
@@ -487,7 +508,7 @@
 						>
 							{#if isLoading}
 								<span class="spinner-border spinner-border-sm me-2" role="status"></span>
-								Creating Account...
+								Processing...
 							{:else}
 								<i class="fas fa-user-plus me-2"></i>
 								Create Account

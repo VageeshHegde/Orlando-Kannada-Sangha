@@ -65,7 +65,7 @@
 
 <Navbar />
 <Hero 
-  page="Events Page" 
+  page="Events" 
   leftImage="/images/Karnataka.png"
   rightImage="/images/Yakshagana.png"
   topLeftImage="/images/NASA.svg"

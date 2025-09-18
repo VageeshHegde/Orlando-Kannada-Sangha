@@ -68,7 +68,7 @@
 
 <Navbar />
 <Hero 
-  page="Gallery Page" 
+  page="Gallery" 
   leftImage="/images/Yakshagana.png"
   rightImage="/images/Hampi.png"
   topLeftImage="/images/Mickey_Mouse.png"

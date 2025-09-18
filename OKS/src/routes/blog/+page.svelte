@@ -152,7 +152,7 @@
 
 <!-- Hero Section -->
 <Hero 
-  page="Blog Page" 
+  page="Blog" 
   leftImage="/images/Disney-castle.png"
   rightImage="/images/Yakshagana.png"
   topLeftImage="/images/Karnataka.png"

@@ -263,7 +263,7 @@
 
 <Navbar />
 <Hero 
-  page="Home Page" 
+  page="Home" 
   leftImage="/images/Hampi.png"
   rightImage="/images/Florida.png"
   topLeftImage="/images/OKSlogo.png"

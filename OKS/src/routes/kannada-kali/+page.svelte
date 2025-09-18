@@ -6,7 +6,7 @@
 
 <Navbar />
 <Hero 
-  page="Kannada Kali Page" 
+  page="Kannada Kali" 
   leftImage="/images/Da_ra_bendre.png"
   rightImage="/images/Yakshagana2.png"
   topLeftImage="/images/Kannada-Academy.png"

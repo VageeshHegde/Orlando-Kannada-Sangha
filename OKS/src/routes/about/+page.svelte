@@ -15,7 +15,7 @@
 			id: 'venugopal',
 			name: 'Mr. Venugopal Kulkarni',
 			position: 'President',
-			year: '2024-2026',
+			year: '2024 - present',
 			description: 'Leading the organization with dedication and vision for Kannada culture preservation.',
 			imageFile: 'Venugopal.jpeg' // Update with actual file name
 		},
@@ -23,7 +23,7 @@
 			id: 'vishwa',
 			name: 'Mr. Vishwa',
 			position: 'Vice President',
-			year: '2024-2026', 
+			year: '2024 - present', 
 			description: 'Supporting cultural initiatives and community engagement programs.',
 			imageFile: 'Vishwa.jpg' // Update with actual file name
 		},
@@ -31,7 +31,7 @@
 			id: 'supreeta',
 			name: 'Mrs. Supreeta Bolar',
 			position: 'Secretary',
-			year: '2024-2026',
+			year: '2024 - present',
 			description: 'Managing organizational communications and event coordination.',
 			imageFile: 'Supreeta.jpg' // Update with actual file name
 		},
@@ -39,7 +39,7 @@
 			id: 'sindhu',
 			name: 'Mrs. Sindhu Raju',
 			position: 'Treasurer',
-			year: '2024-2026',
+			year: '2024 - present',
 			description: 'Overseeing financial management and resource allocation.',
 			imageFile: 'Sindhu.jpeg' // Update with actual file name
 		}
@@ -162,7 +162,7 @@
 
 <Navbar />
 <Hero 
-  page="About Page" 
+  page="About" 
   leftImage="/images/Hampi.png"
   rightImage="/images/OKSlogo.png"
   topLeftImage="/images/Yakshagana2.png"
