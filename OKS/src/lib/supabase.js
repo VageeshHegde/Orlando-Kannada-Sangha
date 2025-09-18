@@ -176,7 +176,9 @@ export const auth = {
   // Update user profile metadata
   async updateProfile(userData) {
     const { data, error } = await supabase.auth.updateUser({
-      data: userData
+      data: {
+        user_metadata: userData
+      }
     })
     return { data, error }
   }

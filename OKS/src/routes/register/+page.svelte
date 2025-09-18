@@ -151,15 +151,7 @@
 				return;
 			}
 			
-			// This is an invitation - update user password
-			const { data, error } = await authActions.updatePassword(password);
-			
-			if (error) {
-				errorMessage = error.message;
-				return;
-			}
-			
-			// Update user profile with additional info
+			// Prepare user data
 			const userData = {
 				first_name: firstName.trim(),
 				last_name: lastName.trim(),
@@ -167,7 +159,30 @@
 				subscribe_newsletter: subscribeNewsletter
 			};
 			
-			await authActions.updateProfile(userData);
+			// Use existing auth API to update user profile
+			const response = await fetch('/api/auth', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					action: 'update_user_profile',
+					data: {
+						email: email,
+						updates: {
+							password: password,
+							user_metadata: userData
+						}
+					}
+				})
+			});
+			
+			const result = await response.json();
+			
+			if (!response.ok) {
+				errorMessage = result.error || 'An error occurred during registration';
+				return;
+			}
 			
 			successMessage = 'Password set successfully! You can now login with your credentials.';
 			
@@ -193,9 +208,9 @@
 		showConfirmPassword = !showConfirmPassword;
 	}
 	
-	// Check if user is already logged in and redirect
-	$: if ($user) {
-		// User is already logged in, redirect to home
+	// Check if user is already logged in and redirect (but NEVER redirect if it's an invitation)
+	$: if ($user && !isInvitation) {
+		// User is already logged in and not in invitation flow, redirect to home
 		goto('/');
 	}
 	
@@ -204,12 +219,18 @@
 		const urlParams = new URLSearchParams($page.url.search);
 		const inviteEmail = urlParams.get('email');
 		const token = urlParams.get('token');
+		const type = urlParams.get('type');
 		
+		// Check for Supabase invitation parameters
 		if (inviteEmail && token) {
 			// This is an invitation - user sets password for existing email
 			email = inviteEmail;
 			isInvitation = true;
 			invitationToken = token;
+			errorMessage = ''; // Clear any error message
+		} else if (type === 'invite' || urlParams.get('from') === 'invite') {
+			// Supabase invitation detected
+			isInvitation = true;
 			errorMessage = ''; // Clear any error message
 		} else if (!$user) {
 			// No invitation and not logged in - show error
@@ -283,8 +304,9 @@
 									id="email"
 									bind:value={email}
 									class="form-control"
-									readonly
-									style="background-color: #f8f9fa;"
+									placeholder="Enter your email address"
+									disabled={isLoading}
+									autocomplete="email"
 								/>
 							</div>
 						</div>
