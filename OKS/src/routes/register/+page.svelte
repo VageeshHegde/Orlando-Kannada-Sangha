@@ -208,29 +208,17 @@
 		showConfirmPassword = !showConfirmPassword;
 	}
 	
-	// Check if user is already logged in and redirect (but NEVER redirect if it's an invitation)
-	$: if ($user && !isInvitation) {
-		// User is already logged in and not in invitation flow, redirect to home
-		goto('/');
-	}
-	
 	// Get email and token from invitation URL parameters
 	$: {
 		const urlParams = new URLSearchParams($page.url.search);
 		const inviteEmail = urlParams.get('email');
 		const token = urlParams.get('token');
-		const type = urlParams.get('type');
 		
-		// Check for Supabase invitation parameters
 		if (inviteEmail && token) {
 			// This is an invitation - user sets password for existing email
 			email = inviteEmail;
 			isInvitation = true;
 			invitationToken = token;
-			errorMessage = ''; // Clear any error message
-		} else if (type === 'invite' || urlParams.get('from') === 'invite') {
-			// Supabase invitation detected
-			isInvitation = true;
 			errorMessage = ''; // Clear any error message
 		} else if (!$user) {
 			// No invitation and not logged in - show error
