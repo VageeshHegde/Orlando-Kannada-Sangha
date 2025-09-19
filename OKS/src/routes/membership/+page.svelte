@@ -1,5 +1,41 @@
 <script>
 	import { goto } from '$app/navigation';
+	import { onMount } from 'svelte';
+	import { supabase } from '$lib/supabase.js';
+	
+	// QR Code image from S3
+	let qrCodeImage = '';
+	let qrCodeLoaded = false;
+	
+	// Function to load QR code image from S3
+	async function loadQRCodeImage() {
+		try {
+			console.log('🔍 Loading membership QR code from S3...');
+			
+			const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+				.from('OKS')
+				.createSignedUrl('qr-codes/MembershipQR.png', 3600); // 1 hour expiration
+			
+			if (signedUrlError) {
+				console.warn('⚠️ Failed to load MembershipQR.png:', signedUrlError.message);
+				// Fallback to local image
+				qrCodeImage = '/images/MembershipQR.png';
+			} else {
+				console.log('✅ Successfully loaded MembershipQR.png from S3');
+				qrCodeImage = signedUrlData.signedUrl;
+			}
+		} catch (error) {
+			console.warn('⚠️ Error loading QR code from S3:', error);
+			// Fallback to local image
+			qrCodeImage = '/images/MembershipQR.png';
+		} finally {
+			qrCodeLoaded = true;
+		}
+	}
+	
+	onMount(() => {
+		loadQRCodeImage();
+	});
 </script>
 
 <svelte:head>
@@ -51,7 +87,7 @@
 								<div class="col-md-6">
 									<div class="payment-option">
 										<h5><i class="fas fa-link me-2"></i>Payment Link</h5>
-										<a href="https://www.zeffy.com/en-US/ticketing/d0cea646-0ac3-449b-8687-153653b0dc10" target="_blank" class="payment-btn">
+										<a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="payment-btn">
 											<i class="fas fa-credit-card"></i>
 											<span>Payment<br>Link</span>
 										</a>
@@ -61,7 +97,14 @@
 									<div class="payment-option">
 										<h5><i class="fas fa-qrcode me-2"></i>QR Code</h5>
 										<div class="qr-placeholder">
-											<img src="/images/MembershipQR.png" alt="Membership Payment QR Code" style="width: 100%; max-width: 100px; height: auto;">
+											{#if qrCodeLoaded && qrCodeImage}
+												<img src={qrCodeImage} alt="Membership Payment QR Code" style="width: 100%; max-width: 100px; height: auto;">
+											{:else}
+												<div class="qr-loading">
+													<i class="fas fa-spinner fa-spin"></i>
+													<p>Loading QR Code...</p>
+												</div>
+											{/if}
 										</div>
 										<p class="qr-text">Scan to pay</p>
 									</div>
@@ -232,10 +275,32 @@
 		margin: 0;
 	}
 	
-	.qr-container {
+	/* QR Code Loading State */
+	.qr-loading {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
+		padding: 2rem;
+		color: #7a1f1f;
+		text-align: center;
+	}
+	
+	.qr-loading i {
+		font-size: 1.5rem;
+		margin-bottom: 0.5rem;
+		animation: spin 1s linear infinite;
+	}
+	
+	.qr-loading p {
+		margin: 0;
+		font-size: 0.875rem;
+		font-weight: 500;
+	}
+	
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
 	}
 	
 	

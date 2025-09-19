@@ -21,6 +21,10 @@
   // Slider images from S3
   let sliderImages = [];
   let imagesLoaded = false;
+  
+  // Membership QR code from S3
+  let membershipQRImage = '';
+  let membershipQRLoaded = false;
 
   // Auto-popup functionality
   let autoShowPopup = false;
@@ -84,6 +88,32 @@
     } catch (error) {
       console.error('❌ Failed to load event images:', error);
       eventImagesLoaded = true;
+    }
+  }
+
+  // Function to load membership QR code from S3
+  async function loadMembershipQRImage() {
+    try {
+      console.log('🔍 Loading membership QR code from S3...');
+      
+      const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+        .from('OKS')
+        .createSignedUrl('qr-codes/MembershipQR.png', 3600); // 1 hour expiration
+      
+      if (signedUrlError) {
+        console.warn('⚠️ Failed to load MembershipQR.png:', signedUrlError.message);
+        // Fallback to local image
+        membershipQRImage = '/images/MembershipQR.png';
+      } else {
+        console.log('✅ Successfully loaded MembershipQR.png from S3');
+        membershipQRImage = signedUrlData.signedUrl;
+      }
+    } catch (error) {
+      console.warn('⚠️ Error loading QR code from S3:', error);
+      // Fallback to local image
+      membershipQRImage = '/images/MembershipQR.png';
+    } finally {
+      membershipQRLoaded = true;
     }
   }
 
@@ -209,6 +239,8 @@
     // Load event images from S3
     await loadEventImages();
     
+    // Load membership QR code from S3
+    await loadMembershipQRImage();
     
     // Image scroller setup
     scrollContent = document.querySelector('.scroll-content');
@@ -462,13 +494,20 @@
       <div class="membership-card">
         <h5><i class="fas fa-credit-card icon"></i>Payment Options</h5>
         <div class="payment-options">
-          <a href="https://www.zeffy.com/en-US/ticketing/d0cea646-0ac3-449b-8687-153653b0dc10" target="_blank" class="btn btn-primary membership-btn mb-4">
+          <a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary membership-btn mb-4">
             <i class="fas fa-shopping-cart me-2"></i>Membership Payment
           </a>
           <div class="qr-section">
             <p class="text-center mb-3">Or scan QR code</p>
             <div class="qr-placeholder">
-              <img src="/images/MembershipQR.png" alt="Membership QR Code" style="width: 100%; max-width: 120px; height: auto;">
+              {#if membershipQRLoaded && membershipQRImage}
+                <img src={membershipQRImage} alt="Membership QR Code" style="width: 100%; max-width: 120px; height: auto;">
+              {:else}
+                <div class="qr-loading">
+                  <i class="fas fa-spinner fa-spin"></i>
+                  <p>Loading QR Code...</p>
+                </div>
+              {/if}
             </div>
           </div>
         </div>
@@ -999,6 +1038,34 @@
   .loading-state p {
     margin: 0;
     font-weight: 500;
+  }
+
+  /* QR Code Loading State */
+  .qr-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    color: #7a1f1f;
+    text-align: center;
+  }
+
+  .qr-loading i {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    animation: spin 1s linear infinite;
+  }
+
+  .qr-loading p {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+  }
+
+  @keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
   }
 </style>
 
