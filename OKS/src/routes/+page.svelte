@@ -26,6 +26,46 @@
   let membershipQRImage = '';
   let membershipQRLoaded = false;
 
+  // Lifetime members data and images
+  let lifetimeMemberImages = {};
+  let lifetimeMemberImagesLoaded = false;
+
+  // Lifetime members data
+  const lifetimeMembers = [
+    {
+      id: 'member1',
+      name: 'Dr. Rajesh Kumar',
+      position: 'Lifetime Member',
+      year: '2015 - Present',
+      description: 'Dedicated supporter of Kannada culture and community development.',
+      imageFile: 'lifetime_member_1.jpg'
+    },
+    {
+      id: 'member2', 
+      name: 'Mrs. Priya Sharma',
+      position: 'Lifetime Member',
+      year: '2016 - Present',
+      description: 'Active participant in cultural events and community outreach.',
+      imageFile: 'lifetime_member_2.jpg'
+    },
+    {
+      id: 'member3',
+      name: 'Mr. Anil Rao',
+      position: 'Lifetime Member', 
+      year: '2014 - Present',
+      description: 'Long-time supporter of Kannada language and heritage preservation.',
+      imageFile: 'lifetime_member_3.jpg'
+    },
+    {
+      id: 'member4',
+      name: 'Mrs. Meera Patel',
+      position: 'Lifetime Member',
+      year: '2017 - Present', 
+      description: 'Champion of youth engagement and cultural education programs.',
+      imageFile: 'lifetime_member_4.jpg'
+    }
+  ];
+
   // Auto-popup functionality
   let autoShowPopup = false;
 
@@ -114,6 +154,49 @@
       membershipQRImage = '/images/MembershipQR.png';
     } finally {
       membershipQRLoaded = true;
+    }
+  }
+
+  // Function to load lifetime member images from S3
+  async function loadLifetimeMemberImages() {
+    try {
+      console.log('🔍 Loading lifetime member images from S3...');
+      
+      const imagePromises = lifetimeMembers.map(async (member) => {
+        try {
+          const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+            .from('OKS')
+            .createSignedUrl(`lifetime_members/${member.imageFile}`, 3600); // 1 hour expiration
+          
+          if (signedUrlError) {
+            console.warn(`⚠️ Failed to load ${member.imageFile}:`, signedUrlError.message);
+            return { id: member.id, url: null };
+          } else {
+            console.log(`✅ Successfully loaded ${member.imageFile}`);
+            return { id: member.id, url: signedUrlData.signedUrl };
+          }
+        } catch (error) {
+          console.warn(`⚠️ Error loading ${member.imageFile}:`, error);
+          return { id: member.id, url: null };
+        }
+      });
+
+      const imageResults = await Promise.all(imagePromises);
+      
+      lifetimeMemberImages = imageResults.reduce((acc, result) => {
+        if (result.url) {
+          acc[result.id] = result.url;
+        }
+        return acc;
+      }, {});
+
+      console.log(`✅ Successfully loaded ${Object.keys(lifetimeMemberImages).length}/${lifetimeMembers.length} lifetime member images`);
+      
+    } catch (error) {
+      console.error('❌ Failed to load lifetime member images:', error);
+      lifetimeMemberImages = {};
+    } finally {
+      lifetimeMemberImagesLoaded = true;
     }
   }
 
@@ -241,6 +324,9 @@
     
     // Load membership QR code from S3
     await loadMembershipQRImage();
+    
+    // Load lifetime member images from S3
+    await loadLifetimeMemberImages();
     
     // Image scroller setup
     scrollContent = document.querySelector('.scroll-content');
@@ -618,8 +704,49 @@
   </div>
 </section>
 
+<!-- Lifetime Members Section -->
+<section class="section container py-4 my-3">
+  <h3 class="text-center mb-4"><i class="fas fa-crown icon"></i>Lifetime Members</h3>
+  <!-- <h4 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ಜೀವಮಾನ ಸದಸ್ಯರು</h4> -->
+  
+  <!-- Lifetime Members Slider -->
+  <div class="lifetime-members-scroller my-3">
+    <div class="lifetime-scroll-container">
+      <div class="lifetime-scroll-content">
+        <!-- Duplicate the members for seamless loop -->
+        {#each [...lifetimeMembers, ...lifetimeMembers] as member, index}
+          <div class="lifetime-member-slide">
+            <div class="member-image">
+              {#if lifetimeMemberImagesLoaded && lifetimeMemberImages[member.id]}
+                <img src={lifetimeMemberImages[member.id]} alt={member.name} class="member-photo" />
+              {:else}
+                <div class="image-placeholder">
+                  <i class="fas fa-user fa-3x text-muted"></i>
+                  <p class="text-muted small mt-2">Image not available</p>
+                </div>
+              {/if}
+              <div class="image-overlay">
+                <h4 class="member-name">{member.name}</h4>
+                <p class="member-position">{member.position}</p>
+                <p class="member-year">{member.year}</p>
+              </div>
+            </div>
+          </div>
+        {/each}
+      </div>
+    </div>
+  </div>
+  
+  <div class="text-center mt-4">
+    <p class="text-muted">
+      <i class="fas fa-crown me-2"></i>
+      We honor and appreciate the contributions of our lifetime members who have been dedicated supporters of our community.
+    </p>
+  </div>
+</section>
+
 <!-- Sponsors Section -->
-<section class="section container py-4 mt-3">
+<section class="section container py-2 mt-3">
   <h3 class="text-center mb-4"><i class="fas fa-handshake icon"></i>Our Sponsors</h3>
   <div class="row g-4 justify-content-center">
     <div class="col-lg-3 col-md-4 col-sm-6">
@@ -1066,6 +1193,121 @@
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+  }
+
+  /* Lifetime Members Scroller Styles */
+  .lifetime-members-scroller {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    margin: 2rem 0;
+  }
+
+  .lifetime-scroll-container {
+    overflow: hidden;
+    position: relative;
+    padding: 10px;
+  }
+
+  .lifetime-scroll-content {
+    display: flex;
+    gap: 1.8rem;
+    position: relative;
+    animation: lifetimeScroll 50s linear infinite;
+    width: max-content;
+  }
+
+  .lifetime-scroll-content:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes lifetimeScroll {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-320px * 6));
+    }
+  }
+
+  .lifetime-member-slide {
+    flex: 0 0 auto;
+    width: 250px;
+    height: 300px;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    border: 2px solid #f8a07a;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    transition: all 0.4s ease;
+  }
+
+  .lifetime-member-slide:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
+    border-color: #7a1f1f;
+  }
+
+  .lifetime-member-slide .member-image {
+    height: 100%;
+    position: relative;
+  }
+
+  .lifetime-member-slide .member-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .lifetime-member-slide .image-placeholder {
+    height: 100%;
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    border: 2px dashed #6c757d;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .lifetime-member-slide .image-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    color: white;
+    padding: 1rem 0.5rem 0.5rem 0.5rem;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+  }
+
+  .lifetime-member-slide .image-overlay .member-name {
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0 0 0.25rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  }
+
+  .lifetime-member-slide .image-overlay .member-position {
+    color: #f0f0f0;
+    font-size: 0.85rem;
+    font-weight: 500;
+    font-style: italic;
+    margin: 0 0 0.25rem 0;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+  }
+
+  .lifetime-member-slide .image-overlay .member-year {
+    color: #7a1f1f;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin: 0;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 0.2rem 0.5rem;
+    border-radius: 10px;
+    display: inline-block;
   }
 </style>
 

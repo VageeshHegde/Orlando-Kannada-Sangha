@@ -97,7 +97,14 @@
       </a>
     {/if}
   </div>
-  <img src={imageSrc} alt={imageAlt} class="event-img" on:click={openLightbox} />
+  <div class="event-image-container" on:click={openLightbox} on:keydown={(e) => e.key === 'Enter' && openLightbox()} role="button" tabindex="0" aria-label="Open event details">
+    <img src={imageSrc} alt={imageAlt} class="event-img" />
+    {#if imageSrc.includes('picsum.photos')}
+      <div class="tba-overlay">
+        <span class="tba-text">TBA</span>
+      </div>
+    {/if}
+  </div>
 </div>
 
 <!-- Bootstrap Modal with Lightbox Content -->
@@ -265,6 +272,35 @@
   .event-img:hover {
     transform: scale(1.05);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Event Image Container and TBA Overlay */
+  .event-image-container {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+
+  .tba-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    backdrop-filter: blur(2px);
+  }
+
+  .tba-text {
+    color: white;
+    font-weight: bold;
+    font-size: 1.2rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    letter-spacing: 1px;
   }
 
   /* Lightbox Styles */
