@@ -63,7 +63,8 @@
           <ul class="footer-links">
             <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
             <li><a href="/about"><i class="fas fa-users"></i>About Us</a></li>
-            <li><a href="/events"><i class="fas fa-calendar-alt"></i>Events</a></li>
+            <!-- <li><a href="/events"><i class="fas fa-calendar-alt"></i>Events</a></li> -->
+            <li><a href="/membership"><i class="fas fa-id-card"></i>Membership</a></li>
             <li><a href="/kannada-kali"><i class="fas fa-book"></i>Kannada Kali</a></li>
             <li><a href="/gallery"><i class="fas fa-images"></i>Gallery</a></li>
             <li><a href="/blog"><i class="fas fa-blog"></i>Blog</a></li>

@@ -11,7 +11,7 @@
   let scrollContent;
   let googleChartsReady = false;
   let cleanupResize;
-  let membershipYear = new Date().getFullYear();
+  let membershipYear = 2026;
   let yearsSinceFounded = new Date().getFullYear() - 2012;
   
   // Event images from Supabase Storage
