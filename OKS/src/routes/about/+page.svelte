@@ -2,6 +2,7 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import MemberSlider from '$lib/components/MemberSlider.svelte';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase.js';
 	
@@ -23,7 +24,7 @@
 			id: 'vishwa',
 			name: 'Mr. Vishwa',
 			position: 'Vice President',
-			year: '2024 - present', 
+			year: '2025 - present', 
 			description: 'Supporting cultural initiatives and community engagement programs.',
 			imageFile: 'Vishwa.jpg' // Update with actual file name
 		},
@@ -31,7 +32,7 @@
 			id: 'supreeta',
 			name: 'Mrs. Supreeta Bolar',
 			position: 'Secretary',
-			year: '2024 - present',
+			year: '2025 - present',
 			description: 'Managing organizational communications and event coordination.',
 			imageFile: 'Supreeta.jpg' // Update with actual file name
 		},
@@ -39,7 +40,7 @@
 			id: 'sindhu',
 			name: 'Mrs. Sindhu Raju',
 			position: 'Treasurer',
-			year: '2024 - present',
+			year: '2025 - present',
 			description: 'Overseeing financial management and resource allocation.',
 			imageFile: 'Sindhu.jpeg' // Update with actual file name
 		}
@@ -82,8 +83,6 @@
 	// Load board member images from Supabase Storage
 	async function loadBoardMemberImages() {
 		try {
-			console.log('🔍 Loading board member images from Supabase Storage...');
-			
 			// First, let's check what files exist in the board_members folder
 			const { data: files, error: listError } = await supabase.storage
 				.from('OKS')
@@ -92,23 +91,14 @@
 					offset: 0
 				});
 			
-			if (listError) {
-				console.error('❌ Failed to list files in board_members folder:', listError.message);
-			} else {
-				console.log('📁 Files found in board_members folder:', files?.map(f => f.name) || []);
-			}
-			
 			const imagePromises = boardMembers.map(async (member) => {
 				try {
-					console.log(`🔍 Trying to load: board_members/${member.imageFile}`);
-					
 					// Get signed URL for each board member image
 					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
 						.from('OKS')
 						.createSignedUrl(`board_members_2025/${member.imageFile}`, 3600); // 1 hour expiration
 					
 					if (signedUrlError) {
-						console.warn(`⚠️ Failed to create signed URL for ${member.imageFile}:`, signedUrlError.message);
 						// No fallback - just mark as failed
 						return {
 							id: member.id,
@@ -117,14 +107,12 @@
 						};
 					}
 					
-					console.log(`✅ Successfully created signed URL for ${member.imageFile}`);
 					return {
 						id: member.id,
 						url: signedUrlData.signedUrl,
 						success: true
 					};
 				} catch (error) {
-					console.warn(`⚠️ Error processing ${member.imageFile}:`, error.message);
 					return {
 						id: member.id,
 						url: null,
@@ -141,14 +129,9 @@
 				return acc;
 			}, {});
 			
-			const successCount = imageResults.filter(r => r.success).length;
-			console.log(`✅ Successfully loaded ${successCount}/${boardMembers.length} board member images from storage`);
-			console.log('🖼️ Image URLs:', boardMemberImages);
-			
 			imagesLoaded = true;
 			
 		} catch (error) {
-			console.error('❌ Failed to load board member images:', error.message);
 			// No fallback images - just mark as loaded with empty object
 			boardMemberImages = {};
 			imagesLoaded = true;
@@ -317,31 +300,14 @@
 			<!-- Past Board Members Section -->
 			<div class="row mt-5">
 				<div class="col-12">
-					<h2 class="text-center mb-5 board-members-title">Past Board Members</h2>
-					
-					<!-- Past Members Slider -->
-					<div class="past-members-scroller my-5">
-						<div class="past-scroll-container">
-							<div class="past-scroll-content">
-								<!-- Duplicate the members for seamless loop -->
-								{#each [...pastMembers, ...pastMembers] as member, index}
-									<div class="past-member-slide">
-										<div class="member-image">
-											<div class="image-placeholder">
-												<i class="fas fa-user fa-3x text-muted"></i>
-												<p class="text-muted small mt-2">Image not available</p>
-											</div>
-											<div class="image-overlay">
-												<h4 class="member-name">{member.name}</h4>
-												<p class="member-position">{member.position}</p>
-												<p class="member-year">{member.year}</p>
-											</div>
-										</div>
-									</div>
-								{/each}
-							</div>
-						</div>
-					</div>
+					<MemberSlider 
+						members={pastMembers}
+						title="Past Board Members"
+						icon=""
+						showYear={true}
+						showPosition={true}
+						useBoardTitleStyle={true}
+					/>
 					
 					<div class="text-center mt-4">
 						<p class="text-muted">
@@ -941,115 +907,6 @@
 		text-shadow: none;
 	}
 
-	/* Past Members Slider Styles */
-	.past-members-scroller {
-		position: relative;
-		width: 100%;
-		overflow: hidden;
-		margin: 2rem 0;
-	}
-
-	.past-scroll-container {
-		overflow: hidden;
-		position: relative;
-		padding: 10px;
-	}
-
-	.past-scroll-content {
-		display: flex;
-		gap: 1.8rem;
-		position: relative;
-		animation: pastScroll 50s linear infinite;
-		width: max-content;
-	}
-
-	.past-scroll-content:hover {
-		animation-play-state: paused;
-	}
-
-	@keyframes pastScroll {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(calc(-320px * 6));
-		}
-	}
-
-	.past-member-slide {
-		flex: 0 0 auto;
-		width: 250px;
-		height: 300px;
-		border-radius: 20px;
-		overflow: hidden;
-		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
-		border: 2px solid #f8a07a;
-		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-		transition: all 0.4s ease;
-	}
-
-	.past-member-slide:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2);
-		border-color: #7a1f1f;
-	}
-
-	.past-member-slide .member-image {
-		height: 100%;
-		position: relative;
-	}
-
-	.past-member-slide .image-placeholder {
-		height: 100%;
-		background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
-		border: 2px dashed #6c757d;
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.past-member-slide .image-overlay {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-		color: white;
-		padding: 1rem 0.5rem 0.5rem 0.5rem;
-		text-align: center;
-		border-radius: 0 0 20px 20px;
-	}
-
-	.past-member-slide .image-overlay .member-name {
-		color: white;
-		font-size: 1rem;
-		font-weight: 600;
-		margin: 0 0 0.25rem 0;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-	}
-
-	.past-member-slide .image-overlay .member-position {
-		color: #f0f0f0;
-		font-size: 0.85rem;
-		font-weight: 500;
-		font-style: italic;
-		margin: 0 0 0.25rem 0;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-	}
-
-	.past-member-slide .image-overlay .member-year {
-		color: #7a1f1f;
-		font-size: 0.8rem;
-		font-weight: 700;
-		margin: 0;
-		background: rgba(255, 255, 255, 0.9);
-		padding: 0.2rem 0.5rem;
-		border-radius: 10px;
-		display: inline-block;
-		text-shadow: none;
-	}
 
 	/* Loading Placeholder Styles */
 	.loading-placeholder {

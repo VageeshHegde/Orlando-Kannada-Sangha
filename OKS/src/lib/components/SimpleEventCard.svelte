@@ -91,11 +91,18 @@
   <div class="event-info">
     <h5>{title}</h5>
     <p>{date}<br>{location}</p>
-    {#if mapLink}
-      <a href={mapLink} target="_blank" rel="noopener noreferrer" class="card-map-link">
-        <i class="fas fa-map-marker-alt"></i> Location on Google Map
-      </a>
-    {/if}
+    <div class="card-buttons-container">
+      {#if mapLink}
+        <a href={mapLink} target="_blank" rel="noopener noreferrer" class="card-map-link">
+          <i class="fas fa-map-marker-alt"></i> Google Map
+        </a>
+      {/if}
+      {#if memberFormUrl || nonMemberFormUrl}
+        <button class="card-ticket-button" on:click={openLightbox}>
+          <i class="fas fa-ticket-alt"></i> Buy Ticket
+        </button>
+      {/if}
+    </div>
   </div>
   <div class="event-image-container" on:click={openLightbox} on:keydown={(e) => e.key === 'Enter' && openLightbox()} role="button" tabindex="0" aria-label="Open event details">
     <img src={imageSrc} alt={imageAlt} class="event-img" />
@@ -234,11 +241,17 @@
     line-height: 1.4;
   }
 
+  .card-buttons-container {
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+    flex-wrap: wrap;
+  }
+
   .card-map-link {
     display: inline-flex;
     align-items: center;
     gap: 4px;
-    margin-top: 8px;
     padding: 4px 8px;
     background: #7a1f1f;
     color: white;
@@ -256,6 +269,32 @@
   }
 
   .card-map-link i {
+    font-size: 0.8rem;
+  }
+
+  .card-ticket-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    background: #f26c4f;
+    color: white;
+    text-decoration: none;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    cursor: pointer;
+  }
+
+  .card-ticket-button:hover {
+    background: #e55a3a;
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(242, 108, 79, 0.3);
+  }
+
+  .card-ticket-button i {
     font-size: 0.8rem;
   }
 
@@ -428,31 +467,6 @@
 
   .detail-button i {
     font-size: 0.8rem;
-  }
-
-  .map-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 12px;
-    padding: 8px 16px;
-    background: #7a1f1f;
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-  }
-
-  .map-link:hover {
-    background: #8a4b4b;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(122, 31, 31, 0.3);
-  }
-
-  .map-link i {
-    font-size: 1rem;
   }
 
   /* Donation Form Container */
