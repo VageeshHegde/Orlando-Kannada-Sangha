@@ -105,8 +105,8 @@
 													<p>Loading QR Code...</p>
 												</div>
 											{/if}
+											<p class="qr-text">Scan to pay</p>
 										</div>
-										<p class="qr-text">Scan to pay</p>
 									</div>
 								</div>
 							</div>
