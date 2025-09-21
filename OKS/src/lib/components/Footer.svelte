@@ -67,7 +67,7 @@
             <li><a href="/membership"><i class="fas fa-id-card"></i>Membership</a></li>
             <li><a href="/kannada-kali"><i class="fas fa-book"></i>Kannada Kali</a></li>
             <li><a href="/gallery"><i class="fas fa-images"></i>Gallery</a></li>
-            <li><a href="/blog"><i class="fas fa-blog"></i>Blog</a></li>
+            <li><a href="/blog"><i class="fas fa-blog"></i>OKS Blog</a></li>
             <li><a href="/constitution"><i class="fas fa-gavel"></i>Constitution</a></li>
             <li><a href="/by-laws"><i class="fas fa-book-open"></i>By-Laws</a></li>
             <li><a href="https://www.zeffy.com/en-US/donation-form/e9e95cc9-b449-49eb-85c8-cf5efa4a712e" target="_blank" rel="noopener noreferrer"><i class="fas fa-hand-holding-dollar"></i>Donate</a></li>

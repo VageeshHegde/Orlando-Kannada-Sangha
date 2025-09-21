@@ -519,4 +519,9 @@
     font-size: 2rem;
     color: #856404;
   }
+
+  /* Add extra margin-bottom to blog page alert */
+  .login-notice {
+    margin-bottom: 5rem !important;
+  }
 </style>
