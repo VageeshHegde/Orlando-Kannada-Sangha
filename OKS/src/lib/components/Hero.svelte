@@ -186,7 +186,7 @@
              <img src="${iconUrl}" alt="${description}" style="width: 40px; height: 40px; display: block; margin: 0 auto;" />
            </p>
            <p style="color: #444; font-size: 1rem; font-weight: 600; margin-top: 5px;">${data.city}</p>
-           <p style="color: #7a1f1f; font-size: 1.2rem; font-weight: bold; margin-top: 7px;">${temperature}°C</p>
+           <p style="color: #7a1f1f; font-size: 1.2rem; font-weight: bold; margin-top: 7px;">${Math.round((temperature * 9/5) + 32)}°F</p>
            <p style="color: #7a1f1f; font-size: 0.9rem; font-weight: 500; margin-top: 5px; text-transform: capitalize;">${description}</p>
          `;
        }

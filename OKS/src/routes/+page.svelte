@@ -378,12 +378,12 @@
               <a href="/images/OKS7.jpeg" data-lightbox="gallery" data-title="OKS Event 5">
                 <img src="/images/OKS7.jpeg" alt="OKS Event 5" class="scroll-image" loading="lazy">
               </a>
-              <a href="/images/Yakshagana1.png" data-lightbox="gallery" data-title="Yakshagana Performance 1">
+              <!-- <a href="/images/Yakshagana1.png" data-lightbox="gallery" data-title="Yakshagana Performance 1">
                 <img src="/images/Yakshagana1.png" alt="Yakshagana Performance 1" class="scroll-image" loading="lazy">
               </a>
               <a href="/images/Yakshagana2.png" data-lightbox="gallery" data-title="Yakshagana Performance 2">
                 <img src="/images/Yakshagana2.png" alt="Yakshagana Performance 2" class="scroll-image" loading="lazy">
-              </a>
+              </a> -->
             {:else}
               <!-- Loading state -->
               <div class="loading-state">
