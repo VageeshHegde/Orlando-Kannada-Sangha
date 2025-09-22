@@ -22,8 +22,13 @@ export const initAuth = async () => {
     // Check for invitation redirect (no magic link processing)
     const urlParams = new URLSearchParams(window.location.search)
     if (urlParams.get('from') === 'invite') {
-      console.log('🎯 Invitation redirect detected - user should signup manually')
-      // Let the signup page handle the invitation
+      console.log('🎯 Invitation redirect detected - redirecting to register page')
+      // Redirect to register page with email parameter
+      const email = urlParams.get('email')
+      if (email) {
+        window.location.href = `/register?email=${encodeURIComponent(email)}&from=invite`
+        return
+      }
     }
     
     const { session: initialSession } = await auth.getSession()
