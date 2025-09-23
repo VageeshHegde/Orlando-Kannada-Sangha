@@ -15,36 +15,17 @@ export const initAuth = async () => {
 
   try {
     // Get initial session
-    console.log('🔍 Initializing auth...')
-    console.log('🔍 Current URL:', window.location.href)
-    console.log('🔍 URL params:', window.location.search)
     
-    // Check for invitation redirect (no magic link processing)
-    const urlParams = new URLSearchParams(window.location.search)
-    if (urlParams.get('from') === 'invite') {
-      console.log('🎯 Invitation redirect detected - redirecting to register page')
-      // Redirect to register page with email parameter
-      const email = urlParams.get('email')
-      if (email) {
-        window.location.href = `/register?email=${encodeURIComponent(email)}&from=invite`
-        return
-      }
-    }
     
     const { session: initialSession } = await auth.getSession()
     
-    console.log('🔍 Initial session check:', initialSession ? 'Found session' : 'No session')
-    
     if (initialSession) {
-      console.log('🔍 Setting user:', initialSession.user?.email || 'No email')
       session.set(initialSession)
       user.set(initialSession.user)
     }
 
     // Listen for auth changes
     supabase.auth.onAuthStateChange(async (event, currentSession) => {
-      // Log only the event type, not sensitive session data
-      console.log('Auth state changed:', event, currentSession ? 'User logged in' : 'User logged out')
       
       if (currentSession) {
         session.set(currentSession)
@@ -58,30 +39,36 @@ export const initAuth = async () => {
       loading.set(false)
     })
   } catch (error) {
-    console.error('Error initializing auth:', error)
     loading.set(false)
   }
 }
 
 // Auth action functions
 export const authActions = {
-  async signIn(email, password) {
+  async sendMagicLink(email, redirectTo = '/') {
     loading.set(true)
     try {
-      const result = await auth.signIn(email, password)
-      // Don't set loading to false here - let the auth state change handle it
-      return result
-    } catch (error) {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          action: 'magic_link',
+          data: {
+            email: email,
+            redirectTo: redirectTo
+          }
+        })
+      })
+      
+      const result = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to send magic link')
+      }
+      
       loading.set(false)
-      throw error
-    }
-  },
-
-  async signUp(email, password, userData = {}) {
-    loading.set(true)
-    try {
-      const result = await auth.signUp(email, password, userData)
-      // Don't set loading to false here - let the auth state change handle it
       return result
     } catch (error) {
       loading.set(false)
@@ -101,29 +88,11 @@ export const authActions = {
       // Don't set loading to false here - let the auth state change handle it
       return result
     } catch (error) {
-      console.warn('Signout error, clearing local state:', error.message || error)
       // Clear local state even if server signout fails
       user.set(null)
       session.set(null)
       loading.set(false)
       return { error }
-    }
-  },
-
-  async resetPassword(email) {
-    const result = await auth.resetPassword(email)
-    return result
-  },
-
-  async updatePassword(newPassword) {
-    loading.set(true)
-    try {
-      const result = await auth.updatePassword(newPassword)
-      loading.set(false)
-      return result
-    } catch (error) {
-      loading.set(false)
-      throw error
     }
   },
 
