@@ -397,7 +397,7 @@
     }
 
     .footer-links {
-      grid-template-columns: 1fr;
+      grid-template-columns: 2fr 2fr;
       gap: 0.5rem;
     }
   }
