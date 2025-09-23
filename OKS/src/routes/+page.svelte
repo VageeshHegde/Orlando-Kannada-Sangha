@@ -18,10 +18,37 @@
   // Event images from Supabase Storage
   let eventImages = {};
   let eventImagesLoaded = false;
+
+  // Reactive statement to reinitialize lightbox when images are loaded
+  $: if (eventImagesLoaded && window.lightbox) {
+    setTimeout(() => {
+      if (window.lightbox) {
+        window.lightbox.init();
+      }
+    }, 100);
+  }
   
   // Slider images from S3
   let sliderImages = [];
   let imagesLoaded = false;
+
+  // Reactive statement to reinitialize lightbox when slider images are loaded
+  $: if (imagesLoaded && window.lightbox) {
+    setTimeout(() => {
+      if (window.lightbox) {
+        window.lightbox.init();
+        // Add click handlers to ensure lightbox works
+        document.querySelectorAll('a[data-lightbox="gallery"]').forEach(link => {
+          link.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (window.lightbox) {
+              window.lightbox.start(link);
+            }
+          });
+        });
+      }
+    }, 100);
+  }
   
   // Membership QR code from S3
   let membershipQRImage = '';
@@ -270,6 +297,23 @@
     
     // Image scroller setup
     scrollContent = document.querySelector('.scroll-content');
+
+    // Initialize lightbox after images are loaded
+    if (window.lightbox) {
+      window.lightbox.option({
+        'resizeDuration': 200,
+        'wrapAround': true,
+        'showImageNumberLabel': true,
+        'albumLabel': 'Image %1 of %2'
+      });
+      
+      // Reinitialize lightbox to bind to new images
+      setTimeout(() => {
+        if (window.lightbox) {
+          window.lightbox.init();
+        }
+      }, 100);
+    }
 
     // Google Charts GeoChart setup
     loadGoogleCharts()
@@ -961,12 +1005,6 @@
     font-size: 1.3rem;
   }
   
-  .thank-you-sponsors-content p {
-    color: #555;
-    font-size: 1rem;
-    line-height: 1.6;
-    margin-bottom: 1rem;
-  }
   
   .thank-you-sponsors-content .fas.fa-heart {
     animation: heartbeat 2s ease-in-out infinite;

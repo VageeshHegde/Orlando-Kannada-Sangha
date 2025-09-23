@@ -380,24 +380,6 @@
 <Footer />
 
 <style>
-	.text-justify {
-		text-align: justify;
-	}
-	
-	.card {
-		border: 2px solid #7a1f1f;
-		border-radius: 15px;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-	}
-	
-	.card-title {
-		color: #7a1f1f;
-		font-weight: bold;
-	}
-	
-	h3 {
-		color: #7a1f1f;
-	}
 
 	/* History Content Styles */
 	.history-content {
@@ -477,20 +459,6 @@
 	}
 
 	/* Community Section Styles */
-	.community-heading {
-		font-size: 2.2rem;
-		font-weight: 700;
-		color: #333;
-		margin-bottom: 1.5rem;
-		line-height: 1.2;
-	}
-
-	.community-text {
-		font-size: 1.1rem;
-		color: #666;
-		line-height: 1.7;
-		margin-bottom: 2rem;
-	}
 
 	.community-btn {
 		background: linear-gradient(135deg, #7a1f1f 0%, #5a1515 100%);
@@ -604,9 +572,6 @@
 			line-height: 1.7;
 		}
 
-		.community-heading {
-			font-size: 1.8rem;
-		}
 
 		.desktop-only {
 			display: none !important;
@@ -772,140 +737,7 @@
 		margin: 0;
 	}
 
-	/* Author Section Styles */
-	.author-section {
-		margin-top: 1rem;
-		padding-top: 0.5rem;
-		text-align: right;
-	}
 
-	.author-text {
-		font-size: 1.1rem;
-		color: #7a1f1f;
-		font-style: italic;
-		margin: 0;
-		font-weight: 500;
-	}
-
-	/* Web Team Section Styles */
-	.web-team-card {
-		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-		border: 2px solid #6c757d;
-		transition: all 0.3s ease;
-	}
-
-	.web-team-card:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 8px 25px rgba(108, 117, 125, 0.2);
-		border-color: #495057;
-	}
-
-	.web-tech-stack {
-		margin-top: 1rem;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.5rem;
-		justify-content: center;
-	}
-
-	.tech-badge {
-		background: linear-gradient(135deg, #7a1f1f 0%, #a52a2a 100%);
-		color: white;
-		padding: 0.25rem 0.75rem;
-		border-radius: 15px;
-		font-size: 0.75rem;
-		font-weight: 500;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-	}
-
-	.web-team-card .member-name {
-		color: #495057;
-	}
-
-	.web-team-card .member-position {
-		color: #6c757d;
-		font-weight: 600;
-	}
-
-	/* Past Board Members Styles */
-	.past-member-card {
-		background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-		border: 2px solid #6c757d;
-		transition: all 0.3s ease;
-		opacity: 0.9;
-	}
-
-	.past-member-card:hover {
-		transform: translateY(-3px);
-		box-shadow: 0 6px 20px rgba(108, 117, 125, 0.15);
-		border-color: #495057;
-		opacity: 1;
-	}
-
-	.past-member-card .member-name {
-		color: #495057;
-		font-weight: 600;
-	}
-
-	.past-member-card .member-position {
-		color: #6c757d;
-		font-weight: 500;
-		font-style: italic;
-	}
-
-	.past-member-card .member-year {
-		color: #7a1f1f;
-		font-weight: 600;
-		font-size: 0.9rem;
-		margin-top: 0.5rem;
-	}
-
-	.past-member-card .image-placeholder {
-		background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
-		border: 2px dashed #6c757d;
-		position: relative;
-	}
-
-	.past-member-card .image-overlay {
-		position: absolute;
-		bottom: 0;
-		left: 0;
-		right: 0;
-		background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
-		color: white;
-		padding: 1rem 0.5rem 0.5rem 0.5rem;
-		text-align: center;
-		border-radius: 0 0 15px 15px;
-	}
-
-	.past-member-card .image-overlay .member-name {
-		color: white;
-		font-size: 1rem;
-		font-weight: 600;
-		margin: 0 0 0.25rem 0;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-	}
-
-	.past-member-card .image-overlay .member-position {
-		color: #f0f0f0;
-		font-size: 0.85rem;
-		font-weight: 500;
-		font-style: italic;
-		margin: 0 0 0.25rem 0;
-		text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
-	}
-
-	.past-member-card .image-overlay .member-year {
-		color: #7a1f1f;
-		font-size: 0.8rem;
-		font-weight: 700;
-		margin: 0;
-		background: rgba(255, 255, 255, 0.9);
-		padding: 0.2rem 0.5rem;
-		border-radius: 10px;
-		display: inline-block;
-		text-shadow: none;
-	}
 
 
 	/* Loading Placeholder Styles */
@@ -941,56 +773,6 @@
 		margin-right: auto;
 	}
 
-	/* Author Section Styles */
-	.author-section {
-		text-align: center;
-		padding: 2rem 1rem;
-		margin: 2rem 0;
-		background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
-		border-radius: 15px;
-		border: 1px solid rgba(122, 31, 31, 0.1);
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-	}
-
-	.author-divider {
-		height: 2px;
-		background: linear-gradient(90deg, transparent 0%, #7a1f1f 50%, transparent 100%);
-		margin: 1rem auto;
-		width: 200px;
-		border-radius: 1px;
-	}
-
-	.author-content {
-		padding: 1rem 0;
-	}
-
-	.author-text {
-		font-size: 1.1rem;
-		color: #2c3e50;
-		margin-bottom: 1rem;
-		font-style: italic;
-	}
-
-	.author-text i {
-		color: #7a1f1f;
-	}
-
-	.author-signature {
-		font-size: 1.2rem;
-		font-weight: 600;
-		color: #7a1f1f;
-		margin-bottom: 0.5rem;
-		font-family: 'Georgia', serif;
-	}
-
-	.author-date {
-		font-size: 0.9rem;
-		margin-bottom: 0;
-	}
-
-	.author-date i {
-		color: #6c757d;
-	}
 
 	/* History Author Styles */
 	.history-author {

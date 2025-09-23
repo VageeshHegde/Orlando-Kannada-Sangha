@@ -299,10 +299,6 @@
 <Footer />
 
 <style>
-  /* Blog Posts Container */
-  .blog-posts-container {
-    width: 100%;
-  }
 
   /* Blog Post Card */
   .blog-post-card {

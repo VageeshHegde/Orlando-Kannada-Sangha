@@ -1,24 +1,19 @@
 <script>
 	import { goto } from '$app/navigation';
-	import { authActions } from '$lib/stores/auth.js';
 	import { onMount } from 'svelte';
 	
 	// Form state
 	let email = '';
-	let password = '';
-	let rememberMe = false;
 	let isLoading = false;
 	let errorMessage = '';
 	let successMessage = '';
-	let showPassword = false;
+	let magicLinkSent = false;
 	
 	// Form validation
 	let emailError = '';
-	let passwordError = '';
 	
 	// Check for registration success message
 	onMount(() => {
-		
 		if (typeof window !== 'undefined') {
 			const urlParams = new URLSearchParams(window.location.search);
 			if (urlParams.get('registered') === 'true') {
@@ -35,13 +30,12 @@
 		return emailRegex.test(email);
 	}
 	
-	// Handle form submission
-	async function handleLogin(event) {
+	// Handle magic link login
+	async function handleMagicLinkLogin(event) {
 		event.preventDefault();
 		
 		// Reset errors
 		emailError = '';
-		passwordError = '';
 		errorMessage = '';
 		successMessage = '';
 		
@@ -56,80 +50,46 @@
 			return;
 		}
 		
-		if (!password) {
-			passwordError = 'Password is required';
-			return;
-		}
-		
-		if (password.length < 6) {
-			passwordError = 'Password must be at least 6 characters long';
-			return;
-		}
-		
 		isLoading = true;
 		
 		try {
-			// Use Supabase authentication
-			const { data, error } = await authActions.signIn(email, password);
+			// Send magic link
+			const response = await fetch('/api/auth', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({
+					action: 'magic_link',
+					data: {
+						email: email,
+						redirectTo: '/'
+					}
+				})
+			});
 			
-			if (error) {
-				// Handle specific Supabase errors
-				if (error.message.includes('Invalid login credentials')) {
-					errorMessage = 'Invalid email or password. Please check your credentials and try again.';
-				} else if (error.message.includes('Email not confirmed')) {
-					errorMessage = 'Please check your email and click the confirmation link before signing in.';
-				} else if (error.message.includes('Too many requests')) {
-					errorMessage = 'Too many login attempts. Please wait a moment before trying again.';
-				} else {
-					errorMessage = error.message || 'Login failed. Please try again.';
-				}
+			const result = await response.json();
+			
+			if (!response.ok) {
+				errorMessage = result.error || 'Failed to send login link. Please try again.';
 				return;
 			}
 			
-			if (data?.user) {
-				// Show success message for all users
-				successMessage = 'Login successful! Redirecting...';
-				setTimeout(() => {
-					goto('/');
-				}, 1000);
-			}
+			// Show success message
+			magicLinkSent = true;
+			successMessage = 'Login link sent! Check your email and click the link to login.';
+			
 		} catch (error) {
-			console.error('Login error:', error);
+			console.error('Magic link error:', error);
 			errorMessage = 'An unexpected error occurred. Please try again.';
 		} finally {
 			isLoading = false;
 		}
 	}
 	
-	// Handle forgot password
-	async function handleForgotPassword() {
-		if (!email) {
-			emailError = 'Please enter your email address first';
-			return;
-		}
-		
-		if (!validateEmail(email)) {
-			emailError = 'Please enter a valid email address';
-			return;
-		}
-		
-		try {
-			const { error } = await authActions.resetPassword(email);
-			
-			if (error) {
-				errorMessage = error.message || 'Failed to send reset email. Please try again.';
-			} else {
-				successMessage = 'Password reset email sent! Check your inbox.';
-			}
-		} catch (error) {
-			console.error('Password reset error:', error);
-			errorMessage = 'Failed to send reset email. Please try again.';
-		}
-	}
-	
-	// Toggle password visibility
-	function togglePasswordVisibility() {
-		showPassword = !showPassword;
+	// Resend magic link
+	async function resendMagicLink() {
+		await handleMagicLinkLogin(new Event('submit'));
 	}
 	
 </script>
@@ -182,108 +142,92 @@
 						</div>
 					{/if}
 					
-					<!-- Login Form -->
-					<form on:submit={handleLogin} class="login-form">
-						<!-- Email Field -->
-						<div class="form-group">
-							<label for="email" class="form-label">Email Address</label>
-							<div class="input-group">
-								<span class="input-group-text">
-									<i class="fas fa-envelope"></i>
-								</span>
-								<input
-									type="email"
-									id="email"
-									bind:value={email}
-									class="form-control {emailError ? 'is-invalid' : ''}"
-									placeholder="Enter your email"
-									disabled={isLoading}
-									autocomplete="email"
-								/>
-							</div>
-							{#if emailError}
-								<div class="invalid-feedback d-block">
-									{emailError}
+					<!-- Login Link Form -->
+					{#if !magicLinkSent}
+						<form on:submit={handleMagicLinkLogin} class="login-form">
+							<!-- Email Field -->
+							<div class="form-group">
+								<label for="email" class="form-label">Email Address</label>
+								<div class="input-group">
+									<span class="input-group-text">
+										<i class="fas fa-envelope"></i>
+									</span>
+									<input
+										type="email"
+										id="email"
+										bind:value={email}
+										class="form-control {emailError ? 'is-invalid' : ''}"
+										placeholder="Enter your email"
+										disabled={isLoading}
+										autocomplete="email"
+									/>
 								</div>
-							{/if}
-						</div>
-						
-						<!-- Password Field -->
-						<div class="form-group">
-							<label for="password" class="form-label">Password</label>
-							<div class="input-group">
-								<span class="input-group-text">
-									<i class="fas fa-lock"></i>
-								</span>
-								<input
-									type={showPassword ? 'text' : 'password'}
-									id="password"
-									bind:value={password}
-									class="form-control {passwordError ? 'is-invalid' : ''}"
-									placeholder="Enter your password"
-									disabled={isLoading}
-									autocomplete="current-password"
-								/>
+								{#if emailError}
+									<div class="invalid-feedback d-block">
+										{emailError}
+									</div>
+								{/if}
+							</div>
+							
+							<!-- Submit Button -->
+							<button
+								type="submit"
+								class="btn btn-primary btn-lg w-100"
+								disabled={isLoading}
+							>
+								{#if isLoading}
+									<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+									Sending Login Link...
+								{:else}
+									<i class="fas fa-paper-plane me-2"></i>
+									Send Login Link
+								{/if}
+							</button>
+						</form>
+					{:else}
+						<!-- Login Link Sent Success -->
+						<div class="magic-link-success">
+							<div class="text-center mb-4">
+								<i class="fas fa-envelope-open-text fa-3x text-primary mb-3"></i>
+								<h4>Check Your Email!</h4>
+								<p class="text-muted">We've sent a login link to <strong>{email}</strong></p>
+								<p class="text-muted">Click the link in your email to login instantly.</p>
+							</div>
+							
+							<div class="d-grid gap-2">
 								<button
 									type="button"
-									class="btn btn-outline-secondary password-toggle"
-									on:click={togglePasswordVisibility}
+									class="btn btn-outline-primary"
+									on:click={resendMagicLink}
 									disabled={isLoading}
 								>
-									<i class="fas {showPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
+									{#if isLoading}
+										<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+										Sending...
+									{:else}
+										<i class="fas fa-redo me-2"></i>
+										Resend Login Link
+									{/if}
+								</button>
+								
+								<button
+									type="button"
+									class="btn btn-outline-secondary"
+									on:click={() => { magicLinkSent = false; email = ''; }}
+								>
+									<i class="fas fa-arrow-left me-2"></i>
+									Use Different Email
 								</button>
 							</div>
-							{#if passwordError}
-								<div class="invalid-feedback d-block">
-									{passwordError}
-								</div>
-							{/if}
 						</div>
-						
-						<!-- Remember Me & Forgot Password Row -->
-						<div class="row align-items-center mb-3">
-							<div class="col-6">
-								<div class="form-check">
-									<input
-										type="checkbox"
-										id="rememberMe"
-										bind:checked={rememberMe}
-										class="form-check-input"
-										disabled={isLoading}
-									/>
-									<label for="rememberMe" class="form-check-label">
-										Remember me
-									</label>
-								</div>
-							</div>
-							<div class="col-6 text-end">
-								<a href="#" class="forgot-password-link" on:click|preventDefault={handleForgotPassword}>
-									Forgot password?
-								</a>
-							</div>
-						</div>
-						
-						<!-- Login Button -->
-						<button
-							type="submit"
-							class="btn btn-primary login-btn w-100"
-							disabled={isLoading}
-						>
-							{#if isLoading}
-								<span class="spinner-border spinner-border-sm me-2" role="status"></span>
-								Signing in...
-							{:else}
-								<i class="fas fa-sign-in-alt me-2"></i>
-								Sign In
-							{/if}
-						</button>
-					</form>
-					
+					{/if}
 					
 					<!-- Register Link -->
-					<div class="register-link">
-						<p>Don't have an account? <a href="/membership">Create one here</a></p>
-					</div>
+					{#if !magicLinkSent}
+						<div class="register-link">
+							<p>Don't have an account? <a href="/membership">Create one here</a></p>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -410,76 +354,6 @@
 		box-shadow: 0 0 0 0.2rem rgba(242, 108, 79, 0.25);
 	}
 	
-	.password-toggle {
-		border-left: none;
-		color: #666;
-	}
-	
-	.password-toggle:hover {
-		color: #f26c4f;
-	}
-	
-	/* Form options now using Bootstrap grid - no custom CSS needed */
-	
-	.form-check-label {
-		color: #666;
-		font-size: 14px;
-	}
-	
-	.forgot-password-link {
-		color: #f26c4f;
-		text-decoration: none;
-		font-size: 14px;
-		transition: color 0.3s ease;
-	}
-	
-	.forgot-password-link:hover {
-		color: #d4572f;
-		text-decoration: underline;
-	}
-	
-	.login-btn {
-		background: linear-gradient(135deg, #f26c4f 0%, #d4572f 100%);
-		border: none;
-		padding: 15px;
-		font-size: 16px;
-		font-weight: 600;
-		border-radius: 10px;
-		transition: all 0.3s ease;
-	}
-	
-	.login-btn:hover:not(:disabled) {
-		background: linear-gradient(135deg, #d4572f 0%, #b8472a 100%);
-		transform: translateY(-2px);
-		box-shadow: 0 8px 20px rgba(242, 108, 79, 0.3);
-	}
-	
-	.login-btn:disabled {
-		opacity: 0.7;
-		cursor: not-allowed;
-	}
-	
-	.forgot-password-link {
-		text-align: center;
-		margin-top: 1rem;
-	}
-
-	.forgot-password-link p {
-		margin: 0;
-		font-size: 0.9rem;
-	}
-
-	.forgot-password-link a {
-		color: #f26c4f;
-		text-decoration: none;
-		font-weight: 500;
-		transition: color 0.3s ease;
-	}
-
-	.forgot-password-link a:hover {
-		color: #e55a3f;
-		text-decoration: underline;
-	}
 	
 	.register-link {
 		text-align: center;
@@ -513,6 +387,20 @@
 	.spinner-border-sm {
 		width: 1rem;
 		height: 1rem;
+	}
+	
+	.magic-link-success {
+		text-align: center;
+		padding: 20px 0;
+	}
+	
+	.magic-link-success h4 {
+		color: #7a1f1f;
+		margin-bottom: 10px;
+	}
+	
+	.magic-link-success .fa-envelope-open-text {
+		color: #7a1f1f;
 	}
 	
 			/* Responsive Design */

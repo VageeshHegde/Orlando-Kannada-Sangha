@@ -7,22 +7,17 @@
 	let firstName = '';
 	let lastName = '';
 	let email = '';
-	let password = '';
-	let confirmPassword = '';
 	let phone = '';
 	let agreeToTerms = false;
 	let subscribeNewsletter = true;
 	let isLoading = false;
 	let errorMessage = '';
 	let successMessage = '';
-	let showPassword = false;
-	let showConfirmPassword = false;
+	let magicLinkSent = false;
 	
 	// Form validation errors
 	let firstNameError = '';
 	let lastNameError = '';
-	let passwordError = '';
-	let confirmPasswordError = '';
 	let phoneError = '';
 	let termsError = '';
 	
@@ -44,31 +39,15 @@
 		return phoneRegex.test(phone.replace(/[\s\-\(\)]/g, ''));
 	}
 	
-	// Password strength validation
-	function validatePassword(password) {
-		const minLength = password.length >= 8;
-		const hasUpper = /[A-Z]/.test(password);
-		const hasLower = /[a-z]/.test(password);
-		const hasNumber = /\d/.test(password);
-		const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
-		
-		return {
-			isValid: minLength && hasUpper && hasLower && hasNumber,
-			minLength,
-			hasUpper,
-			hasLower,
-			hasNumber,
-			hasSpecial
-		};
-	}
+	// No password validation needed for magic link
 	
-	// Auto-fill email from URL parameters
+	// Auto-fill email from URL parameters (for direct registration)
 	onMount(() => {
 		const urlParams = new URLSearchParams(window.location.search);
-		const inviteEmail = urlParams.get('email');
+		const prefillEmail = urlParams.get('email');
 		
-		if (inviteEmail) {
-			email = inviteEmail;
+		if (prefillEmail) {
+			email = prefillEmail;
 			errorMessage = '';
 		}
 	});
@@ -81,8 +60,6 @@
 		// Reset errors
 		firstNameError = '';
 		lastNameError = '';
-		passwordError = '';
-		confirmPasswordError = '';
 		phoneError = '';
 		termsError = '';
 		errorMessage = '';
@@ -114,24 +91,6 @@
 			hasErrors = true;
 		}
 		
-		
-		const passwordValidation = validatePassword(password);
-		if (!password) {
-			passwordError = 'Password is required';
-			hasErrors = true;
-		} else if (!passwordValidation.isValid) {
-			passwordError = 'Password must be at least 8 characters with uppercase, lowercase, and number';
-			hasErrors = true;
-		}
-		
-		if (!confirmPassword) {
-			confirmPasswordError = 'Please confirm your password';
-			hasErrors = true;
-		} else if (password !== confirmPassword) {
-			confirmPasswordError = 'Passwords do not match';
-			hasErrors = true;
-		}
-		
 		if (!phone) {
 			phoneError = 'Phone number is required';
 			hasErrors = true;
@@ -150,28 +109,17 @@
 		isLoading = true;
 		
 		try {
-			// Prepare user data
-			const userData = {
-				first_name: firstName.trim(),
-				last_name: lastName.trim(),
-				phone: phone.trim() || null,
-				subscribe_newsletter: subscribeNewsletter
-			};
-			
-			// Use existing auth API to update user profile
+			// Send magic link for registration
 			const response = await fetch('/api/auth', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({
-					action: 'update_user_profile',
+					action: 'magic_link',
 					data: {
 						email: email,
-						updates: {
-							password: password,
-							user_metadata: userData
-						}
+						redirectTo: '/register?success=true'
 					}
 				})
 			});
@@ -179,16 +127,13 @@
 			const result = await response.json();
 			
 			if (!response.ok) {
-				errorMessage = result.error || 'An error occurred during registration';
+				errorMessage = result.error || 'Failed to send magic link. Please try again.';
 				return;
 			}
 			
-			successMessage = 'Account created successfully! You can now login with your credentials.';
-			
-			// Redirect to login after success
-			setTimeout(() => {
-				goto('/login?message=password-set');
-			}, 2000);
+			// Show success message
+			magicLinkSent = true;
+			successMessage = 'Magic link sent! Check your email and click the link to complete registration.';
 			
 		} catch (error) {
 			console.error('Registration error:', error);
@@ -198,22 +143,11 @@
 		}
 	}
 	
-	// Toggle password visibility
-	function togglePasswordVisibility() {
-		showPassword = !showPassword;
-	}
-	
-	function toggleConfirmPasswordVisibility() {
-		showConfirmPassword = !showConfirmPassword;
-	}
-	
-	
 	// Real-time validation feedback
 	$: firstNameValidation = firstName ? validateName(firstName) : null;
 	$: lastNameValidation = lastName ? validateName(lastName) : null;
 	$: emailValidation = email ? validateEmail(email) : null;
 	$: phoneValidation = phone ? validatePhone(phone) : null;
-	$: passwordValidation = validatePassword(password);
 </script>
 
 <svelte:head>
@@ -265,7 +199,8 @@
 					{/if}
 					
 					<!-- Registration Form -->
-					<form on:submit={handleRegister} class="register-form">
+					{#if !magicLinkSent}
+						<form on:submit={handleRegister} class="register-form">
 						<!-- Email Field (invitation-only) -->
 						<div class="form-group">
 							<label for="email" class="form-label">Email Address</label>
@@ -387,102 +322,10 @@
 							</small>
 						</div>
 						
-						<!-- Password Field -->
-						<div class="form-group">
-							<label for="password" class="form-label">Password *</label>
-							<div class="input-group">
-								<span class="input-group-text">
-									<i class="fas fa-lock"></i>
-								</span>
-								<input
-									type={showPassword ? 'text' : 'password'}
-									id="password"
-									bind:value={password}
-									class="form-control {passwordError ? 'is-invalid' : passwordValidation.isValid ? 'is-valid' : ''}"
-									placeholder="Create a secure password"
-									disabled={isLoading}
-									autocomplete="new-password"
-								/>
-								<button
-									type="button"
-									class="btn btn-outline-secondary password-toggle"
-									on:click={togglePasswordVisibility}
-									disabled={isLoading}
-									aria-label="Toggle password visibility"
-								>
-									<i class="fas {showPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
-								</button>
-							</div>
-							{#if passwordError}
-								<div class="invalid-feedback d-block">
-									{passwordError}
-								</div>
-							{/if}
-							
-							<!-- Password Strength Indicator -->
-							{#if password}
-								<div class="password-strength mt-2">
-									<div class="strength-bar">
-										<div class="strength-fill" class:weak={!passwordValidation.isValid} class:strong={passwordValidation.isValid}></div>
-									</div>
-									<div class="strength-requirements">
-										<div class="requirement" class:met={passwordValidation.minLength}>
-											<i class="fas {passwordValidation.minLength ? 'fa-check text-success' : 'fa-times text-danger'}"></i>
-											At least 8 characters
-										</div>
-										<div class="requirement" class:met={passwordValidation.hasUpper}>
-											<i class="fas {passwordValidation.hasUpper ? 'fa-check text-success' : 'fa-times text-danger'}"></i>
-											Uppercase letter
-										</div>
-										<div class="requirement" class:met={passwordValidation.hasLower}>
-											<i class="fas {passwordValidation.hasLower ? 'fa-check text-success' : 'fa-times text-danger'}"></i>
-											Lowercase letter
-										</div>
-										<div class="requirement" class:met={passwordValidation.hasNumber}>
-											<i class="fas {passwordValidation.hasNumber ? 'fa-check text-success' : 'fa-times text-danger'}"></i>
-											Number
-										</div>
-									</div>
-								</div>
-							{/if}
-						</div>
-						
-						<!-- Confirm Password Field -->
-						<div class="form-group">
-							<label for="confirmPassword" class="form-label">Confirm Password *</label>
-							<div class="input-group">
-								<span class="input-group-text">
-									<i class="fas fa-lock"></i>
-								</span>
-								<input
-									type={showConfirmPassword ? 'text' : 'password'}
-									id="confirmPassword"
-									bind:value={confirmPassword}
-									class="form-control {confirmPasswordError ? 'is-invalid' : confirmPassword && password === confirmPassword ? 'is-valid' : ''}"
-									placeholder="Confirm your password"
-									disabled={isLoading}
-									autocomplete="new-password"
-								/>
-								<button
-									type="button"
-									class="btn btn-outline-secondary password-toggle"
-									on:click={toggleConfirmPasswordVisibility}
-									disabled={isLoading}
-									aria-label="Toggle confirm password visibility"
-								>
-									<i class="fas {showConfirmPassword ? 'fa-eye-slash' : 'fa-eye'}"></i>
-								</button>
-							</div>
-							{#if confirmPasswordError}
-								<div class="invalid-feedback d-block">
-									{confirmPasswordError}
-								</div>
-							{:else if confirmPassword && password === confirmPassword}
-								<div class="valid-feedback d-block">
-									<i class="fas fa-check-circle me-1"></i>
-									Passwords match
-								</div>
-							{/if}
+						<!-- Magic Link Info -->
+						<div class="alert alert-info">
+							<i class="fas fa-info-circle me-2"></i>
+							<strong>No Password Required!</strong> We'll send you a magic link to complete your registration.
 						</div>
 						
 						<!-- Terms and Conditions -->
@@ -536,12 +379,51 @@
 								Register
 							{/if}
 						</button>
-					</form>
+						</form>
+					{:else}
+						<!-- Magic Link Sent Success -->
+						<div class="magic-link-success">
+							<div class="text-center mb-4">
+								<i class="fas fa-envelope-open-text fa-3x text-primary mb-3"></i>
+								<h4>Check Your Email!</h4>
+								<p class="text-muted">We've sent a magic link to <strong>{email}</strong></p>
+								<p class="text-muted">Click the link in your email to complete your registration.</p>
+							</div>
+							
+							<div class="d-grid gap-2">
+								<button
+									type="button"
+									class="btn btn-outline-primary"
+									on:click={() => { magicLinkSent = false; }}
+									disabled={isLoading}
+								>
+									{#if isLoading}
+										<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+										Sending...
+									{:else}
+										<i class="fas fa-redo me-2"></i>
+										Resend Magic Link
+									{/if}
+								</button>
+								
+								<button
+									type="button"
+									class="btn btn-outline-secondary"
+									on:click={() => { magicLinkSent = false; email = ''; }}
+								>
+									<i class="fas fa-arrow-left me-2"></i>
+									Use Different Email
+								</button>
+							</div>
+						</div>
+					{/if}
 					
 					<!-- Login Link -->
-					<div class="login-link">
-						<p>Already have an account? <a href="/login">Sign in here</a></p>
-					</div>
+					{#if !magicLinkSent}
+						<div class="login-link">
+							<p>Already have an account? <a href="/login">Sign in here</a></p>
+						</div>
+					{/if}
 				</div>
 			</div>
 		</div>
@@ -696,55 +578,18 @@
 		display: block;
 	}
 	
-	.password-toggle {
-		border-left: none;
-		color: #666;
+	.magic-link-success {
+		text-align: center;
+		padding: 20px 0;
 	}
 	
-	.password-toggle:hover {
-		color: #f26c4f;
+	.magic-link-success h4 {
+		color: #7a1f1f;
+		margin-bottom: 10px;
 	}
 	
-	.password-strength {
-		margin-top: 10px;
-	}
-	
-	.strength-bar {
-		height: 4px;
-		background-color: #e9ecef;
-		border-radius: 2px;
-		overflow: hidden;
-		margin-bottom: 8px;
-	}
-	
-	.strength-fill {
-		height: 100%;
-		width: 0%;
-		transition: all 0.3s ease;
-		background-color: #dc3545;
-	}
-	
-	.strength-fill.weak {
-		width: 25%;
-		background-color: #dc3545;
-	}
-	
-	.strength-fill.strong {
-		width: 100%;
-		background-color: #28a745;
-	}
-	
-	.strength-requirements {
-		display: grid;
-		grid-template-columns: 1fr 1fr;
-		gap: 4px;
-		font-size: 12px;
-	}
-	
-	.requirement {
-		display: flex;
-		align-items: center;
-		gap: 4px;
+	.magic-link-success .fa-envelope-open-text {
+		color: #7a1f1f;
 	}
 	
 	.form-check-input:checked {
@@ -839,8 +684,5 @@
 			font-size: 24px;
 		}
 		
-		.strength-requirements {
-			grid-template-columns: 1fr;
-		}
 	}
 </style>

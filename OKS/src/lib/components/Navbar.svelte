@@ -256,10 +256,10 @@
                     </div>
                   </div>
                 </div>
-                <div class="dropdown-divider"></div>
+                <!-- <div class="dropdown-divider"></div>
 							<button class="dropdown-item" on:click={resetPassword}>
 								<i class="fas fa-key me-2"></i>Reset Password
-							</button>
+							</button> -->
                 <div class="dropdown-divider"></div>
                 <button class="dropdown-item logout-btn" on:click={handleLogout}>
                   <i class="fas fa-sign-out-alt me-2"></i>Logout
