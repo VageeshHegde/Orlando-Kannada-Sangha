@@ -250,7 +250,7 @@
                       {#if userProfile.memberSince}
                         <p class="member-duration">
                           <i class="fas fa-calendar-alt me-1"></i>
-                          {userProfile.memberSince} old member
+                          Joined {userProfile.memberSince} ago
                         </p>
                       {/if}
                     </div>
