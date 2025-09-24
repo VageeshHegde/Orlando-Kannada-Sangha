@@ -150,6 +150,48 @@
 			position: 'Former Secretary',
 			year: '2013-2015',
 			imageFile: 'Praveen-Setty.jpeg'
+		},
+		{
+			id: 'girish-budibetta',
+			name: 'Mr. Girish Budibetta',
+			position: 'Former President',
+			year: '2012-2013',
+			imageFile: 'Girish-Budibetta.jpeg'
+		},
+		{
+			id: 'pradeep-krishnamurthy',
+			name: 'Mr. Pradeep Krishnamurthy',
+			position: 'Former President',
+			year: '2015-2016',
+			imageFile: 'Pradeep-Krishnamurthy.jpg'
+		},
+		{
+			id: 'yadav-olety',
+			name: 'Mr. Yadav Olety',
+			position: 'Former Secretary',
+			year: '2013-2014',
+			imageFile: 'Yadav-Olety.jpg'
+		},
+		{
+			id: 'umesh-krishnaswamy',
+			name: 'Mr. Umesh Krishnaswamy',
+			position: 'Former President',
+			year: '2014-2015',
+			imageFile: 'Umesh-Krishnaswamy.jpg'
+		},
+		{
+			id: 'manjula-babaladi',
+			name: 'Ms. Manjula Babaladi',
+			position: 'Former President',
+			year: '2020-2022',
+			imageFile: 'Manjula-Babaladi.jpeg'
+		},
+		{
+			id: 'vinay-amatiganahalli',
+			name: 'Mr. Vinay Amatiganahalli',
+			position: 'Former President',
+			year: '2022-2023',
+			imageFile: 'Vinay-Amatiganahalli.jpg'
 		}
 	];
 	
