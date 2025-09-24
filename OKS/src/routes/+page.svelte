@@ -502,9 +502,9 @@
               </div>
               <div class="mt-3 text-center">
                 <p class="small text-muted mb-2">Or you can download the Donation Form below and email it to:</p>
-                <a href="mailto:boardmember@orlandokannadasangha.org" class="sponsor-email">
-                  <i class="fas fa-envelope me-2"></i>boardmember@orlandokannadasangha.org
-                </a>
+                  <a href="mailto:board@orlandokannadasangha.org" class="sponsor-email">
+                    <i class="fas fa-envelope me-2"></i>board@orlandokannadasangha.org
+                  </a>
               </div>
               <div class="bottom-content">
               <div class="mt-3 text-center">
@@ -561,7 +561,7 @@
         <div class="price-card">
           <div class="price-header">Family</div>
           <div class="price-amount">$500</div>
-          <div class="price-period">per Family (Husband-Wife and their Kid)</div>
+          <div class="price-period">per Family (Husband-Wife and their Kids)</div>
         </div>
       </div>
     </div>
@@ -816,6 +816,9 @@
   }
   .membership-section .price-header {
     margin-bottom: 0.5rem;
+  }
+  .membership-section .price-period {
+    font-size: 0.88rem;
   }
 
   /* Lightbox customizations */

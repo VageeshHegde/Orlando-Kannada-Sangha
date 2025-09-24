@@ -90,7 +90,7 @@
             </div>
             <div class="contact-item">
               <i class="fas fa-envelope"></i>
-              <a href="mailto:boardmember@orlandokannadasangha.org">boardmember@orlandokannadasangha.org</a>
+              <a href="mailto:board@orlandokannadasangha.org">board@orlandokannadasangha.org</a>
             </div>
             <div class="contact-item">
               <i class="fas fa-map-marker-alt"></i>
