@@ -11,15 +11,31 @@
 	export let showYear = true;
 	export let showPosition = true;
 	export let useBoardTitleStyle = false;
+	export let images = {};
+	export let imagesLoaded = false;
 
 	// State
 	let memberImages = {};
-	let imagesLoaded = false;
+	let localImagesLoaded = false;
 
 	// Load member images from Supabase Storage
 	async function loadMemberImages() {
+		// If images are already provided and loaded, use them
+		if (imagesLoaded && images && Object.keys(images).length > 0) {
+			memberImages = images;
+			localImagesLoaded = true;
+			return;
+		}
+		
+		// If images are provided but not yet loaded, wait for them
+		if (images && Object.keys(images).length > 0) {
+			memberImages = images;
+			localImagesLoaded = true;
+			return;
+		}
+		
 		if (!folderPath || members.length === 0) {
-			imagesLoaded = true;
+			localImagesLoaded = true;
 			return;
 		}
 
@@ -59,11 +75,17 @@
 				return acc;
 			}, {});
 
-			imagesLoaded = true;
+			localImagesLoaded = true;
 			
 		} catch (error) {
-			imagesLoaded = true;
+			localImagesLoaded = true;
 		}
+	}
+
+	// Reactive statement to update images when they change
+	$: if (imagesLoaded && images) {
+		memberImages = images;
+		localImagesLoaded = true;
 	}
 
 	onMount(() => {
@@ -96,7 +118,7 @@
 				{#each [...members, ...members] as member, index}
 					<div class="member-slide">
 						<div class="member-image">
-							{#if imagesLoaded && memberImages[member.id]}
+							{#if (imagesLoaded || localImagesLoaded) && memberImages[member.id]}
 								<img src={memberImages[member.id]} alt={member.name} class="member-photo" />
 							{:else}
 								<div class="image-placeholder">

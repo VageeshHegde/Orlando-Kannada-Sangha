@@ -6,11 +6,15 @@
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase.js';
 	
-	// Board member images from Supabase Storage
+	// Image storage
 	let boardMemberImages = {};
 	let imagesLoaded = false;
+	let webTeamImages = {};
+	let webTeamImagesLoaded = false;
+	let pastMemberImages = {};
+	let pastMemberImagesLoaded = false;
 	
-	// Board members data with their image file names
+	// Board members data
 	const boardMembers = [
 		{
 			id: 'venugopal',
@@ -18,7 +22,7 @@
 			position: 'President',
 			year: '2024 - present',
 			description: 'Leading the organization with dedication and vision for Kannada culture preservation.',
-			imageFile: 'Venugopal.jpeg' // Update with actual file name
+			imageFile: 'Venugopal.jpeg'
 		},
 		{
 			id: 'vishwa',
@@ -26,7 +30,7 @@
 			position: 'Vice President',
 			year: '2025 - present', 
 			description: 'Supporting cultural initiatives and community engagement programs.',
-			imageFile: 'Vishwa.jpg' // Update with actual file name
+			imageFile: 'Vishwa.jpg'
 		},
 		{
 			id: 'supreeta',
@@ -34,7 +38,7 @@
 			position: 'Secretary',
 			year: '2025 - present',
 			description: 'Managing organizational communications and event coordination.',
-			imageFile: 'Supreeta.jpg' // Update with actual file name
+			imageFile: 'Supreeta.jpg'
 		},
 		{
 			id: 'sindhu',
@@ -42,48 +46,95 @@
 			position: 'Treasurer',
 			year: '2025 - present',
 			description: 'Overseeing financial management and resource allocation.',
-			imageFile: 'Sindhu.jpeg' // Update with actual file name
+			imageFile: 'Sindhu.jpeg'
+		}
+	];
+	
+	// Web development team data
+	const webTeamMembers = [
+		{
+			id: 'ai-assistant',
+			name: 'Mr. Venugopal Kulkarni',
+			position: 'Content Segmentation',
+			year: '2025 - present',
+			description: 'Website architecture and content organization',
+			imageFile: 'Venugopal.jpeg'
+		},
+		{
+			id: 'backend-team',
+			name: 'Mrs. Vedashri Bhat',
+			position: 'Guidance & Hosting',
+			year: '2025 - present',
+			description: 'Project guidance and hosting management',
+			imageFile: 'Backend-Team.png'
+		},
+		{
+			id: 'design-team',
+			name: 'Mrs. Supreeta Bolar',
+			position: 'Design & Data Collection',
+			year: '2025 - present',
+			description: 'UI/UX design and data management',
+			imageFile: 'Supreeta.jpg'
+		},
+		{
+			id: 'devops-team',
+			name: 'Mr. Vageesh Hegde',
+			position: 'Development',
+			year: '2025 - present',
+			description: 'Core development and implementation',
+			imageFile: 'Vageesh.jpg'
 		}
 	];
 	
 	// Past board members data
 	const pastMembers = [
 		{
-			name: 'Mr. Rajesh Kumar',
-			position: 'Former President',
-			year: '2020-2022'
-		},
-		{
-			name: 'Mrs. Priya Sharma',
-			position: 'Former Secretary',
-			year: '2019-2021'
-		},
-		{
-			name: 'Mr. Suresh Reddy',
-			position: 'Former Treasurer',
-			year: '2018-2020'
-		},
-		{
-			name: 'Mrs. Lakshmi Patel',
+			id: 'shamala-purohit',
+			name: 'Ms. Shamala Purohit',
 			position: 'Former Vice President',
-			year: '2017-2019'
+			year: '2015-2016',
+			imageFile: 'Shamala-Purohit.jpg'
 		},
 		{
-			name: 'Mr. Anand Rao',
+			id: 'suresh-sanka',
+			name: 'Mr. Suresh Sanka',
 			position: 'Former President',
-			year: '2015-2017'
+			year: '2018-2019',
+			imageFile: 'Suresh-Sanka.jpeg'
 		},
 		{
+			id: 'rajesh-muguda',
+			name: 'Mr. Rajesh Muguda',
+			position: 'Former Vice President',
+			year: '2023-2024',
+			imageFile: 'Rajesh-Muguda.jpeg'
+		},
+		{
+			id: 'deepa-jambagi',
+			name: 'Mrs. Deepa Jambagi',
+			position: 'Former Vice President',
+			year: '2017-2018',
+			imageFile: 'Deepa-Jambagi.jpeg'
+		},
+		{
+			id: 'arjun-narayan',
+			name: 'Mr. Arjun Narayan',
+			position: 'Former Treasurer',
+			year: '2021-2022',
+			imageFile: 'Arjun-Narayan.jpeg'
+		},
+		{
+			id: 'sunita-joshi',
 			name: 'Mrs. Sunita Joshi',
 			position: 'Former Secretary',
-			year: '2013-2015'
+			year: '2013-2015',
+			imageFile: 'Sunita-Joshi.jpg'
 		}
 	];
 	
 	// Load board member images from Supabase Storage
 	async function loadBoardMemberImages() {
 		try {
-			// First, let's check what files exist in the board_members folder
 			const { data: files, error: listError } = await supabase.storage
 				.from('OKS')
 				.list('board_members_2025', {
@@ -93,13 +144,11 @@
 			
 			const imagePromises = boardMembers.map(async (member) => {
 				try {
-					// Get signed URL for each board member image
 					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
 						.from('OKS')
-						.createSignedUrl(`board_members_2025/${member.imageFile}`, 3600); // 1 hour expiration
+						.createSignedUrl(`board_members_2025/${member.imageFile}`, 3600);
 					
 					if (signedUrlError) {
-						// No fallback - just mark as failed
 						return {
 							id: member.id,
 							url: null,
@@ -123,7 +172,6 @@
 			
 			const imageResults = await Promise.all(imagePromises);
 			
-			// Convert to object for easy lookup
 			boardMemberImages = imageResults.reduce((acc, result) => {
 				acc[result.id] = result.url;
 				return acc;
@@ -132,14 +180,107 @@
 			imagesLoaded = true;
 			
 		} catch (error) {
-			// No fallback images - just mark as loaded with empty object
 			boardMemberImages = {};
 			imagesLoaded = true;
 		}
 	}
 	
+	// Load web team images from Supabase Storage
+	async function loadWebTeamImages() {
+		try {
+			const imagePromises = webTeamMembers.map(async (member) => {
+				try {
+					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+						.from('OKS')
+						.createSignedUrl(`web_development_team/${member.imageFile}`, 3600);
+					
+					if (signedUrlError) {
+						return {
+							id: member.id,
+							url: null,
+							success: false
+						};
+					}
+					
+					return {
+						id: member.id,
+						url: signedUrlData.signedUrl,
+						success: true
+					};
+				} catch (error) {
+					return {
+						id: member.id,
+						url: null,
+						success: false
+					};
+				}
+			});
+			
+			const imageResults = await Promise.all(imagePromises);
+			
+			webTeamImages = imageResults.reduce((acc, result) => {
+				acc[result.id] = result.url;
+				return acc;
+			}, {});
+			
+			webTeamImagesLoaded = true;
+			
+		} catch (error) {
+			webTeamImages = {};
+			webTeamImagesLoaded = true;
+		}
+	}
+
+	// Load past board member images from Supabase Storage
+	async function loadPastMemberImages() {
+		try {
+			const imagePromises = pastMembers.map(async (member) => {
+				try {
+					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+						.from('OKS')
+						.createSignedUrl(`past_board_members/${member.imageFile}`, 3600);
+					
+					if (signedUrlError) {
+						return {
+							id: member.id,
+							url: null,
+							success: false
+						};
+					}
+					
+					return {
+						id: member.id,
+						url: signedUrlData.signedUrl,
+						success: true
+					};
+				} catch (error) {
+					return {
+						id: member.id,
+						url: null,
+						success: false
+					};
+				}
+			});
+			
+			const imageResults = await Promise.all(imagePromises);
+			
+			pastMemberImages = imageResults.reduce((acc, result) => {
+				acc[result.id] = result.url;
+				return acc;
+			}, {});
+			
+			pastMemberImagesLoaded = true;
+			
+		} catch (error) {
+			pastMemberImages = {};
+			pastMemberImagesLoaded = true;
+		}
+	}
+
 	onMount(() => {
 		loadBoardMemberImages();
+		loadWebTeamImages();
+		loadPastMemberImages();
 	});
 </script>
 
@@ -307,6 +448,8 @@
 						showYear={true}
 						showPosition={true}
 						useBoardTitleStyle={true}
+						images={pastMemberImages}
+						imagesLoaded={pastMemberImagesLoaded}
 					/>
 					
 					<div class="text-center mt-4">
@@ -318,61 +461,44 @@
 				</div>
 			</div>
 
+
 			<!-- Web Development Team Section -->
 			<!-- <div class="row mt-5">
 				<div class="col-12">
 					<h2 class="text-center mb-5 board-members-title">Web Development Team</h2>
+
 					<div class="row justify-content-center">
-						<div class="col-lg-4 col-md-6 mb-4">
-							<div class="board-member-card web-team-card">
-								<div class="member-image">
-									<img src="https://picsum.photos/300/300?random=20" alt="Web Developer" class="member-img">
-								</div>
-								<div class="member-info">
-									<h4 class="member-name">Your Name Here</h4>
-									<p class="member-position">Web Developer</p>
-									<p class="member-description">Designed and developed the Orlando Kannada Sangha website using modern web technologies.</p>
-									<div class="web-tech-stack">
-										<span class="tech-badge">SvelteKit</span>
-										<span class="tech-badge">Supabase</span>
-										<span class="tech-badge">Bootstrap</span>
+						{#each webTeamMembers as member}
+							<div class="col-lg-3 col-md-6 mb-4">
+								<div class="board-member-card">
+									<div class="member-image">
+										{#if webTeamImagesLoaded && webTeamImages[member.id]}
+											<img 
+												src={webTeamImages[member.id]} 
+												alt={member.name} 
+												class="member-img"
+												loading="lazy"
+											>
+										{:else}
+											<div class="image-placeholder">
+												<i class="fas fa-user fa-3x text-muted"></i>
+												<p class="text-muted small mt-2">Image not available</p>
+											</div>
+										{/if}
+									</div>
+									<div class="member-info">
+										<h4 class="member-name">{member.name}</h4>
+										<p class="member-position">{member.position}</p>
+										<p class="member-year">{member.year}</p>
+										<p class="member-description">{member.description}</p>
 									</div>
 								</div>
 							</div>
-						</div>
-						<!-- Add more team members here if needed 
-					</div>
-					<div class="text-center mt-4">
-						<p class="text-muted">
-							<i class="fas fa-code me-2"></i>
-							Built with ❤️ for the Orlando Kannada Community
-						</p>
+						{/each}
 					</div>
 				</div>
 			</div> -->
 
-			<!-- Author Section -->
-			<!-- <div class="row mt-5">
-				<div class="col-12">
-					<div class="author-section">
-						<div class="author-divider"></div>
-						<div class="author-content">
-							<p class="author-text">
-								<i class="fas fa-feather-alt me-2"></i>
-								<em>Written with pride and dedication for the Orlando Kannada Community</em>
-							</p>
-							<p class="author-signature">
-								— Orlando Kannada Sangha Board
-							</p>
-							<p class="author-date text-muted">
-								<i class="far fa-calendar-alt me-2"></i>
-								Updated September 2024
-							</p>
-						</div>
-						<div class="author-divider"></div>
-					</div>
-				</div>
-			</div> -->
 		</div>
 	</div>
 </main>
@@ -556,6 +682,7 @@
 		grid-row: span 1;
 		border-radius: 35px 40px 25px 30px;
 	}
+
 
 	/* Responsive Design */
 	@media (max-width: 768px) {
