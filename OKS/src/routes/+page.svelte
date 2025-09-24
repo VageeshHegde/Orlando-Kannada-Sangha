@@ -437,8 +437,8 @@
             {/if}
           </div>
         </div>
-        <button class="scroll-button left" on:click={() => scrollImages('left')}><i class="fas fa-chevron-left"></i></button>
-        <button class="scroll-button right" on:click={() => scrollImages('right')}><i class="fas fa-chevron-right"></i></button>
+		<!-- <button class="scroll-button left" on:click={() => scrollImages('left')}><i class="fas fa-chevron-left"></i></button>
+		<button class="scroll-button right" on:click={() => scrollImages('right')}><i class="fas fa-chevron-right"></i></button> -->
       </div>
       
       <div class="row text-center g-4">
