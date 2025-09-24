@@ -124,11 +124,32 @@
 			imageFile: 'Arjun-Narayan.jpeg'
 		},
 		{
-			id: 'sunita-joshi',
-			name: 'Mrs. Sunita Joshi',
+			id: 'latha-budibetta',
+			name: 'Mrs. Latha Budibetta',
+			position: 'Former Secretary',
+			year: '2021-2022',
+			imageFile: 'Latha-Budibetta.jpeg'
+		},
+		{
+			id: 'kiran-babaladi',
+			name: 'Mr. Kiran Babaladi',
+			position: 'Former President',
+			year: '2017-2018',
+			imageFile: 'Kiran-Babaladi.jpeg'
+		},
+		{
+			id: 'suresh-babu-bangalore',
+			name: 'Mr. Suresh Babu Bangalore',
+			position: 'Former Secretary',
+			year: '2012-2013',
+			imageFile: 'Suresh-Babu-Bangalore.jpg'
+		},
+		{
+			id: 'praveen-setty',
+			name: 'Mr. Praveen Setty',
 			position: 'Former Secretary',
 			year: '2013-2015',
-			imageFile: 'Sunita-Joshi.jpg'
+			imageFile: 'Praveen-Setty.jpeg'
 		}
 	];
 	
