@@ -92,9 +92,9 @@
       id: 'member5',
       name: 'Mr. Suresh Babu Bangalore',
       position: 'And Family',
-      year: '2012 - Present',
+      year: '2025 - Present',
       description: 'Long-time supporter of Kannada language and heritage preservation.',
-      imageFile: 'lifetime_member_5.jpg'
+      imageFile: 'Suresh-Babu-Bangalore.jpg'
     }
   ];
 

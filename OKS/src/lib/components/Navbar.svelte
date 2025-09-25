@@ -200,7 +200,7 @@
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
       <span class="navbar-toggler-icon"></span>
     </button>
-          <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav me-3">
         <li class="nav-item"><a class="nav-link {isActive('/') ? 'active' : ''}" href="/"><i class="fas fa-home me-2" aria-hidden="true"></i>Home</a></li>
         <li class="nav-item"><a class="nav-link {isActive('/about') ? 'active' : ''}" href="/about"><i class="fas fa-users me-2" aria-hidden="true"></i>About</a></li>
