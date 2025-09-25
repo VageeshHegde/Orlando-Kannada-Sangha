@@ -90,7 +90,7 @@
 	const pastMembers = [
 		{
 			id: 'shamala-purohit',
-			name: 'Ms. Shamala Purohit',
+			name: 'Mrs. Shamala Purohit',
 			position: 'Former Vice President',
 			year: '2015-2016',
 			imageFile: 'Shamala-Purohit.jpg'
@@ -184,7 +184,7 @@
 			name: 'Ms. Manjula Babaladi',
 			position: 'Former President',
 			year: '2020-2022',
-			imageFile: 'Manjula-Babaladi.jpeg'
+			imageFile: 'Manjula-Babaladi.jpg'
 		},
 		{
 			id: 'vinay-amatiganahalli',
@@ -206,6 +206,13 @@
 			position: 'Former Secretary',
 			year: '2014-2015',
 			imageFile: 'Rajashekar-Jambagi.jpeg'
+		},
+		{
+			id: 'samyukta-jujare',
+			name: 'Mrs. Samyukta Jujare',
+			position: 'Former President',
+			year: '2019-2020',
+			imageFile: 'Samyukta-Jujare.jpg'
 		}
 	];
 	

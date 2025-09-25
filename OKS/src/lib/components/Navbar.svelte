@@ -207,11 +207,7 @@
         <!-- <li class="nav-item"><a class="nav-link {isActive('/events') ? 'active' : ''}" href="/events"><i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>Events</a></li> -->
         <li class="nav-item"><a class="nav-link {isActive('/kannada-kali') ? 'active' : ''}" href="/kannada-kali"><i class="fas fa-book me-2" aria-hidden="true"></i>Kannada Kali</a></li>
         <li class="nav-item"><a class="nav-link {isActive('/gallery') ? 'active' : ''}" href="/gallery"><i class="fas fa-image me-2" aria-hidden="true"></i>Gallery</a></li>
-        {#if isLoggedIn}
-          <li class="nav-item"><a class="nav-link {isActive('/blog') ? 'active' : ''}" href="/blog"><i class="fas fa-blog me-2" aria-hidden="true"></i>Blog</a></li>
-        {:else}
-          <li class="nav-item"><a class="nav-link" href="/#donate"><i class="fas fa-hand-holding-dollar me-2" aria-hidden="true"></i>Donate</a></li>
-        {/if}
+        <li class="nav-item"><a class="nav-link {isActive('/blog') ? 'active' : ''}" href="/blog"><i class="fas fa-blog me-2" aria-hidden="true"></i>Blog</a></li>
         <li class="nav-item"><a class="nav-link" href="#footer"><i class="fas fa-envelope me-2" aria-hidden="true"></i>Contact</a></li>
       </ul>
       
