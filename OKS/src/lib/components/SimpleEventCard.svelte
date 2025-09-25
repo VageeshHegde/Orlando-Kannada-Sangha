@@ -164,7 +164,10 @@
         {:else}
           <!-- Non-Member Form - Show when user is not logged in -->
           <div class="non-member-info mb-3">
-            <i class="fas fa-info-circle"></i> Non-member registration
+            <i class="fas fa-info-circle"></i> Non-member ticket purchase
+          </div>
+          <div class="member-info mb-3">
+            <i class="fas fa-user-check"></i> If you are a member, please login to buy the ticket
           </div>
           <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
             <iframe 
@@ -525,6 +528,21 @@
   }
 
   .non-member-info i {
+    margin-right: 8px;
+    font-size: 1.1rem;
+  }
+
+  .member-info {
+    background: linear-gradient(135deg, #ffc107, #e0a800);
+    color: #212529;
+    padding: 12px 20px;
+    border-radius: 8px;
+    text-align: center;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);
+  }
+
+  .member-info i {
     margin-right: 8px;
     font-size: 1.1rem;
   }
