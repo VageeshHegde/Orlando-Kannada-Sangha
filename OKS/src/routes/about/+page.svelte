@@ -192,6 +192,20 @@
 			position: 'Former President',
 			year: '2022-2023',
 			imageFile: 'Vinay-Amatiganahalli.jpg'
+		},
+		{
+			id: 'lokesha-krishnamurthy',
+			name: 'Mr. Lokesha Krishnamurthy',
+			position: 'Former Treasurer',
+			year: '',
+			imageFile: 'Lokesha-Krishnamurthy.jpeg'
+		},
+		{
+			id: 'rajashekar-jambagi',
+			name: 'Mr. Rajashekar Jambagi ',
+			position: 'Former Secretary',
+			year: '2014-2015',
+			imageFile: 'Rajashekar-Jambagi.jpeg'
 		}
 	];
 	

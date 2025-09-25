@@ -58,16 +58,16 @@
   const lifetimeMembers = [
     {
       id: 'member1',
-      name: 'Dr. Rajesh Kumar',
-      position: 'Lifetime Member',
-      year: '2015 - Present',
+      name: 'Mr. Vinay Amatiganahally',
+      position: 'And Family',
+      year: '2025 - Present',
       description: 'Dedicated supporter of Kannada culture and community development.',
-      imageFile: 'lifetime_member_1.jpg'
+      imageFile: 'Vinay-Amati.jpg'
     },
     {
       id: 'member2', 
       name: 'Mrs. Priya Sharma',
-      position: 'Lifetime Member',
+      position: 'And Family',
       year: '2016 - Present',
       description: 'Active participant in cultural events and community outreach.',
       imageFile: 'lifetime_member_2.jpg'
@@ -75,7 +75,7 @@
     {
       id: 'member3',
       name: 'Mr. Anil Rao',
-      position: 'Lifetime Member', 
+      position: 'And Family', 
       year: '2014 - Present',
       description: 'Long-time supporter of Kannada language and heritage preservation.',
       imageFile: 'lifetime_member_3.jpg'
@@ -83,10 +83,18 @@
     {
       id: 'member4',
       name: 'Mrs. Meera Patel',
-      position: 'Lifetime Member',
+      position: 'And Family',
       year: '2017 - Present', 
       description: 'Champion of youth engagement and cultural education programs.',
       imageFile: 'lifetime_member_4.jpg'
+    },
+    {
+      id: 'member5',
+      name: 'Mr. Suresh Babu Bangalore',
+      position: 'And Family',
+      year: '2012 - Present',
+      description: 'Long-time supporter of Kannada language and heritage preservation.',
+      imageFile: 'lifetime_member_5.jpg'
     }
   ];
 
@@ -699,7 +707,7 @@
 <section class="section container py-4 my-3">
   <MemberSlider 
     members={lifetimeMembers}
-    title="Lifetime Members"
+    title="Our Lifetime Members"
     icon="fas fa-crown"
     folderPath="lifetime_members"
     showYear={true}
