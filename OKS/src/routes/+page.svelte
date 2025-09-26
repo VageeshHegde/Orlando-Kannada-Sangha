@@ -756,11 +756,9 @@
 <!-- Lifetime Members Section -->
 <section class="section container py-4 my-3">
   {#if lifetimeMembersLoading}
-    <div class="text-center py-4">
-      <div class="spinner-border text-primary" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-      <p class="mt-2">Loading lifetime members...</p>
+    <div class="loading-state">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Loading lifetime members...</p>
     </div>
   {:else if lifetimeMembersError}
     <div class="alert alert-warning text-center">

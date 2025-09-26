@@ -372,7 +372,7 @@
 							disabled={isLoading}
 						>
 							{#if isLoading}
-								<span class="spinner-border spinner-border-sm me-2" role="status"></span>
+								<i class="fas fa-spinner fa-spin me-2"></i>
 								Processing...
 							{:else}
 								<i class="fas fa-user-plus me-2"></i>
@@ -398,7 +398,7 @@
 									disabled={isLoading}
 								>
 									{#if isLoading}
-										<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+										<i class="fas fa-spinner fa-spin me-2"></i>
 										Sending...
 									{:else}
 										<i class="fas fa-redo me-2"></i>
@@ -668,10 +668,6 @@
 		margin-top: 5px;
 	}
 	
-	.spinner-border-sm {
-		width: 1rem;
-		height: 1rem;
-	}
 	
 	/* Responsive Design */
 	@media (max-width: 576px) {

@@ -171,13 +171,9 @@
       <div class="container">
         <div class="pdf-viewer-wrapper">
           {#if loading}
-            <div class="pdf-loading">
-              <div class="text-center">
-                <div class="spinner-border text-primary" role="status">
-                  <span class="visually-hidden">Loading...</span>
-                </div>
-                <p class="mt-3">Loading Constitution PDF...</p>
-              </div>
+            <div class="loading-state">
+              <i class="fas fa-spinner fa-spin"></i>
+              <p>Loading Constitution PDF...</p>
             </div>
           {/if}
 
@@ -250,22 +246,27 @@
     background-color: #f8f9fa;
   }
 
-  .pdf-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 10;
-  }
-
-  .pdf-loading p {
+  /* Loading state for all components */
+  .loading-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 200px;
+    width: 100%;
     color: #6c757d;
-    margin-bottom: 0;
+    text-align: center;
+    padding: 2rem;
   }
 
-  .spinner-border {
-    width: 3rem;
-    height: 3rem;
+  .loading-state i {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .loading-state p {
+    margin: 0;
+    font-size: 0.9rem;
   }
 
   .alert {

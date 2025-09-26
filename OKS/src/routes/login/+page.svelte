@@ -176,7 +176,7 @@
 								disabled={isLoading}
 							>
 								{#if isLoading}
-									<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+									<i class="fas fa-spinner fa-spin me-2"></i>
 									Sending Login Link...
 								{:else}
 									<i class="fas fa-paper-plane me-2"></i>
@@ -202,7 +202,7 @@
 									disabled={isLoading}
 								>
 									{#if isLoading}
-										<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+										<i class="fas fa-spinner fa-spin me-2"></i>
 										Sending...
 									{:else}
 										<i class="fas fa-redo me-2"></i>
@@ -384,10 +384,6 @@
 		margin-bottom: 20px;
 	}
 	
-	.spinner-border-sm {
-		width: 1rem;
-		height: 1rem;
-	}
 	
 	.magic-link-success {
 		text-align: center;

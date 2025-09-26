@@ -446,11 +446,9 @@
 							imagesLoaded={pastMemberImagesLoaded}
 						/>
 					{:else}
-						<div class="text-center py-5">
-							<div class="spinner-border text-primary" role="status">
-								<span class="visually-hidden">Loading...</span>
-							</div>
-							<p class="mt-3 text-muted">Loading past board members...</p>
+						<div class="loading-state">
+							<i class="fas fa-spinner fa-spin"></i>
+							<p>Loading past board members...</p>
 						</div>
 					{/if}
 					
@@ -865,8 +863,28 @@
 		margin: 0;
 	}
 
+	/* Loading state for all components */
+	.loading-state {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 200px;
+		width: 100%;
+		color: #6c757d;
+		text-align: center;
+		padding: 2rem;
+	}
 
+	.loading-state i {
+		font-size: 2rem;
+		margin-bottom: 1rem;
+	}
 
+	.loading-state p {
+		margin: 0;
+		font-size: 0.9rem;
+	}
 
 	/* Loading Placeholder Styles */
 	.loading-placeholder {
