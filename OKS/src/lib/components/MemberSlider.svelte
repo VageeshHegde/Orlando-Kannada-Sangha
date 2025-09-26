@@ -128,8 +128,8 @@
 							{/if}
 							<div class="image-overlay">
 								<h4 class="member-name">{member.name}</h4>
-								{#if showPosition && member.position}
-									<p class="member-position">{member.position}</p>
+								{#if showPosition && (member.tag_line || member.position)}
+									<p class="member-position">{member.tag_line || member.position}</p>
 								{/if}
 								{#if showYear && member.year}
 									<p class="member-year">{member.year}</p>
