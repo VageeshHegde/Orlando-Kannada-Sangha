@@ -86,142 +86,36 @@
 		}
 	];
 	
-	// Past board members data (arranged chronologically from oldest to newest)
-	const pastMembers = [
-		{
-			id: 'member1',
-			name: 'Mr. Girish Budibetta',
-			position: 'Former President',
-			year: '2012-2013',
-			imageFile: 'Girish-Budibetta.jpeg'
-		},
-		{
-			id: 'member2',
-			name: 'Mr. Suresh Babu Bangalore',
-			position: 'Former Secretary',
-			year: '2012-2013',
-			imageFile: 'Suresh-Babu-Bangalore.jpg'
-		},
-		{
-			id: 'member3',
-			name: 'Mr. Yadav Olety',
-			position: 'Former Secretary',
-			year: '2013-2014',
-			imageFile: 'Yadav-Olety.jpg'
-		},
-		{
-			id: 'member4',
-			name: 'Mr. Praveen Setty',
-			position: 'Former Secretary',
-			year: '2013-2015',
-			imageFile: 'Praveen-Setty.jpeg'
-		},
-		{
-			id: 'member5',
-			name: 'Mr. Umesh Krishnaswamy',
-			position: 'Former President',
-			year: '2014-2015',
-			imageFile: 'Umesh-Krishnaswamy.jpg'
-		},
-		{
-			id: 'member6',
-			name: 'Mr. Rajashekar Jambagi ',
-			position: 'Former Secretary',
-			year: '2014-2015',
-			imageFile: 'Rajashekar-Jambagi.jpeg'
-		},
-		{
-			id: 'member7',
-			name: 'Mrs. Shamala Purohit',
-			position: 'Former Vice President',
-			year: '2015-2016',
-			imageFile: 'Shamala-Purohit.jpg'
-		},
-		{
-			id: 'member8',
-			name: 'Mr. Pradeep Krishnamurthy',
-			position: 'Former President',
-			year: '2015-2016',
-			imageFile: 'Pradeep-Krishnamurthy.jpg'
-		},
-		{
-			id: 'member9',
-			name: 'Mr. Kiran Babaladi',
-			position: 'Former President',
-			year: '2017-2018',
-			imageFile: 'Kiran-Babaladi.jpeg'
-		},
-		{
-			id: 'member10',
-			name: 'Mrs. Deepa Jambagi',
-			position: 'Former Vice President',
-			year: '2017-2018',
-			imageFile: 'Deepa-Jambagi.jpeg'
-		},
-		{
-			id: 'member11',
-			name: 'Mr. Suresh Sanka',
-			position: 'Former President',
-			year: '2018-2019',
-			imageFile: 'Suresh-Sanka.jpeg'
-		},
-		{
-			id: 'member12',
-			name: 'Mrs. Samyukta Jujare',
-			position: 'Former President',
-			year: '2019-2020',
-			imageFile: 'Samyukta-Jujare.jpg'
-		},
-		{
-			id: 'member13',
-			name: 'Ms. Manjula Babaladi',
-			position: 'Former President',
-			year: '2020-2022',
-			imageFile: 'Manjula-Babaladi.jpg'
-		},
-		{
-			id: 'member14',
-			name: 'Mr. Arjun Narayan',
-			position: 'Former Treasurer',
-			year: '2021-2022',
-			imageFile: 'Arjun-Narayan.jpeg'
-		},
-		{
-			id: 'member15',
-			name: 'Mrs. Latha Budibetta',
-			position: 'Former Secretary',
-			year: '2021-2022',
-			imageFile: 'Latha-Budibetta.jpeg'
-		},
-		{
-			id: 'member16',
-			name: 'Mr. Vinay Amatiganahalli',
-			position: 'Former President',
-			year: '2022-2023',
-			imageFile: 'Vinay-Amatiganahalli.jpg'
-		},
-		{
-			id: 'member17',
-			name: 'Mr. Rajesh Muguda',
-			position: 'Former Vice President',
-			year: '2023-2024',
-			imageFile: 'Rajesh-Muguda.jpeg'
-		},
-		{
-			id: 'member18',
-			name: 'Mr. Anil Anjaneya',
-			position: 'Former Secretary',
-			year: '2023-2024',
-			imageFile: 'Anil-Anjaneya.jpg'
-		},
-		{
-			id: 'member19',
-			name: 'Mr. Lokesha Krishnamurthy',
-			position: 'Former Treasurer',
-			year: '',
-			imageFile: 'Lokesha-Krishnamurthy.jpeg'
+	// Past board members data - loaded from external JSON file
+	let pastMembers = [];
+	let pastMembersLoaded = false;
+	
+	// Load past members from database via API
+	async function loadPastMembers() {
+		try {
+			const response = await fetch('/api/past-members');
+			if (response.ok) {
+				const data = await response.json();
+				pastMembers = data.members || [];
+				pastMembersLoaded = true;
+				console.log('Past members loaded from database:', pastMembers.length);
+				console.log('Sample member data:', pastMembers[0]);
+				
+				// Load images after members are loaded
+				loadPastMemberImages();
+			} else {
+				console.error('Failed to load past members:', response.status);
+				// Fallback to empty array
+				pastMembers = [];
+				pastMembersLoaded = true;
+			}
+		} catch (error) {
+			console.error('Error loading past members:', error);
+			// Fallback to empty array
+			pastMembers = [];
+			pastMembersLoaded = true;
 		}
-	];
+	}
 	
 	// Load board member images from Supabase Storage
 	async function loadBoardMemberImages() {
@@ -325,11 +219,17 @@
 	// Load past board member images from Supabase Storage
 	async function loadPastMemberImages() {
 		try {
-			const imagePromises = pastMembers.map(async (member) => {
+			console.log('Loading past member images for:', pastMembers.length, 'members');
+			
+			// Only process members that have image files
+			const membersWithImages = pastMembers.filter(member => member.image_file);
+			console.log('Members with images:', membersWithImages.length);
+			
+			const imagePromises = membersWithImages.map(async (member) => {
 				try {
 					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
 						.from('OKS')
-						.createSignedUrl(`past_board_members/${member.imageFile}`, 3600);
+						.createSignedUrl(`past_board_members/${member.image_file}`, 3600);
 					
 					if (signedUrlError) {
 						return {
@@ -369,9 +269,9 @@
 	}
 
 	onMount(() => {
+		loadPastMembers();
 		loadBoardMemberImages();
 		loadWebTeamImages();
-		loadPastMemberImages();
 	});
 </script>
 
@@ -390,6 +290,8 @@
 		<div class="col-12">
 			<h1 class="text-center mb-4">About Orlando Kannada Sangha</h1>
 			<h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ಒರ್ಲಾಂಡೊ ಕನ್ನಡ ಸಂಘದ ಬಗ್ಗೆ</h2>
+		</div>
+	</div>
 
 						<!-- Community Section -->
 			<div class="row">
@@ -532,16 +434,25 @@
 			<!-- Past Board Members Section -->
 			<div class="row mt-5">
 				<div class="col-12">
-					<MemberSlider 
-						members={pastMembers}
-						title="Past Board Members"
-						icon=""
-						showYear={true}
-						showPosition={true}
-						useBoardTitleStyle={true}
-						images={pastMemberImages}
-						imagesLoaded={pastMemberImagesLoaded}
-					/>
+					{#if pastMembersLoaded}
+						<MemberSlider 
+							members={pastMembers}
+							title="Past Board Members"
+							icon=""
+							showYear={true}
+							showPosition={true}
+							useBoardTitleStyle={true}
+							images={pastMemberImages}
+							imagesLoaded={pastMemberImagesLoaded}
+						/>
+					{:else}
+						<div class="text-center py-5">
+							<div class="spinner-border text-primary" role="status">
+								<span class="visually-hidden">Loading...</span>
+							</div>
+							<p class="mt-3 text-muted">Loading past board members...</p>
+						</div>
+					{/if}
 					
 					<div class="text-center mt-4">
 						<p class="text-muted">
@@ -588,9 +499,9 @@
 						{/each}
 					</div>
 				</div>
-			</div> -->
+			</div>
+			-->
 
-		</div>
 	</div>
 </main>
 
