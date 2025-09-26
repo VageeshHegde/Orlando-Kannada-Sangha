@@ -86,133 +86,140 @@
 		}
 	];
 	
-	// Past board members data
+	// Past board members data (arranged chronologically from oldest to newest)
 	const pastMembers = [
 		{
 			id: 'member1',
-			name: 'Mrs. Shamala Purohit',
-			position: 'Former Vice President',
-			year: '2015-2016',
-			imageFile: 'Shamala-Purohit.jpg'
-		},
-		{
-			id: 'member2',
-			name: 'Mr. Suresh Sanka',
-			position: 'Former President',
-			year: '2018-2019',
-			imageFile: 'Suresh-Sanka.jpeg'
-		},
-		{
-			id: 'member3',
-			name: 'Mr. Rajesh Muguda',
-			position: 'Former Vice President',
-			year: '2023-2024',
-			imageFile: 'Rajesh-Muguda.jpeg'
-		},
-		{
-			id: 'member4',
-			name: 'Mrs. Deepa Jambagi',
-			position: 'Former Vice President',
-			year: '2017-2018',
-			imageFile: 'Deepa-Jambagi.jpeg'
-		},
-		{
-			id: 'member5',
-			name: 'Mr. Arjun Narayan',
-			position: 'Former Treasurer',
-			year: '2021-2022',
-			imageFile: 'Arjun-Narayan.jpeg'
-		},
-		{
-			id: 'member6',
-			name: 'Mrs. Latha Budibetta',
-			position: 'Former Secretary',
-			year: '2021-2022',
-			imageFile: 'Latha-Budibetta.jpeg'
-		},
-		{
-			id: 'member7',
-			name: 'Mr. Kiran Babaladi',
-			position: 'Former President',
-			year: '2017-2018',
-			imageFile: 'Kiran-Babaladi.jpeg'
-		},
-		{
-			id: 'member8',
-			name: 'Mr. Suresh Babu Bangalore',
-			position: 'Former Secretary',
-			year: '2012-2013',
-			imageFile: 'Suresh-Babu-Bangalore.jpg'
-		},
-		{
-			id: 'member9',
-			name: 'Mr. Praveen Setty',
-			position: 'Former Secretary',
-			year: '2013-2015',
-			imageFile: 'Praveen-Setty.jpeg'
-		},
-		{
-			id: 'member10',
 			name: 'Mr. Girish Budibetta',
 			position: 'Former President',
 			year: '2012-2013',
 			imageFile: 'Girish-Budibetta.jpeg'
 		},
 		{
-			id: 'member11',
-			name: 'Mr. Pradeep Krishnamurthy',
-			position: 'Former President',
-			year: '2015-2016',
-			imageFile: 'Pradeep-Krishnamurthy.jpg'
+			id: 'member2',
+			name: 'Mr. Suresh Babu Bangalore',
+			position: 'Former Secretary',
+			year: '2012-2013',
+			imageFile: 'Suresh-Babu-Bangalore.jpg'
 		},
 		{
-			id: 'member12',
+			id: 'member3',
 			name: 'Mr. Yadav Olety',
 			position: 'Former Secretary',
 			year: '2013-2014',
 			imageFile: 'Yadav-Olety.jpg'
 		},
 		{
-			id: 'member13',
+			id: 'member4',
+			name: 'Mr. Praveen Setty',
+			position: 'Former Secretary',
+			year: '2013-2015',
+			imageFile: 'Praveen-Setty.jpeg'
+		},
+		{
+			id: 'member5',
 			name: 'Mr. Umesh Krishnaswamy',
 			position: 'Former President',
 			year: '2014-2015',
 			imageFile: 'Umesh-Krishnaswamy.jpg'
 		},
 		{
-			id: 'member14',
-			name: 'Ms. Manjula Babaladi',
-			position: 'Former President',
-			year: '2020-2022',
-			imageFile: 'Manjula-Babaladi.jpg'
-		},
-		{
-			id: 'member15',
-			name: 'Mr. Vinay Amatiganahalli',
-			position: 'Former President',
-			year: '2022-2023',
-			imageFile: 'Vinay-Amatiganahalli.jpg'
-		},
-		{
-			id: 'member16',
-			name: 'Mr. Lokesha Krishnamurthy',
-			position: 'Former Treasurer',
-			year: '',
-			imageFile: 'Lokesha-Krishnamurthy.jpeg'
-		},
-		{
-			id: 'member17',
+			id: 'member6',
 			name: 'Mr. Rajashekar Jambagi ',
 			position: 'Former Secretary',
 			year: '2014-2015',
 			imageFile: 'Rajashekar-Jambagi.jpeg'
 		},
 		{
-			id: 'member18',
+			id: 'member7',
+			name: 'Mrs. Shamala Purohit',
+			position: 'Former Vice President',
+			year: '2015-2016',
+			imageFile: 'Shamala-Purohit.jpg'
+		},
+		{
+			id: 'member8',
+			name: 'Mr. Pradeep Krishnamurthy',
+			position: 'Former President',
+			year: '2015-2016',
+			imageFile: 'Pradeep-Krishnamurthy.jpg'
+		},
+		{
+			id: 'member9',
+			name: 'Mr. Kiran Babaladi',
+			position: 'Former President',
+			year: '2017-2018',
+			imageFile: 'Kiran-Babaladi.jpeg'
+		},
+		{
+			id: 'member10',
+			name: 'Mrs. Deepa Jambagi',
+			position: 'Former Vice President',
+			year: '2017-2018',
+			imageFile: 'Deepa-Jambagi.jpeg'
+		},
+		{
+			id: 'member11',
+			name: 'Mr. Suresh Sanka',
+			position: 'Former President',
+			year: '2018-2019',
+			imageFile: 'Suresh-Sanka.jpeg'
+		},
+		{
+			id: 'member12',
 			name: 'Mrs. Samyukta Jujare',
 			position: 'Former President',
 			year: '2019-2020',
 			imageFile: 'Samyukta-Jujare.jpg'
+		},
+		{
+			id: 'member13',
+			name: 'Ms. Manjula Babaladi',
+			position: 'Former President',
+			year: '2020-2022',
+			imageFile: 'Manjula-Babaladi.jpg'
+		},
+		{
+			id: 'member14',
+			name: 'Mr. Arjun Narayan',
+			position: 'Former Treasurer',
+			year: '2021-2022',
+			imageFile: 'Arjun-Narayan.jpeg'
+		},
+		{
+			id: 'member15',
+			name: 'Mrs. Latha Budibetta',
+			position: 'Former Secretary',
+			year: '2021-2022',
+			imageFile: 'Latha-Budibetta.jpeg'
+		},
+		{
+			id: 'member16',
+			name: 'Mr. Vinay Amatiganahalli',
+			position: 'Former President',
+			year: '2022-2023',
+			imageFile: 'Vinay-Amatiganahalli.jpg'
+		},
+		{
+			id: 'member17',
+			name: 'Mr. Rajesh Muguda',
+			position: 'Former Vice President',
+			year: '2023-2024',
+			imageFile: 'Rajesh-Muguda.jpeg'
+		},
+		{
+			id: 'member18',
+			name: 'Mr. Anil Anjaneya',
+			position: 'Former Secretary',
+			year: '2023-2024',
+			imageFile: 'Anil-Anjaneya.jpg'
+		},
+		{
+			id: 'member19',
+			name: 'Mr. Lokesha Krishnamurthy',
+			position: 'Former Treasurer',
+			year: '',
+			imageFile: 'Lokesha-Krishnamurthy.jpeg'
 		}
 	];
 	
