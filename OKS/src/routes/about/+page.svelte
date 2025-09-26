@@ -502,7 +502,6 @@
 			</div>
 			-->
 
-	</div>
 </main>
 
 <Footer />
