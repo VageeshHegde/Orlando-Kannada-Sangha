@@ -55,48 +55,11 @@
   let membershipQRLoaded = false;
 
   // Lifetime members data
-  const lifetimeMembers = [
-    {
-      id: 'member1',
-      name: 'Mr. Vinay Amatiganahally',
-      position: 'And Family',
-      year: '2025 - Present',
-      description: 'Dedicated supporter of Kannada culture and community development.',
-      imageFile: 'Vinay-Amati.jpg'
-    },
-    {
-      id: 'member2', 
-      name: 'Mrs. Priya Sharma',
-      position: 'And Family',
-      year: '2016 - Present',
-      description: 'Active participant in cultural events and community outreach.',
-      imageFile: 'lifetime_member_2.jpg'
-    },
-    {
-      id: 'member3',
-      name: 'Mr. Anil Rao',
-      position: 'And Family', 
-      year: '2014 - Present',
-      description: 'Long-time supporter of Kannada language and heritage preservation.',
-      imageFile: 'lifetime_member_3.jpg'
-    },
-    {
-      id: 'member4',
-      name: 'Mrs. Meera Patel',
-      position: 'And Family',
-      year: '2017 - Present', 
-      description: 'Champion of youth engagement and cultural education programs.',
-      imageFile: 'lifetime_member_4.jpg'
-    },
-    {
-      id: 'member5',
-      name: 'Mr. Suresh Babu Bangalore',
-      position: 'And Family',
-      year: '2025 - Present',
-      description: 'Long-time supporter of Kannada language and heritage preservation.',
-      imageFile: 'Suresh-Babu-Bangalore.jpg'
-    }
-  ];
+  let lifetimeMembers = [];
+  let lifetimeMembersLoading = false;
+  let lifetimeMembersError = '';
+  let lifetimeMemberImages = {};
+  let lifetimeMemberImagesLoaded = false;
 
   // Auto-popup functionality
   let autoShowPopup = false;
@@ -174,6 +137,90 @@
       membershipQRImage = '/images/MembershipQR.png';
     } finally {
       membershipQRLoaded = true;
+    }
+  }
+
+  // Function to load lifetime members from database
+  async function loadLifetimeMembers() {
+    try {
+      lifetimeMembersLoading = true;
+      lifetimeMembersError = '';
+
+      const response = await fetch('/api/lifetime-members');
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`Failed to fetch lifetime members: ${response.status}`);
+      }
+
+      const data = await response.json();
+      lifetimeMembers = data.members || [];
+
+      // Load images after getting members data
+      if (lifetimeMembers.length > 0) {
+        await loadLifetimeMemberImages();
+      }
+
+    } catch (error) {
+      console.error('Error loading lifetime members:', error);
+      lifetimeMembersError = `Failed to load lifetime members: ${error.message}`;
+      // Fallback to empty array
+      lifetimeMembers = [];
+    } finally {
+      lifetimeMembersLoading = false;
+    }
+  }
+
+  // Function to load lifetime member images from S3
+  async function loadLifetimeMemberImages() {
+    try {
+      console.log('Loading lifetime member images for:', lifetimeMembers.length, 'members');
+      
+      // Only process members that have image files
+      const membersWithImages = lifetimeMembers.filter(member => member.image_file);
+      console.log('Members with images:', membersWithImages.length);
+      
+      const imagePromises = membersWithImages.map(async (member) => {
+        try {
+          const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+            .from('OKS')
+            .createSignedUrl(`lifetime_members/${member.image_file}`, 3600);
+          
+          if (signedUrlError) {
+            return {
+              id: member.id,
+              url: null,
+              success: false
+            };
+          }
+          
+          return {
+            id: member.id,
+            url: signedUrlData.signedUrl,
+            success: true
+          };
+        } catch (error) {
+          return {
+            id: member.id,
+            url: null,
+            success: false
+          };
+        }
+      });
+      
+      const imageResults = await Promise.all(imagePromises);
+      
+      lifetimeMemberImages = imageResults.reduce((acc, result) => {
+        acc[result.id] = result.url;
+        return acc;
+      }, {});
+      
+      lifetimeMemberImagesLoaded = true;
+      
+    } catch (error) {
+      lifetimeMemberImages = {};
+      lifetimeMemberImagesLoaded = true;
     }
   }
 
@@ -302,6 +349,9 @@
     
     // Load membership QR code from S3
     await loadMembershipQRImage();
+    
+    // Load lifetime members from database
+    await loadLifetimeMembers();
     
     // Image scroller setup
     scrollContent = document.querySelector('.scroll-content');
@@ -705,14 +755,34 @@
 
 <!-- Lifetime Members Section -->
 <section class="section container py-4 my-3">
-  <MemberSlider 
-    members={lifetimeMembers}
-    title="Our Lifetime Members"
-    icon="fas fa-crown"
-    folderPath="lifetime_members"
-    showYear={true}
-    showPosition={true}
-  />
+  {#if lifetimeMembersLoading}
+    <div class="text-center py-4">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading lifetime members...</p>
+    </div>
+  {:else if lifetimeMembersError}
+    <div class="alert alert-warning text-center">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {lifetimeMembersError}
+    </div>
+  {:else if lifetimeMembers.length === 0}
+    <div class="text-center py-4">
+      <i class="fas fa-crown fa-3x text-muted mb-3"></i>
+      <p class="text-muted">No lifetime members found</p>
+    </div>
+  {:else}
+    <MemberSlider 
+      members={lifetimeMembers}
+      title="Our Lifetime Members"
+      icon="fas fa-crown"
+      showYear={true}
+      showPosition={true}
+      images={lifetimeMemberImages}
+      imagesLoaded={lifetimeMemberImagesLoaded}
+    />
+  {/if}
   
   <div class="text-center mt-4">
     <p class="text-muted">
