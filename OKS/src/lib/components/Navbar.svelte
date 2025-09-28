@@ -2,6 +2,17 @@
 	import { page } from '$app/stores';
 	import { user, session, authActions } from '$lib/stores/auth.js';
 	import { onMount } from 'svelte';
+	
+	// Simple language toggle state
+	let isKannada = false;
+	let showLanguageDropdown = false;
+	
+	// Close dropdown when clicking outside
+	function handleClickOutside(event) {
+		if (showLanguageDropdown && !event.target.closest('.language-toggle')) {
+			showLanguageDropdown = false;
+		}
+	}
 
 	// User state management
 	let showDropdown = false;
@@ -171,10 +182,15 @@
 		const handleClickOutside = (event) => {
 			const dropdown = document.querySelector('.profile-dropdown');
 			const profileButton = document.querySelector('.profile-button');
+			const languageToggle = document.querySelector('.language-toggle');
 
 			if (dropdown && !dropdown.contains(event.target) &&
 				profileButton && !profileButton.contains(event.target)) {
 				showDropdown = false;
+			}
+			
+			if (languageToggle && !languageToggle.contains(event.target)) {
+				showLanguageDropdown = false;
 			}
 		};
 
@@ -211,11 +227,38 @@
         <li class="nav-item"><a class="nav-link" href="#footer"><i class="fas fa-envelope me-2" aria-hidden="true"></i>Contact</a></li>
       </ul>
       
-             <!-- Google Translate -->
-       <div class="translate-section me-3">
-         <button class="translate-btn">
-           <i class="fas fa-language"></i>
+       <!-- Language Toggle -->
+       <div class="language-toggle me-3">
+         <button 
+           class="btn btn-outline-secondary btn-sm language-btn-small" 
+           on:click={() => showLanguageDropdown = !showLanguageDropdown}
+           aria-expanded={showLanguageDropdown}
+           aria-label="Select language"
+         >
+           <i class="fas fa-globe"></i>
+           <i class="fas fa-chevron-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i>
          </button>
+         
+         {#if showLanguageDropdown}
+           <div class="language-dropdown">
+             <button 
+               class="language-option" 
+               class:active={!isKannada}
+               on:click={() => { isKannada = false; showLanguageDropdown = false; }}
+             >
+               <span class="flag-icon">🇺🇸</span>
+               English
+             </button>
+             <button 
+               class="language-option" 
+               class:active={isKannada}
+               on:click={() => { isKannada = true; showLanguageDropdown = false; }}
+             >
+               <span class="flag-icon">🇮🇳</span>
+               ಕನ್ನಡ
+             </button>
+           </div>
+         {/if}
        </div>
        
        <!-- Profile Section -->
@@ -345,35 +388,88 @@
     margin-right: 0.5rem;
   }
 
-  /* Google Translate Styles */
-  .translate-section {
+  /* Language Toggle Styles */
+  .language-toggle {
+    position: relative;
     display: flex;
     align-items: center;
   }
 
-  .translate-btn {
-    background: none;
-    border: none;
-    color: #7a1f1f;
-    font-size: 1.2rem;
-    cursor: pointer;
-    padding: 8px;
-    border-radius: 6px;
+  .language-toggle .btn {
+    background: #7a1f1f;
+    color: white;
+    border: 1px solid #7a1f1f;
     transition: all 0.3s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
   }
 
-  .translate-btn:hover {
-    background-color: #7a1f1f;
-    color: white;
-    transform: scale(1.1);
+  .language-toggle .btn:hover {
+    background: #5a1717;
+    border-color: #5a1717;
+    transform: translateY(-1px);
   }
 
-  .translate-btn:focus {
-    outline: none;
-    box-shadow: 0 0 0 2px rgba(122, 31, 31, 0.2);
+  .language-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: white;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    z-index: 1000;
+    min-width: 120px;
+    margin-top: 0.25rem;
+  }
+
+  .language-option {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.375rem 0.5rem;
+    border: none;
+    background: none;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease-in-out;
+    font-size: 0.875rem;
+  }
+
+  .language-option:hover {
+    background-color: #f8f9fa;
+  }
+
+  .language-option.active {
+    background-color: #e9ecef;
+    color: #7a1f1f;
+    font-weight: 500;
+  }
+
+  .flag-icon {
+    margin-right: 0.375rem;
+    font-size: 0.9em;
+  }
+
+  .language-btn-small {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+  }
+
+  .dropdown-arrow {
+    transition: transform 0.3s ease;
+  }
+
+  .dropdown-arrow.rotated {
+    transform: rotate(180deg);
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .language-dropdown {
+      right: auto;
+      left: 0;
+    }
   }
 
   /* Profile Section Styles */
