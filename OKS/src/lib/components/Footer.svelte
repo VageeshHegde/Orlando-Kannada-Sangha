@@ -194,11 +194,11 @@
         </div>
         <div class="col-md-6">
           <div class="footer-bottom-links text-md-end">
-            <a href="#">Privacy Policy</a>
+            <a href="/privacy-policy">Privacy Policy</a>
             <span class="separator">|</span>
-            <a href="#">Terms of Use</a>
+            <a href="/terms-of-use">Terms of Use</a>
             <span class="separator">|</span>
-            <a href="#">Site Map</a>
+            <a href="/sitemap">Site Map</a>
           </div>
         </div>
       </div>

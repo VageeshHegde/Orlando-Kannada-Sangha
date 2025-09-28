@@ -236,7 +236,8 @@
            aria-label="Select language"
          >
            <i class="fas fa-globe"></i>
-           <i class="fas fa-chevron-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i>
+           <!-- <i class="fas fa-chevron-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i> -->
+           <i class="fa-solid fa-caret-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i>
          </button>
          
          {#if showLanguageDropdown}
