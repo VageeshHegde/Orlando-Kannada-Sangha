@@ -493,7 +493,14 @@
   }
 
   @media (max-width: 768px) {
-    .hero-palace1, .hero-palace2, .hero-palace3 {
+    /* Show background image only in top portion on mobile */
+    .hero::before {
+      height: 20%;
+      top: -10px;
+    }
+    
+    /* Hide all decorative images on mobile */
+    .hero-palace, .hero-palace1, .hero-palace2, .hero-palace3 {
       display: none;
     }
     
@@ -512,14 +519,14 @@
       height: 24px;
     }
 
-         .weather-box-left,
-     .calendar-box-right {
-       position: relative;
-       left: auto;
-       right: auto;
-       top: auto;
-       transform: none;
-       margin: 1rem 0;
-     }
+    .weather-box-left,
+    .calendar-box-right {
+      position: relative;
+      left: auto;
+      right: auto;
+      top: auto;
+      transform: none;
+      margin: 1rem 0;
+    }
   }
 </style> 

@@ -698,6 +698,20 @@
 
   /* Responsive Design */
   @media (max-width: 768px) {
+    .navbar-brand {
+      font-size: 1rem;
+    }
+    
+    .logo-circle {
+      width: 35px;
+      height: 35px;
+    }
+    
+    .oks-logo {
+      width: 24px;
+      height: 24px;
+    }
+    
     .profile-dropdown {
       right: 50%;
       transform: translateX(50%);
