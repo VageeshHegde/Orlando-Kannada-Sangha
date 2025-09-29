@@ -2,6 +2,7 @@
   import Navbar from '$lib/components/Navbar.svelte';
   import Hero from '$lib/components/Hero.svelte';
   import Footer from '$lib/components/Footer.svelte';
+  import PageTitle from '$lib/components/PageTitle.svelte';
   import { onMount } from 'svelte';
   import { user } from '$lib/stores/auth.js';
   
@@ -209,8 +210,7 @@
 <main class="container my-5">
   <div class="row">
     <div class="col-12">
-      <h1 class="text-center mb-4">Our Blog</h1>
-      <h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ನಮ್ಮ ಬ್ಲಾಗ್</h2>
+			<PageTitle englishTitle="Our Blog" kannadaTitle="ನಮ್ಮ ಬ್ಲಾಗ್" />
     </div>
   </div>
   
@@ -399,9 +399,6 @@
   }
 
   /* Pagination Styles */
-  .pagination-section {
-    padding: 0;
-  }
 
   .pagination .page-link {
     color: #7a1f1f;

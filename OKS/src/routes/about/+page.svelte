@@ -3,6 +3,7 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import MemberSlider from '$lib/components/MemberSlider.svelte';
+	import PageTitle from '$lib/components/PageTitle.svelte';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase.js';
 	
@@ -288,8 +289,7 @@
 <main class="container my-5">
 	<div class="row">
 		<div class="col-12">
-			<h1 class="text-center mb-4">About Orlando Kannada Sangha</h1>
-			<h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ಒರ್ಲಾಂಡೊ ಕನ್ನಡ ಸಂಘದ ಬಗ್ಗೆ</h2>
+			<PageTitle englishTitle="About Orlando Kannada Sangha" kannadaTitle="ಒರ್ಲಾಂಡೊ ಕನ್ನಡ ಸಂಘದ ಬಗ್ಗೆ" />
 		</div>
 	</div>
 

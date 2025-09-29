@@ -2,6 +2,7 @@
   import Hero from '$lib/components/Hero.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import Navbar from '$lib/components/Navbar.svelte';
+  import PageTitle from '$lib/components/PageTitle.svelte';
 </script>
 
 <svelte:head>
@@ -23,8 +24,7 @@
 </div> -->
 
 <div class="container my-5">
-  <h1 class="text-center mb-4">Terms of Use</h1>
-  <h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ಬಳಕೆಯ ನಿಯಮಗಳು</h2>
+  <PageTitle englishTitle="Terms of Use" kannadaTitle="ಬಳಕೆಯ ನಿಯಮಗಳು" />
   <div class="row justify-content-center">
     <div class="col-lg-8">
       <div class="card shadow-sm">

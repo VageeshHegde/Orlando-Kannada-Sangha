@@ -2,6 +2,7 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import PageTitle from '$lib/components/PageTitle.svelte';
 </script>
 
 <Navbar />
@@ -17,8 +18,7 @@
 <main class="container my-5">
 	<div class="row">
 		<div class="col-12">
-			<h1 class="text-center mb-4">Kannada Kali</h1>
-			<h2 class="kannada-title text-center mb-4">ಕನ್ನಡ ಕಲಿ</h2>
+			<PageTitle englishTitle="Kannada Kali" kannadaTitle="ಕನ್ನಡ ಕಲಿ" />
 			<div class="row">
 				<div>
 					<h3>Kannada Kali 2024 – 25 Registration</h3>

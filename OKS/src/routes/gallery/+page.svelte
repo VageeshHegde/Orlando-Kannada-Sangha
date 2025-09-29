@@ -2,6 +2,7 @@
 	import Navbar from '$lib/components/Navbar.svelte';
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
+	import PageTitle from '$lib/components/PageTitle.svelte';
 	import { user } from '$lib/stores/auth.js';
 	
 	// Real authentication state from Supabase
@@ -79,8 +80,7 @@
 <main class="container my-5">
 	<div class="row">
 		<div class="col-12">
-			<h1 class="text-center mb-4">Photo Collection/Gallery</h1>
-			<h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ಛಾಯಾಚಿತ್ರ ಸಂಗ್ರಹ</h2>
+			<PageTitle englishTitle="Photo Collection/Gallery" kannadaTitle="ಛಾಯಾಚಿತ್ರ ಸಂಗ್ರಹ" />
 			
 			<!-- Login Required Notice -->
 			{#if !isLoggedIn}

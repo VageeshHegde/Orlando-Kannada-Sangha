@@ -3,6 +3,7 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import EventCard from '$lib/components/EventCard.svelte';
+	import PageTitle from '$lib/components/PageTitle.svelte';
 
 	// Event data
 	const upcomingEvents = [
@@ -76,8 +77,7 @@
 <main class="container my-5">
 	<div class="row">
 		<div class="col-12">
-			<h1 class="text-center mb-4">Events</h1>
-			<h2 class="kannada-title text-center mb-4">ಕಾರ್ಯಕ್ರಮಗಳು</h2>
+			<PageTitle englishTitle="Events" kannadaTitle="ಕಾರ್ಯಕ್ರಮಗಳು" />
 			<div class="row">
 				<div class="col-md-8">
 

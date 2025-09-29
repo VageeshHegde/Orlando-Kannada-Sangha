@@ -2,6 +2,7 @@
   import Hero from '$lib/components/Hero.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import Navbar from '$lib/components/Navbar.svelte';
+  import PageTitle from '$lib/components/PageTitle.svelte';
 </script>
 
 <svelte:head>
@@ -23,8 +24,7 @@
 </div> -->
 
 <div class="container my-5">
-  <h1 class="text-center mb-4">Website Sitemap</h1>
-  <h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ವೆಬ್ಸೈಟ್ ನಕ್ಷೆ</h2>
+  <PageTitle englishTitle="Website Sitemap" kannadaTitle="ವೆಬ್ಸೈಟ್ ನಕ್ಷೆ" />
   <div class="row justify-content-center">
     <div class="col-lg-10">
       <div class="card shadow-sm">
