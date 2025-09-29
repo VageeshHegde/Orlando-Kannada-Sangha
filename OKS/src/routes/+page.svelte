@@ -4,6 +4,7 @@
   import Footer from '$lib/components/Footer.svelte';
   import SimpleEventCard from '$lib/components/SimpleEventCard.svelte';
   import MemberSlider from '$lib/components/MemberSlider.svelte';
+  import PageTitle from '$lib/components/PageTitle.svelte';
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import { getSliderImages } from '$lib/services/sliderService.js';
@@ -441,8 +442,7 @@
 <main class="container my-5">
   <div class="row">
     <div class="col-12">
-      <h1 class="text-center mb-4">Welcome to Orlando Kannada Sangha</h1>
-      <h2 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">ಒರ್ಲಾಂಡೊ ಕನ್ನಡ ಸಂಘಕ್ಕೆ ಸುಸ್ವಾಗತ</h2>
+      <PageTitle englishTitle="Welcome to Orlando Kannada Sangha" kannadaTitle="ಒರ್ಲಾಂಡೊ ಕನ್ನಡ ಸಂಘಕ್ಕೆ ಸುಸ್ವಾಗತ" />
       
       <!-- Image Scroller Section -->
       <div class="image-scroller my-5">
@@ -796,52 +796,40 @@
   <div class="row g-4 justify-content-center">
     <div class="col-lg-3 col-md-4 col-sm-6">
       <a href="#" class="sponsor-card-link">
-        <div class="sponsor-card">
-          <div class="sponsor-image">
-            <img src="/images/OKSlogo.png" alt="Gold Sponsor" class="sponsor-img">
-          </div>
-          <div class="sponsor-info">
-            <h5 class="sponsor-name">Gold Sponsor</h5>
-            <p class="sponsor-category">Platinum Level</p>
+        <div class="sponsor-card sponsor-image-card">
+          <img src="https://picsum.photos/300/200?random=1" alt="Sponsor" class="sponsor-full-image">
+          <div class="sponsor-overlay">
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
           </div>
         </div>
       </a>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-6">
       <a href="#" class="sponsor-card-link">
-        <div class="sponsor-card">
-          <div class="sponsor-image">
-            <img src="/images/Kannada-Academy.png" alt="Silver Sponsor" class="sponsor-img">
-          </div>
-          <div class="sponsor-info">
-            <h5 class="sponsor-name">Silver Sponsor</h5>
-            <p class="sponsor-category">Gold Level</p>
+        <div class="sponsor-card sponsor-image-card">
+          <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
+          <div class="sponsor-overlay">
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
           </div>
         </div>
       </a>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-6">
       <a href="#" class="sponsor-card-link">
-        <div class="sponsor-card">
-          <div class="sponsor-image">
-            <img src="/images/Florida.png" alt="Bronze Sponsor" class="sponsor-img">
-          </div>
-          <div class="sponsor-info">
-            <h5 class="sponsor-name">Bronze Sponsor</h5>
-            <p class="sponsor-category">Silver Level</p>
+        <div class="sponsor-card sponsor-image-card">
+          <img src="https://picsum.photos/300/200?random=3" alt="Sponsor" class="sponsor-full-image">
+          <div class="sponsor-overlay">
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
           </div>
         </div>
       </a>
     </div>
     <div class="col-lg-3 col-md-4 col-sm-6">
       <a href="#" class="sponsor-card-link">
-        <div class="sponsor-card">
-          <div class="sponsor-image">
-            <img src="/images/Yakshagana2.png" alt="Community Sponsor" class="sponsor-img">
-          </div>
-          <div class="sponsor-info">
-            <h5 class="sponsor-name">Community Sponsor</h5>
-            <p class="sponsor-category">Bronze Level</p>
+        <div class="sponsor-card sponsor-image-card">
+          <img src="https://picsum.photos/300/200?random=4" alt="Sponsor" class="sponsor-full-image">
+          <div class="sponsor-overlay">
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
           </div>
         </div>
       </a>
@@ -1003,6 +991,59 @@
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     border: 2px solid transparent;
     height: 100%;
+  }
+
+  /* Image-only sponsor cards */
+  .sponsor-image-card {
+    padding: 0;
+    overflow: hidden;
+    border-radius: 15px;
+    position: relative;
+  }
+
+  .sponsor-full-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 15px;
+    transition: transform 0.3s ease;
+  }
+
+  .sponsor-card-link:hover .sponsor-full-image {
+    transform: scale(1.05);
+  }
+
+  /* Sponsor overlay text */
+  .sponsor-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+
+  .sponsor-overlay-title {
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+
+  .sponsor-overlay-subtitle {
+    color: #f26c4f;
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0;
+    text-align: center;
   }
 
   .sponsor-card-link:hover .sponsor-card {
