@@ -702,8 +702,8 @@
           imageSrc={eventImagesLoaded ? (eventImages['kannada-rajyotsava'] || 'https://picsum.photos/150/100?random=1') : 'https://picsum.photos/150/100?random=1'}
           imageAlt="Kannada Rajyotsava"
           mapLink="https://maps.app.goo.gl/gHWRHS8Y3ng4qmgT9"
-          memberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025draft"
-          nonMemberFormUrl="https://www.zeffy.com/embed/ticketing/kannada-rajyotsava-2025nonmemberdraft"
+          memberFormUrl=""
+          nonMemberFormUrl=""
           autoShow={autoShowPopup}
         />
 
