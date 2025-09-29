@@ -89,7 +89,7 @@
     try {
       // Define event image files (you can customize these names)
       const eventImageFiles = {
-        'kannada-rajyotsava': 'kannada-rajyotsava.jpg',
+        'kannada-rajyotsava': 'Yashwant-Sardeshpande.png',
         'art-exhibition': 'art-exhibition.jpg',
         'music-concert': 'music-concert.jpg',
         'cultural-program': 'cultural-program.jpg'
