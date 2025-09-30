@@ -8,6 +8,7 @@
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import { getSliderImages } from '$lib/services/sliderService.js';
+  import { getUpcomingEvents, formatEventDate } from '$lib/services/eventsService.js';
   import { user } from '$lib/stores/auth.js';
   import { supabase } from '$lib/supabase.js';
   let scrollContent;
@@ -19,6 +20,10 @@
   // Event images from Supabase Storage
   let eventImages = {};
   let eventImagesLoaded = false;
+  
+  // Events from database
+  let events = [];
+  let eventsLoaded = false;
 
   // Reactive statement to reinitialize lightbox when images are loaded
   $: if (eventImagesLoaded && window.lightbox) {
@@ -341,7 +346,29 @@
     cleanupResize = () => window.removeEventListener('resize', handleResize);
   }
 
+  // Load events from database
+  async function loadEvents() {
+    try {
+      const result = await getUpcomingEvents();
+      if (result.success) {
+        events = result.events;
+        console.log('Loaded events:', events.length);
+      } else {
+        console.error('Failed to load events:', result.error);
+        events = [];
+      }
+    } catch (error) {
+      console.error('Exception loading events:', error);
+      events = [];
+    } finally {
+      eventsLoaded = true;
+    }
+  }
+
   onMount(async () => {
+    // Load events from database
+    await loadEvents();
+    
     // Load slider images from S3
     await loadSliderImages();
     
@@ -686,67 +713,45 @@
   <h3 class="text-center mb-4"><i class="fas fa-calendar-alt icon"></i>Upcoming Events</h3>
   <div class="row g-4">
     <!-- Full Calendar Section -->
-    <div class="col-md-6">
+    <div class="col-md-6 order-2 order-md-1">
       <div id='calendar'></div>
     </div>
 
-    <div class="col-md-6">
+    <div class="col-md-6 order-1 order-md-2">
       <div class="events-container">
-        <SimpleEventCard 
-          month="NOV"
-          day="1"
-          title="Kannada Rajyotsava"
-          date="November 1, 2025"
-          time="2:00 PM"
-          location="1994 E Lake Dr, Casselberry, FL"
-          imageSrc={eventImagesLoaded ? (eventImages['kannada-rajyotsava'] || 'https://picsum.photos/150/100?random=1') : 'https://picsum.photos/150/100?random=1'}
-          imageAlt="Kannada Rajyotsava"
-          mapLink="https://maps.app.goo.gl/gHWRHS8Y3ng4qmgT9"
-          memberFormUrl=""
-          nonMemberFormUrl=""
-        />
-
-        <SimpleEventCard 
-          month="MON"
-          day="DD"
-          title="To Be Announced"
-          date="TBA"
-          time="TBA"
-          location="TBA"
-          imageSrc={eventImagesLoaded ? (eventImages['art-exhibition'] || 'https://picsum.photos/150/100?random=2') : 'https://picsum.photos/150/100?random=2'}
-          imageAlt="Art Exhibition"
-          mapLink="https://maps.google.com/?q=456+Elm+St+Othertown+NY"
-          memberFormUrl=""
-          nonMemberFormUrl=""
-        />
-
-        <SimpleEventCard 
-          month="MON"
-          day="DD"
-          title="To Be Announced"
-          date="TBA"
-          time="TBA"
-          location="TBA"
-          imageSrc={eventImagesLoaded ? (eventImages['kannada-kali'] || 'https://picsum.photos/150/100?random=3') : 'https://picsum.photos/150/100?random=3'}
-          imageAlt="Kannada Kali"
-          mapLink="https://maps.google.com/?q=Orlando+Convention+Center"
-          memberFormUrl=""
-          nonMemberFormUrl=""
-        />
-
-        <SimpleEventCard 
-          month="MON"
-          day="DD"
-          title="To Be Announced"
-          date="TBA"
-          time="TBA"
-          location="TBA"
-          imageSrc={eventImagesLoaded ? (eventImages['cultural-program'] || 'https://picsum.photos/150/100?random=4') : 'https://picsum.photos/150/100?random=4'}
-          imageAlt="New Year Celebration"
-          mapLink="https://maps.google.com/?q=Community+Center+Orlando"
-          memberFormUrl=""
-          nonMemberFormUrl=""
-        />
+        {#if eventsLoaded && events.length > 0}
+          {#each events as event}
+            {@const dateFormatted = formatEventDate(event.date)}
+            <SimpleEventCard 
+              month={dateFormatted.month}
+              day={String(dateFormatted.day)}
+              title={event.title || 'Event'}
+              date={dateFormatted.fullDate}
+              time={event.time || 'TBA'}
+              location={event.location || 'TBA'}
+              imageSrc={event.image_url || 'https://picsum.photos/150/100?random=1'}
+              imageAlt={event.title || 'Event'}
+              mapLink={event.map_link || ''}
+              memberFormUrl={event.member_form_url || ''}
+              nonMemberFormUrl={event.non_member_form_url || ''}
+            />
+          {/each}
+        {:else}
+          <!-- Fallback event while loading or if no events -->
+          <SimpleEventCard 
+            month="MON"
+            day="DD"
+            title="To Be Announced"
+            date="TBA"
+            time="TBA"
+            location="TBA"
+            imageSrc="https://picsum.photos/150/100?random=1"
+            imageAlt="Event"
+            mapLink=""
+            memberFormUrl=""
+            nonMemberFormUrl=""
+          />
+        {/if}
       </div>
     </div>
   </div>
