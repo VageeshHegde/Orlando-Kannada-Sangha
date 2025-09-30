@@ -89,7 +89,7 @@
     try {
       // Define event image files (you can customize these names)
       const eventImageFiles = {
-        'kannada-rajyotsava': 'Yashwant-Sardeshpande.png',
+        'kannada-rajyotsava': 'Yashwant.png',
         'art-exhibition': 'art-exhibition.jpg',
         'music-concert': 'music-concert.jpg',
         'cultural-program': 'cultural-program.jpg'
@@ -704,7 +704,6 @@
           mapLink="https://maps.app.goo.gl/gHWRHS8Y3ng4qmgT9"
           memberFormUrl=""
           nonMemberFormUrl=""
-          autoShow={autoShowPopup}
         />
 
         <SimpleEventCard 

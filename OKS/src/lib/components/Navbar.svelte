@@ -7,11 +7,19 @@
 	let isKannada = false;
 	let showLanguageDropdown = false;
 	
+	// Mobile menu toggle state
+	let isMobileMenuOpen = false;
+	
 	// Close dropdown when clicking outside
 	function handleClickOutside(event) {
 		if (showLanguageDropdown && !event.target.closest('.language-toggle')) {
 			showLanguageDropdown = false;
 		}
+	}
+	
+	// Close mobile menu when clicking on nav links
+	function closeMobileMenu() {
+		isMobileMenuOpen = false;
 	}
 
 	// User state management
@@ -213,18 +221,30 @@
       </div>
       <span class="navbar-brand">Orlando Kannada Sangha</span>
     </a>
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-      <span class="navbar-toggler-icon"></span>
+    <button 
+      class="navbar-toggler" 
+      type="button" 
+      data-bs-toggle="collapse" 
+      data-bs-target="#navbarNav"
+      on:click={() => isMobileMenuOpen = !isMobileMenuOpen}
+      aria-expanded={isMobileMenuOpen}
+      aria-label="Toggle navigation menu"
+    >
+      {#if isMobileMenuOpen}
+        <i class="fas fa-times"></i>
+      {:else}
+        <span class="navbar-toggler-icon"></span>
+      {/if}
     </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
       <ul class="navbar-nav me-3">
-        <li class="nav-item"><a class="nav-link {isActive('/') ? 'active' : ''}" href="/"><i class="fas fa-home me-2" aria-hidden="true"></i>Home</a></li>
-        <li class="nav-item"><a class="nav-link {isActive('/about') ? 'active' : ''}" href="/about"><i class="fas fa-users me-2" aria-hidden="true"></i>About</a></li>
+        <li class="nav-item"><a class="nav-link {isActive('/') ? 'active' : ''}" href="/" on:click={closeMobileMenu}><i class="fas fa-home me-2" aria-hidden="true"></i>Home</a></li>
+        <li class="nav-item"><a class="nav-link {isActive('/about') ? 'active' : ''}" href="/about" on:click={closeMobileMenu}><i class="fas fa-users me-2" aria-hidden="true"></i>About</a></li>
         <!-- <li class="nav-item"><a class="nav-link {isActive('/events') ? 'active' : ''}" href="/events"><i class="fas fa-calendar-alt me-2" aria-hidden="true"></i>Events</a></li> -->
-        <li class="nav-item"><a class="nav-link {isActive('/kannada-kali') ? 'active' : ''}" href="/kannada-kali"><i class="fas fa-book me-2" aria-hidden="true"></i>Kannada Kali</a></li>
-        <li class="nav-item"><a class="nav-link {isActive('/gallery') ? 'active' : ''}" href="/gallery"><i class="fas fa-image me-2" aria-hidden="true"></i>Gallery</a></li>
-        <li class="nav-item"><a class="nav-link {isActive('/blog') ? 'active' : ''}" href="/blog"><i class="fas fa-blog me-2" aria-hidden="true"></i>Blog</a></li>
-        <li class="nav-item"><a class="nav-link" href="#footer"><i class="fas fa-envelope me-2" aria-hidden="true"></i>Contact</a></li>
+        <li class="nav-item"><a class="nav-link {isActive('/kannada-kali') ? 'active' : ''}" href="/kannada-kali" on:click={closeMobileMenu}><i class="fas fa-book me-2" aria-hidden="true"></i>Kannada Kali</a></li>
+        <li class="nav-item"><a class="nav-link {isActive('/gallery') ? 'active' : ''}" href="/gallery" on:click={closeMobileMenu}><i class="fas fa-image me-2" aria-hidden="true"></i>Gallery</a></li>
+        <li class="nav-item"><a class="nav-link {isActive('/blog') ? 'active' : ''}" href="/blog" on:click={closeMobileMenu}><i class="fas fa-blog me-2" aria-hidden="true"></i>Blog</a></li>
+        <li class="nav-item"><a class="nav-link" href="#footer" on:click={closeMobileMenu}><i class="fas fa-envelope me-2" aria-hidden="true"></i>Contact</a></li>
       </ul>
       
        <!-- Language Toggle -->
@@ -694,6 +714,26 @@
   .logout-btn:hover {
     background-color: #f8d7da;
     color: #721c24;
+  }
+
+  /* Mobile menu toggle button styles */
+  .navbar-toggler {
+    border: none;
+    padding: 0.5rem;
+    background: none;
+    color: #7a1f1f;
+    font-size: 1.2rem;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-toggler:hover {
+    color: #5a1515;
+    transform: scale(1.1);
+  }
+  
+  .navbar-toggler i.fa-times {
+    font-size: 1.3rem;
+    font-weight: bold;
   }
 
   /* Responsive Design */
