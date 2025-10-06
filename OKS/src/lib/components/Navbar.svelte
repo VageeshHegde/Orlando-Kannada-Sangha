@@ -2,6 +2,7 @@
 	import { page } from '$app/stores';
 	import { user, session, authActions } from '$lib/stores/auth.js';
 	import { onMount } from 'svelte';
+	import { getUserDisplayName, getMembershipDuration, createUserProfile, getMemberInitial } from '$lib/utils/avatarUtils.js';
 	
 	// Simple language toggle state
 	let isKannada = false;
@@ -37,84 +38,13 @@
 		updateUserProfile($user);
 	}
 	
-	// Calculate membership duration
-	function getMembershipDuration(createdAt) {
-		if (!createdAt) return null;
-		
-		const createdDate = new Date(createdAt);
-		const now = new Date();
-		const diffTime = Math.abs(now - createdDate);
-		const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-		const diffYears = Math.floor(diffDays / 365);
-		const diffMonths = Math.floor((diffDays % 365) / 30);
-		const diffWeeks = Math.floor((diffDays % 30) / 7);
-		
-		if (diffYears > 0) {
-			return diffYears === 1 ? '1 year' : `${diffYears} years`;
-		} else if (diffMonths > 0) {
-			return diffMonths === 1 ? '1 month' : `${diffMonths} months`;
-		} else if (diffWeeks > 0) {
-			return diffWeeks === 1 ? '1 week' : `${diffWeeks} weeks`;
-		} else {
-			return diffDays === 1 ? '1 day' : `${diffDays} days`;
-		}
-	}
-
 	// Update user profile from Supabase user data
 	function updateUserProfile(currentUser) {
-		if (currentUser) {
-			let fullName = '';
-			
-			// Priority 1: Check for 'name' field in metadata (most direct)
-			if (currentUser.user_metadata?.name) {
-				fullName = currentUser.user_metadata.name;
-			} else {
-				// Priority 2: Try to get full name from first_name and last_name
-				const firstName = currentUser.user_metadata?.first_name || '';
-				const lastName = currentUser.user_metadata?.last_name || '';
-				fullName = `${firstName} ${lastName}`.trim();
-				
-				// Priority 3: If no name in metadata, try to extract from email
-				if (!fullName && currentUser.email) {
-					const emailUser = currentUser.email.split('@')[0];
-					
-					if (emailUser.includes('.')) {
-						// Handle patterns like "john.doe"
-						const parts = emailUser.split('.');
-						const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-						const last = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
-						fullName = last ? `${first} ${last}` : first;
-					} else if (emailUser.includes('_')) {
-						// Handle patterns like "john_doe"
-						const parts = emailUser.split('_');
-						const first = parts[0].charAt(0).toUpperCase() + parts[0].slice(1);
-						const last = parts[1] ? parts[1].charAt(0).toUpperCase() + parts[1].slice(1) : '';
-						fullName = last ? `${first} ${last}` : first;
-					} else {
-						// Simple capitalization
-						fullName = emailUser.charAt(0).toUpperCase() + emailUser.slice(1);
-					}
-				}
-			}
-			
-			userProfile = {
-				name: fullName || 'User',
-				email: currentUser.email || '',
-				avatar: currentUser.user_metadata?.avatar_url || '/images/default-avatar.png',
-				memberSince: getMembershipDuration(currentUser.created_at)
-			};
-		} else {
-			userProfile = {
-				name: '',
-				email: '',
-				avatar: '/images/default-avatar.png',
-				memberSince: null
-			};
-		}
+		userProfile = createUserProfile(currentUser);
 	}
 	
-	// Get first letter of user's name for circle display
-	$: userInitial = userProfile.name ? userProfile.name.charAt(0).toUpperCase() : 'U';
+	// Get initials from user's name for circle display
+	$: userInitial = getMemberInitial(userProfile.name);
 
 	// Function to check if a navigation item is active
 	function isActive(path) {
