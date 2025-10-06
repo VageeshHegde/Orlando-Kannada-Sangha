@@ -473,7 +473,7 @@
   .user-initial {
     color: white;
     font-weight: bold;
-    font-size: 1.2rem;
+    font-size: 1rem;
     text-align: center;
     line-height: 1;
   }
@@ -544,7 +544,7 @@
   .user-initial-large {
     color: white;
     font-weight: bold;
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     text-align: center;
     line-height: 1;
     display: flex;
