@@ -24,7 +24,11 @@ class EventsService {
       }
 
       console.log('Events fetched successfully:', data?.length || 0, 'events');
-      return { success: true, events: data || [], error: null };
+      
+      // Load images from S3 for events that have image_file
+      const eventsWithImages = await this.loadEventImages(data || []);
+
+      return { success: true, events: eventsWithImages, error: null };
     } catch (error) {
       console.error('Exception fetching events:', error);
       return { success: false, events: [], error };
@@ -50,10 +54,66 @@ class EventsService {
         return { success: false, events: [], error };
       }
 
-      return { success: true, events: data || [], error: null };
+      // Load images from S3 for events that have image_file
+      const eventsWithImages = await this.loadEventImages(data || []);
+
+      return { success: true, events: eventsWithImages, error: null };
     } catch (error) {
       console.error('Exception fetching upcoming events:', error);
       return { success: false, events: [], error };
+    }
+  }
+
+  /**
+   * Load event images from S3
+   * @param {Array} events - Array of event objects
+   * @returns {Promise<Array>} - Events with image_url populated from S3 signed URLs
+   */
+  async loadEventImages(events) {
+    try {
+      const eventsWithImages = await Promise.all(
+        events.map(async (event) => {
+          // Use image_file field (stores filename like "kannada-rajyotsava.jpg")
+          if (event.image_file) {
+            try {
+              const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+                .from('OKS')
+                .createSignedUrl(`events/${event.image_file}`, 3600); // 1 hour expiration
+              
+              if (signedUrlError) {
+                console.error(`S3 error for event ${event.id}:`, signedUrlError);
+                // Fallback to static file
+                return {
+                  ...event,
+                  image_url: `/images/events/${event.image_file}`
+                };
+              }
+              
+              return {
+                ...event,
+                image_url: signedUrlData.signedUrl
+              };
+            } catch (error) {
+              console.error(`Error loading image for event ${event.id}:`, error);
+              return {
+                ...event,
+                image_url: 'https://picsum.photos/150/100?random=1'
+              };
+            }
+          }
+          
+          // No image file, use placeholder
+          return {
+            ...event,
+            image_url: 'https://picsum.photos/150/100?random=1'
+          };
+        })
+      );
+
+      return eventsWithImages;
+    } catch (error) {
+      console.error('Error loading event images:', error);
+      return events; // Return events without modified images
     }
   }
 
