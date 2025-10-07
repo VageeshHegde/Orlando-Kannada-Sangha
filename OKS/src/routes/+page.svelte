@@ -11,6 +11,7 @@
   import { getUpcomingEvents, formatEventDate } from '$lib/services/eventsService.js';
   import { user } from '$lib/stores/auth.js';
   import { supabase } from '$lib/supabase.js';
+  import { getMemberInitial, getAvatarColor } from '$lib/utils/avatarUtils.js';
   let scrollContent;
   let googleChartsReady = false;
   let cleanupResize;
@@ -66,6 +67,13 @@
   let lifetimeMembersError = '';
   let lifetimeMemberImages = {};
   let lifetimeMemberImagesLoaded = false;
+
+  // Sponsors data
+  let sponsors = [];
+  let sponsorsLoading = false;
+  let sponsorsError = '';
+  let sponsorImages = {};
+  let sponsorImagesLoaded = false;
 
   // Auto-popup functionality
   let autoShowPopup = false;
@@ -230,6 +238,91 @@
     }
   }
 
+  // Function to load sponsors from database
+  async function loadSponsors() {
+    try {
+      sponsorsLoading = true;
+      sponsorsError = '';
+
+      const response = await fetch('/api/sponsors');
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('API Error Response:', errorText);
+        throw new Error(`Failed to fetch sponsors: ${response.status}`);
+      }
+
+      const data = await response.json();
+      sponsors = data.sponsors || [];
+
+      // Load images after getting sponsors data
+      if (sponsors.length > 0) {
+        await loadSponsorImages();
+      }
+
+    } catch (error) {
+      console.error('Error loading sponsors:', error);
+      sponsorsError = `Failed to load sponsors: ${error.message}`;
+      // Fallback to empty array
+      sponsors = [];
+    } finally {
+      sponsorsLoading = false;
+    }
+  }
+
+  // Function to load sponsor images from S3
+  async function loadSponsorImages() {
+    try {
+      console.log('Loading sponsor images for:', sponsors.length, 'sponsors');
+      
+      // Only process sponsors that have logo files
+      const sponsorsWithLogos = sponsors.filter(sponsor => sponsor.logo_file);
+      console.log('Sponsors with logos:', sponsorsWithLogos.length);
+      
+      const imagePromises = sponsorsWithLogos.map(async (sponsor) => {
+        try {
+          const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+            .from('OKS')
+            .createSignedUrl(`sponsors/${sponsor.logo_file}`, 3600);
+          
+          if (signedUrlError) {
+            return {
+              id: sponsor.id,
+              url: null,
+              success: false
+            };
+          }
+          
+          return {
+            id: sponsor.id,
+            url: signedUrlData.signedUrl,
+            success: true
+          };
+        } catch (error) {
+          return {
+            id: sponsor.id,
+            url: null,
+            success: false
+          };
+        }
+      });
+      
+      const imageResults = await Promise.all(imagePromises);
+      
+      sponsorImages = imageResults.reduce((acc, result) => {
+        acc[result.id] = result.url;
+        return acc;
+      }, {});
+      
+      sponsorImagesLoaded = true;
+      
+    } catch (error) {
+      console.error('Error loading sponsor images:', error);
+      sponsorImages = {};
+      sponsorImagesLoaded = true;
+    }
+  }
+
 
   // Setup slider animation and cloning
   function setupSlider() {
@@ -380,6 +473,9 @@
     
     // Load lifetime members from database
     await loadLifetimeMembers();
+    
+    // Load sponsors from database
+    await loadSponsors();
     
     // Image scroller setup
     scrollContent = document.querySelector('.scroll-content');
@@ -797,48 +893,141 @@
 <!-- Sponsors Section -->
 <section class="section container py-2 mt-3">
   <h3 class="text-center mb-4"><i class="fas fa-handshake icon"></i>Our Sponsors</h3>
-  <div class="row g-4 justify-content-center">
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <a href="#" class="sponsor-card-link">
+  
+  {#if sponsorsLoading}
+    <div class="loading-state">
+      <i class="fas fa-spinner fa-spin"></i>
+      <p>Loading sponsors...</p>
+    </div>
+  {:else if sponsorsError}
+    <div class="alert alert-warning text-center">
+      <i class="fas fa-exclamation-triangle me-2"></i>
+      {sponsorsError}
+    </div>
+  {:else if sponsors.length === 0}
+    <!-- Show placeholder when no sponsors -->
+    <div class="row g-4 justify-content-center">
+      <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=1" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h5 class="sponsor-overlay-title">Your Company Here</h5>
+            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
           </div>
         </div>
-      </a>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <a href="#" class="sponsor-card-link">
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h5 class="sponsor-overlay-title">Your Company Here</h5>
+            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
           </div>
         </div>
-      </a>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <a href="#" class="sponsor-card-link">
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="sponsor-card sponsor-image-card">
-          <img src="https://picsum.photos/300/200?random=3" alt="Sponsor" class="sponsor-full-image">
+          <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h5 class="sponsor-overlay-title">Your Company Here</h5>
+            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
           </div>
         </div>
-      </a>
-    </div>
-    <div class="col-lg-3 col-md-4 col-sm-6">
-      <a href="#" class="sponsor-card-link">
+      </div>
+      <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="sponsor-card sponsor-image-card">
-          <img src="https://picsum.photos/300/200?random=4" alt="Sponsor" class="sponsor-full-image">
+          <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h5 class="sponsor-overlay-title">Your Company Here</h5>
+            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
           </div>
         </div>
-      </a>
+      </div>
     </div>
-  </div>
+  {:else}
+    <!-- Display actual sponsors from database -->
+    <div class="row g-4 justify-content-center">
+      {#each sponsors as sponsor}
+        <div class="col-lg-3 col-md-4 col-sm-6">
+          {#if sponsor.website}
+            <a href={sponsor.website} target="_blank" rel="noopener noreferrer" class="sponsor-card-link">
+              <div class="sponsor-card sponsor-image-card">
+                {#if sponsorImages[sponsor.id]}
+                  <!-- S3 image loaded -->
+                  <img src={sponsorImages[sponsor.id]} alt={sponsor.company} class="sponsor-full-image">
+                  <div class="sponsor-overlay">
+                    <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                    <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
+                  </div>
+                {:else if sponsor.logo_file}
+                  <!-- Static file fallback -->
+                  <img 
+                    src="/images/sponsors/{sponsor.logo_file}" 
+                    alt={sponsor.company} 
+                    class="sponsor-full-image"
+                    on:error={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                  >
+                  <!-- Avatar fallback (hidden by default, shown on image error) -->
+                  <div class="sponsor-avatar-fallback" style="display: none; background-color: {getAvatarColor(sponsor.company)}">
+                    <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
+                  </div>
+                  <div class="sponsor-overlay">
+                    <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                    <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
+                  </div>
+                {:else}
+                  <!-- No logo file - show avatar -->
+                  <div class="sponsor-avatar-fallback" style="background-color: {getAvatarColor(sponsor.company)}">
+                    <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
+                  </div>
+                  <div class="sponsor-overlay">
+                    <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                    <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
+                  </div>
+                {/if}
+              </div>
+            </a>
+          {:else}
+            <div class="sponsor-card sponsor-image-card">
+              {#if sponsorImages[sponsor.id]}
+                <!-- S3 image loaded -->
+                <img src={sponsorImages[sponsor.id]} alt={sponsor.company} class="sponsor-full-image">
+                <div class="sponsor-overlay">
+                  <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                  <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
+                </div>
+              {:else if sponsor.logo_file}
+                <!-- Static file fallback -->
+                <img 
+                  src="/images/sponsors/{sponsor.logo_file}" 
+                  alt={sponsor.company} 
+                  class="sponsor-full-image"
+                  on:error={(e) => { e.target.style.display = 'none'; e.target.nextElementSibling.style.display = 'flex'; }}
+                >
+                <!-- Avatar fallback (hidden by default, shown on image error) -->
+                <div class="sponsor-avatar-fallback" style="display: none; background-color: {getAvatarColor(sponsor.company)}">
+                  <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
+                </div>
+                <div class="sponsor-overlay">
+                  <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                  <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
+                </div>
+              {:else}
+                <!-- No logo file - show avatar -->
+                <div class="sponsor-avatar-fallback" style="background-color: {getAvatarColor(sponsor.company)}">
+                  <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
+                </div>
+                <div class="sponsor-overlay">
+                  <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                  <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
+                </div>
+              {/if}
+            </div>
+          {/if}
+        </div>
+      {/each}
+    </div>
+  {/if}
   
   <!-- Become a Sponsor Section -->
   <div class="row mt-5">
@@ -1056,45 +1245,29 @@
     border-color: #f26c4f;
   }
 
-  .sponsor-image {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto 1rem;
-    border-radius: 50%;
-    overflow: hidden;
+  /* Sponsor Avatar Fallback */
+  .sponsor-avatar-fallback {
+    width: 100%;
+    height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #fff2e2 0%, #f0d9b5 100%);
-    border: 2px solid #f26c4f;
+    border-radius: 15px;
+    position: relative;
   }
 
-  .sponsor-img {
-    width: 60px;
-    height: 60px;
-    object-fit: contain;
-    border-radius: 50%;
-    transition: filter 0.3s ease;
+  .sponsor-avatar-initial {
+    color: white;
+    font-weight: bold;
+    font-size: 4rem;
+    text-align: center;
+    line-height: 1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+    letter-spacing: 0.1em;
   }
 
-  .sponsor-card-link:hover .sponsor-img {
-    filter: brightness(1.1);
-  }
-
-  .sponsor-name {
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: #7a1f1f;
-    margin-bottom: 0.5rem;
-  }
-
-  .sponsor-category {
-    font-size: 0.9rem;
-    color: #f26c4f;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    margin: 0;
+  .sponsor-card-link:hover .sponsor-avatar-fallback {
+    transform: scale(1.02);
   }
 
   .become-sponsor-section {
@@ -1174,23 +1347,13 @@
     .sponsor-card {
       padding: 1rem;
     }
-    
-    .sponsor-image {
-      width: 60px;
-      height: 60px;
+
+    .sponsor-avatar-fallback {
+      height: 180px;
     }
-    
-    .sponsor-img {
-      width: 45px;
-      height: 45px;
-    }
-    
-    .sponsor-name {
-      font-size: 1rem;
-    }
-    
-    .sponsor-category {
-      font-size: 0.8rem;
+
+    .sponsor-avatar-initial {
+      font-size: 3rem;
     }
     
     .become-sponsor-section {
@@ -1212,6 +1375,14 @@
   }
   
   @media (max-width: 480px) {
+    .sponsor-avatar-fallback {
+      height: 160px;
+    }
+
+    .sponsor-avatar-initial {
+      font-size: 2.5rem;
+    }
+
     .sponsor-email-display {
       font-size: 0.9rem;
     }
