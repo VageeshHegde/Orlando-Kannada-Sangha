@@ -46,8 +46,8 @@
 <style>
   .back-to-top-btn {
     position: fixed;
-    bottom: 30px;
-    right: 30px;
+    bottom: 20px;
+    right: 90px;
     width: 50px;
     height: 50px;
     background-color: #f26c4f;
@@ -90,11 +90,21 @@
   /* Mobile responsive adjustments */
   @media (max-width: 768px) {
     .back-to-top-btn {
-      bottom: 20px;
-      right: 20px;
+      bottom: 15px;
+      right: 85px;
       width: 45px;
       height: 45px;
       font-size: 1rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .back-to-top-btn {
+      bottom: 15px;
+      right: 80px;
+      width: 40px;
+      height: 40px;
+      font-size: 0.9rem;
     }
   }
 </style> 

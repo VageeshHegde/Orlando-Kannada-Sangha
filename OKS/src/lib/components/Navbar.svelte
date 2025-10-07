@@ -178,19 +178,19 @@
       </ul>
       
        <!-- Language Toggle -->
-       <div class="language-toggle me-3">
-         <button 
+       <!-- <div class="language-toggle me-3"> -->
+         <!-- <button 
            class="btn btn-outline-secondary btn-sm language-btn-small" 
            on:click={() => showLanguageDropdown = !showLanguageDropdown}
            aria-expanded={showLanguageDropdown}
            aria-label="Select language"
          >
-           <i class="fas fa-globe"></i>
+           <i class="fas fa-globe"></i> -->
            <!-- <i class="fas fa-chevron-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i> -->
-           <i class="fa-solid fa-caret-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i>
-         </button>
+           <!-- <i class="fa-solid fa-caret-down ms-1 dropdown-arrow" class:rotated={showLanguageDropdown}></i>
+         </button> -->
          
-         {#if showLanguageDropdown}
+         <!-- {#if showLanguageDropdown}
            <div class="language-dropdown">
              <button 
                class="language-option" 
@@ -210,7 +210,7 @@
              </button>
            </div>
          {/if}
-       </div>
+       </div> -->
        
        <!-- Profile Section -->
        <div class="profile-section">

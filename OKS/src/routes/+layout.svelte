@@ -2,6 +2,7 @@
 	import '../app.css';
 	import favicon from '$lib/assets/favicon.png';
 	import BackToTop from '$lib/components/BackToTop.svelte';
+	import Chat from '$lib/components/Chat.svelte';
 	import { onMount } from 'svelte';
 	import { initAuth } from '$lib/stores/auth.js';
 	import { page } from '$app/stores';
@@ -31,4 +32,8 @@
 {@render children?.()}
 {#if !isAuthPage}
 	<BackToTop />
+	<Chat 
+		chatTitle="OKS Assistant"
+		placeholder="Ask me anything about OKS..."
+	/>
 {/if}

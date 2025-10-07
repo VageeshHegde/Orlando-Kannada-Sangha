@@ -535,15 +535,20 @@
       calendar.render();
     }
 
-    // Auto-show first event popup after page loads (only once per browser tab)
+    // Auto-show event popup if any event has show_popup flag set (only once per browser tab)
     const popupShown = sessionStorage.getItem('oks-popup-shown');
     
-    if (!popupShown) {
-      setTimeout(() => {
-        autoShowPopup = true;
-        // Mark popup as shown for this browser tab
-        sessionStorage.setItem('oks-popup-shown', 'true');
-      }, 1000); // Show popup after 2 seconds
+    if (!popupShown && events.length > 0) {
+      // Check if any event has show_popup flag
+      const eventWithPopup = events.find(event => event.show_popup === true);
+      
+      if (eventWithPopup) {
+        setTimeout(() => {
+          autoShowPopup = true;
+          // Mark popup as shown for this browser tab
+          sessionStorage.setItem('oks-popup-shown', 'true');
+        }, 1000); // Show popup after 1 second
+      }
     }
   });
 
@@ -830,6 +835,7 @@
               mapLink={event.map_link || ''}
               memberFormUrl={event.member_form_url || ''}
               nonMemberFormUrl={event.non_member_form_url || ''}
+              autoShow={autoShowPopup && event.show_popup === true}
             />
           {/each}
         {:else}
@@ -911,8 +917,8 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=1" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Your Company Here</h5>
-            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
       </div>
@@ -920,8 +926,8 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Your Company Here</h5>
-            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
       </div>
@@ -929,8 +935,8 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Your Company Here</h5>
-            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
       </div>
@@ -938,8 +944,8 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Your Company Here</h5>
-            <p class="sponsor-overlay-subtitle">Become a Sponsor</p>
+            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
       </div>
