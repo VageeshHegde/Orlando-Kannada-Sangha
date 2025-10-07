@@ -547,7 +547,7 @@
           autoShowPopup = true;
           // Mark popup as shown for this browser tab
           sessionStorage.setItem('oks-popup-shown', 'true');
-        }, 1000); // Show popup after 1 second
+        }, 500); // Show popup after 500 milliseconds
       }
     }
   });

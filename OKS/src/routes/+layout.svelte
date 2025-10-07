@@ -32,8 +32,8 @@
 {@render children?.()}
 {#if !isAuthPage}
 	<BackToTop />
-	<Chat 
+	<!-- <Chat 
 		chatTitle="OKS Assistant"
 		placeholder="Ask me anything about OKS..."
-	/>
+	/> -->
 {/if}
