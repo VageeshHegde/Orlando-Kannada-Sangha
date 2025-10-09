@@ -1,6 +1,7 @@
 <script>
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { user } from '$lib/stores/auth.js';
+	import { supabase } from '$lib/supabase.js';
 	import { getUserDisplayName, getDefaultAvatar } from '$lib/utils/avatarUtils.js';
 
 	// Component props
@@ -48,7 +49,7 @@
 	}
 
 	// Add a user message
-	function addUserMessage(text) {
+	async function addUserMessage(text) {
 		if (!text.trim()) return;
 		
 		const message = {
@@ -63,6 +64,9 @@
 		
 		messages = [...messages, message];
 		newMessage = '';
+		
+		// Save message to database
+		await saveMessageToDatabase(message.text);
 		
 		// Dispatch message event for parent component
 		dispatch('message', {
@@ -81,6 +85,27 @@
 		// Limit message history
 		if (messages.length > maxMessages) {
 			messages = messages.slice(-maxMessages);
+		}
+	}
+
+	// Save message to Supabase database
+	async function saveMessageToDatabase(messageText) {
+		try {
+			const { data, error } = await supabase
+				.from('chat_messages')
+				.insert([
+					{
+						user_name: userName,
+						user_email: $user?.email || null,
+						message: messageText
+					}
+				]);
+
+			if (error) {
+				console.error('Error saving chat message:', error);
+			}
+		} catch (error) {
+			console.error('Exception saving chat message:', error);
 		}
 	}
 
