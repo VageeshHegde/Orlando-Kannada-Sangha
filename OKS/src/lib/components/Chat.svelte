@@ -30,7 +30,7 @@
 	// Initialize with welcome message
 	onMount(() => {
 		if (messages.length === 0) {
-			addSystemMessage('Welcome to the community chat! 🎉');
+			addSystemMessage('Hello! I\'m the OKS Assistant. How can I help you today?');
 		}
 	});
 
@@ -112,7 +112,7 @@
 	// Simulate typing response (for demo purposes)
 	function simulateTypingResponse() {
 		isTyping = true;
-		typingUsers = ['Community Bot'];
+		typingUsers = ['OKS Assistant'];
 		
 		setTimeout(() => {
 			const responses = [
@@ -131,8 +131,8 @@
 				type: 'user',
 				text: randomResponse,
 				timestamp: new Date(),
-				user: 'Community Bot',
-				avatar: getDefaultAvatar('Community Bot'),
+				user: 'OKS Assistant',
+				avatar: getDefaultAvatar('OKS Assistant'),
 				isOwn: false
 			};
 			
@@ -228,9 +228,9 @@
 					{:else}
 						<div class="user-message">
 							{#if !message.isOwn}
-								<!-- Other user's avatar -->
-								<div class="user-avatar">
-									<img src={message.avatar} alt={message.user} />
+								<!-- OKS Assistant avatar -->
+								<div class="user-avatar-oks">
+									<img src="/images/OKSlogo.png" alt="OKS Assistant" />
 								</div>
 							{/if}
 							<div class="message-content">
@@ -244,9 +244,15 @@
 							</div>
 							{#if message.isOwn}
 								<!-- Current user's avatar -->
-								<div class="user-avatar-own" style="background-color: {getAvatarColor(userName)}">
-									<span class="user-avatar-initial">{getMemberInitial(userName)}</span>
-								</div>
+								{#if isLoggedIn}
+									<div class="user-avatar-own" style="background-color: {getAvatarColor(userName)}">
+										<span class="user-avatar-initial">{getMemberInitial(userName)}</span>
+									</div>
+								{:else}
+									<div class="user-avatar-own" style="background: linear-gradient(135deg, #7a1f1f 0%, #8a4b4b 100%);">
+										<i class="fas fa-user" style="color: white; font-size: 0.9rem;"></i>
+									</div>
+								{/if}
 							{/if}
 						</div>
 					{/if}
@@ -256,8 +262,8 @@
 			<!-- Typing Indicator -->
 			{#if isTyping && typingUsers.length > 0}
 				<div class="typing-indicator">
-					<div class="typing-avatar">
-						<img src={getDefaultAvatar('Bot')} alt="Typing..." />
+					<div class="user-avatar-oks">
+						<img src="/images/OKSlogo.png" alt="OKS Assistant" />
 					</div>
 					<div class="typing-content">
 						<div class="typing-text">
@@ -275,36 +281,29 @@
 
 		<!-- Message Input -->
 		<div class="chat-input-container">
-			{#if !isLoggedIn}
-				<div class="login-prompt">
-					<i class="fas fa-sign-in-alt me-2"></i>
-					Please <a href="/login">login</a> to participate in the chat
-				</div>
-			{:else}
-				<div class="chat-input-wrapper">
-					<textarea
-						bind:this={inputElement}
-						bind:value={newMessage}
-						on:keypress={handleKeyPress}
-						placeholder={placeholder}
-						class="chat-input"
-						rows="1"
-						maxlength="500"
-					></textarea>
-					<button 
-						class="chat-send-btn" 
-						on:click={() => addUserMessage(newMessage)}
-						disabled={!newMessage.trim()}
-						aria-label="Send message"
-					>
-						<i class="fas fa-paper-plane"></i>
-					</button>
-				</div>
-				<div class="chat-input-footer">
-					<span class="char-count">{newMessage.length}/500</span>
-					<span class="input-hint">Press Enter to send, Shift+Enter for new line</span>
-				</div>
-			{/if}
+			<div class="chat-input-wrapper">
+				<textarea
+					bind:this={inputElement}
+					bind:value={newMessage}
+					on:keypress={handleKeyPress}
+					placeholder={placeholder}
+					class="chat-input"
+					rows="1"
+					maxlength="500"
+				></textarea>
+				<button 
+					class="chat-send-btn" 
+					on:click={() => addUserMessage(newMessage)}
+					disabled={!newMessage.trim()}
+					aria-label="Send message"
+				>
+					<i class="fas fa-paper-plane"></i>
+				</button>
+			</div>
+			<div class="chat-input-footer">
+				<span class="char-count">{newMessage.length}/500</span>
+				<span class="input-hint">Press Enter to send, Shift+Enter for new line</span>
+			</div>
 		</div>
 	</div>
 {/if}
@@ -461,6 +460,7 @@
 		justify-content: center;
 		gap: 8px;
 		border-left: 3px solid #7a1f1f;
+		white-space: pre-line;
 	}
 
 	.message-time {
@@ -478,7 +478,7 @@
 	}
 
 	.message-wrapper.own .user-message {
-		flex-direction: row-reverse;
+		flex-direction: row;
 		align-self: flex-end;
 	}
 
@@ -514,6 +514,27 @@
 		font-size: 0.75rem;
 		text-align: center;
 		line-height: 1;
+	}
+
+	.user-avatar-oks {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		background: white;
+		border: 2px solid #f26c4f;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		flex-shrink: 0;
+		overflow: hidden;
+		padding: 2px;
+	}
+
+	.user-avatar-oks img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
 	}
 
 	.message-content {
@@ -563,20 +584,6 @@
 		margin-top: 8px;
 	}
 
-	.typing-avatar {
-		width: 32px;
-		height: 32px;
-		border-radius: 50%;
-		overflow: hidden;
-		flex-shrink: 0;
-	}
-
-	.typing-avatar img {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
 	.typing-content {
 		display: flex;
 		flex-direction: column;
@@ -617,26 +624,6 @@
 		border-top: 1px solid #e0d5c7;
 		background: white;
 		border-radius: 0 0 12px 12px;
-	}
-
-	.login-prompt {
-		text-align: center;
-		color: #7a1f1f;
-		font-size: 14px;
-		padding: 12px;
-		background: #f9f7f4;
-		border-radius: 8px;
-		border: 1px solid #e0d5c7;
-	}
-
-	.login-prompt a {
-		color: #7a1f1f;
-		text-decoration: none;
-		font-weight: 500;
-	}
-
-	.login-prompt a:hover {
-		text-decoration: underline;
 	}
 
 	.chat-input-wrapper {
