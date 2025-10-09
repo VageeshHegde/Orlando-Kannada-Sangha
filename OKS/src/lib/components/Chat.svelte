@@ -2,7 +2,7 @@
 	import { onMount, createEventDispatcher } from 'svelte';
 	import { user } from '$lib/stores/auth.js';
 	import { supabase } from '$lib/supabase.js';
-	import { getUserDisplayName, getDefaultAvatar } from '$lib/utils/avatarUtils.js';
+	import { getUserDisplayName, getDefaultAvatar, getMemberInitial, getAvatarColor } from '$lib/utils/avatarUtils.js';
 
 	// Component props
 	export let isOpen = false;
@@ -204,9 +204,16 @@
 	<div class="chat-container">
 		<!-- Chat Header -->
 		<div class="chat-header">
-			<div class="chat-title">
-				<i class="fas fa-comments me-2"></i>
-				{chatTitle}
+			<div class="chat-header-left">
+				{#if isLoggedIn && $user}
+					<div class="chat-user-avatar" style="background-color: {getAvatarColor(userName)}">
+						<span class="chat-user-initial">{getMemberInitial(userName)}</span>
+					</div>
+				{/if}
+				<div class="chat-title">
+					<i class="fas fa-comments me-2"></i>
+					{chatTitle}
+				</div>
 			</div>
 			<div class="chat-actions">
 				<button class="chat-action-btn" on:click={closeChat} aria-label="Close chat">
@@ -374,6 +381,32 @@
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
+	}
+
+	.chat-header-left {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.chat-user-avatar {
+		width: 36px;
+		height: 36px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid white;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+		flex-shrink: 0;
+	}
+
+	.chat-user-initial {
+		color: white;
+		font-weight: bold;
+		font-size: 0.9rem;
+		text-align: center;
+		line-height: 1;
 	}
 
 	.chat-title {
