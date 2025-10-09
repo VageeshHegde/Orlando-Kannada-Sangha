@@ -204,16 +204,9 @@
 	<div class="chat-container">
 		<!-- Chat Header -->
 		<div class="chat-header">
-			<div class="chat-header-left">
-				{#if isLoggedIn && $user}
-					<div class="chat-user-avatar" style="background-color: {getAvatarColor(userName)}">
-						<span class="chat-user-initial">{getMemberInitial(userName)}</span>
-					</div>
-				{/if}
-				<div class="chat-title">
-					<i class="fas fa-comments me-2"></i>
-					{chatTitle}
-				</div>
+			<div class="chat-title">
+				<i class="fas fa-comments me-2"></i>
+				{chatTitle}
 			</div>
 			<div class="chat-actions">
 				<button class="chat-action-btn" on:click={closeChat} aria-label="Close chat">
@@ -235,6 +228,7 @@
 					{:else}
 						<div class="user-message">
 							{#if !message.isOwn}
+								<!-- Other user's avatar -->
 								<div class="user-avatar">
 									<img src={message.avatar} alt={message.user} />
 								</div>
@@ -248,6 +242,12 @@
 									<span class="message-time">{formatTime(message.timestamp)}</span>
 								</div>
 							</div>
+							{#if message.isOwn}
+								<!-- Current user's avatar -->
+								<div class="user-avatar-own" style="background-color: {getAvatarColor(userName)}">
+									<span class="user-avatar-initial">{getMemberInitial(userName)}</span>
+								</div>
+							{/if}
 						</div>
 					{/if}
 				</div>
@@ -383,32 +383,6 @@
 		align-items: center;
 	}
 
-	.chat-header-left {
-		display: flex;
-		align-items: center;
-		gap: 12px;
-	}
-
-	.chat-user-avatar {
-		width: 36px;
-		height: 36px;
-		border-radius: 50%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		border: 2px solid white;
-		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-		flex-shrink: 0;
-	}
-
-	.chat-user-initial {
-		color: white;
-		font-weight: bold;
-		font-size: 0.9rem;
-		text-align: center;
-		line-height: 1;
-	}
-
 	.chat-title {
 		font-size: 16px;
 		font-weight: 500;
@@ -520,6 +494,26 @@
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
+	}
+
+	.user-avatar-own {
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border: 2px solid #7a1f1f;
+		box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+		flex-shrink: 0;
+	}
+
+	.user-avatar-initial {
+		color: white;
+		font-weight: bold;
+		font-size: 0.75rem;
+		text-align: center;
+		line-height: 1;
 	}
 
 	.message-content {
