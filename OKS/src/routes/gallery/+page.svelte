@@ -93,7 +93,7 @@
 								<p class="mb-3">To view our gallery, you must be a registered member of Orlando Kannada Sangha.</p>
 								<p class="mb-3">If you are a member, please login to access the gallery.</p>
 								<div class="d-flex gap-2">
-									<a href="https://www.zeffy.com/en-US/ticketing/d0cea646-0ac3-449b-8687-153653b0dc10" target="_blank" class="btn btn-primary">
+									<a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary">
 										<i class="fas fa-user-plus me-2"></i>Become a Member
 									</a>
 									<a href="/login" class="btn btn-outline-primary">
