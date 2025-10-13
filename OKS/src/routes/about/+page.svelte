@@ -123,7 +123,7 @@
 		try {
 			const { data: files, error: listError } = await supabase.storage
 				.from('OKS')
-				.list('board_members_2025', {
+				.list('present_board_members', {
 					limit: 100,
 					offset: 0
 				});
@@ -132,7 +132,7 @@
 				try {
 					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
 						.from('OKS')
-						.createSignedUrl(`board_members_2025/${member.imageFile}`, 3600);
+						.createSignedUrl(`present_board_members/${member.imageFile}`, 3600);
 					
 					if (signedUrlError) {
 						return {

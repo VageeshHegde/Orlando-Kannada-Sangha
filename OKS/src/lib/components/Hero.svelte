@@ -434,7 +434,7 @@
     margin-right: 0.5rem;
   }
 
-       .hero-content {
+  .hero-content {
     position: relative;
     z-index: 2;
   }
