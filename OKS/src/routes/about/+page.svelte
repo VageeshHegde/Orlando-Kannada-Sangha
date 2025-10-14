@@ -15,41 +15,9 @@
 	let pastMemberImages = {};
 	let pastMemberImagesLoaded = false;
 	
-	// Board members data
-	const boardMembers = [
-		{
-			id: 'venugopal',
-			name: 'Mr. Venugopal Kulkarni',
-			position: 'President',
-			year: '2024 - present',
-			description: 'Leading the organization with dedication and vision for Kannada culture preservation.',
-			imageFile: 'Venugopal.jpeg'
-		},
-		{
-			id: 'vishwa',
-			name: 'Mr. Vishwa',
-			position: 'Vice President',
-			year: '2025 - present', 
-			description: 'Supporting cultural initiatives and community engagement programs.',
-			imageFile: 'Vishwa.jpg'
-		},
-		{
-			id: 'supreeta',
-			name: 'Mrs. Supreeta Bolar',
-			position: 'Secretary',
-			year: '2025 - present',
-			description: 'Managing organizational communications and event coordination.',
-			imageFile: 'Supreeta.jpg'
-		},
-		{
-			id: 'sindhu',
-			name: 'Mrs. Sindhu Raju',
-			position: 'Treasurer',
-			year: '2025 - present',
-			description: 'Overseeing financial management and resource allocation.',
-			imageFile: 'Sindhu.jpeg'
-		}
-	];
+	// Board members data - loaded from database
+	let boardMembers = [];
+	let boardMembersLoaded = false;
 	
 	// Web development team data
 	const webTeamMembers = [
@@ -91,6 +59,33 @@
 	let pastMembers = [];
 	let pastMembersLoaded = false;
 	
+	// Load present board members from database via API
+	async function loadBoardMembers() {
+		try {
+			const response = await fetch('/api/present-board-members');
+			if (response.ok) {
+				const data = await response.json();
+				boardMembers = data.members || [];
+				boardMembersLoaded = true;
+				console.log('Present board members loaded from database:', boardMembers.length);
+				console.log('Sample member data:', boardMembers[0]);
+				
+				// Load images after members are loaded
+				loadBoardMemberImages();
+			} else {
+				console.error('Failed to load present board members:', response.status);
+				// Fallback to empty array
+				boardMembers = [];
+				boardMembersLoaded = true;
+			}
+		} catch (error) {
+			console.error('Error loading present board members:', error);
+			// Fallback to empty array
+			boardMembers = [];
+			boardMembersLoaded = true;
+		}
+	}
+
 	// Load past members from database via API
 	async function loadPastMembers() {
 		try {
@@ -121,32 +116,34 @@
 	// Load board member images from Supabase Storage
 	async function loadBoardMemberImages() {
 		try {
-			const { data: files, error: listError } = await supabase.storage
-				.from('OKS')
-				.list('present_board_members', {
-					limit: 100,
-					offset: 0
-				});
-			
 			const imagePromises = boardMembers.map(async (member) => {
 				try {
-					const { data: signedUrlData, error: signedUrlError } = await supabase.storage
-						.from('OKS')
-						.createSignedUrl(`present_board_members/${member.imageFile}`, 3600);
-					
-					if (signedUrlError) {
+					// Use image_file field from database
+					if (member.image_file) {
+						const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+							.from('OKS')
+							.createSignedUrl(`present_board_members/${member.image_file}`, 3600);
+						
+						if (signedUrlError) {
+							return {
+								id: member.id,
+								url: null,
+								success: false
+							};
+						}
+						
+						return {
+							id: member.id,
+							url: signedUrlData.signedUrl,
+							success: true
+						};
+					} else {
 						return {
 							id: member.id,
 							url: null,
 							success: false
 						};
 					}
-					
-					return {
-						id: member.id,
-						url: signedUrlData.signedUrl,
-						success: true
-					};
 				} catch (error) {
 					return {
 						id: member.id,
@@ -270,8 +267,8 @@
 	}
 
 	onMount(() => {
+		loadBoardMembers();
 		loadPastMembers();
-		loadBoardMemberImages();
 		loadWebTeamImages();
 	});
 </script>
@@ -380,7 +377,7 @@
 				<div class="col-12">
 					<h2 class="text-center mb-5 board-members-title">Present Board Members</h2>
 					<div class="row">
-						{#if imagesLoaded}
+						{#if boardMembersLoaded}
 							{#each boardMembers as member}
 								<div class="col-lg-3 col-md-6 mb-4">
 									<div class="board-member-card">

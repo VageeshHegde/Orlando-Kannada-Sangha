@@ -205,8 +205,9 @@
 	.member-slide .member-photo {
 		width: 100%;
 		height: 100%;
-		object-fit: cover;
+		object-fit: fill;
 		object-position: center;
+		aspect-ratio: 2 / 4;
 	}
 
 	.member-slide .image-placeholder {
