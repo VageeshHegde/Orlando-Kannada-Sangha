@@ -77,7 +77,7 @@
 			
 			// Show success message
 			magicLinkSent = true;
-			successMessage = 'Login link sent! Check your email and click the link to login.';
+			successMessage = 'Login link sent! Check your email and click the link to login. (Link expires in 1 hour)';
 			
 		} catch (error) {
 			console.error('Magic link error:', error);
@@ -399,7 +399,7 @@
 		color: #7a1f1f;
 	}
 	
-			/* Responsive Design */
+		/* Responsive Design */
 		@media (max-width: 576px) {
 			.login-card {
 				padding: 30px 20px;
