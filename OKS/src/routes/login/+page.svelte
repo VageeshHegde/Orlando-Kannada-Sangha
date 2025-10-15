@@ -147,7 +147,7 @@
 						<form on:submit={handleMagicLinkLogin} class="login-form">
 							<!-- Email Field -->
 							<div class="form-group">
-								<label for="email" class="form-label">Email Address</label>
+								<label for="email" class="form-label">Registered Membership Email Address:</label>
 								<div class="input-group">
 									<span class="input-group-text">
 										<i class="fas fa-envelope"></i>
@@ -157,7 +157,7 @@
 										id="email"
 										bind:value={email}
 										class="form-control {emailError ? 'is-invalid' : ''}"
-										placeholder="Enter your email"
+										placeholder="example@gmail.com"
 										disabled={isLoading}
 										autocomplete="email"
 									/>

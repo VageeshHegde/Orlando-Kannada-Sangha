@@ -167,7 +167,7 @@
             <i class="fas fa-info-circle"></i> Non-member ticket purchase
           </div>
           <div class="member-info mb-3">
-            <i class="fas fa-user-check"></i> If you are a member, please login to buy the ticket
+            <i class="fas fa-user-check"></i> If you are a member, please <button type="button" class="login-link" on:click={() => window.location.href='/login'}>login</button> to buy the ticket
           </div>
           <div style="position:relative;overflow:hidden;height:450px;width:100%;padding-top:450px;">
             <iframe 
@@ -545,6 +545,26 @@
   .member-info i {
     margin-right: 8px;
     font-size: 1.1rem;
+  }
+
+  .login-link {
+    background: none;
+    border: none;
+    color: #7a1f1f;
+    text-decoration: none;
+    font-weight: 700;
+    border-bottom: 1px solid #7a1f1f;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    padding: 0;
+    font-size: inherit;
+    font-family: inherit;
+  }
+
+  .login-link:hover {
+    color: #5a1515;
+    border-bottom-color: #5a1515;
+    text-decoration: none;
   }
 
   /* Responsive Lightbox */
