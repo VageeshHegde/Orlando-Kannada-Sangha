@@ -108,7 +108,7 @@
 			}
 
 			// Then, send to API endpoint
-			const response = await fetch('http://localhost:8080/oks', {
+			const response = await fetch('https://portfolio-backend-rag-f0195367b7a1.herokuapp.com/oks', {
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',

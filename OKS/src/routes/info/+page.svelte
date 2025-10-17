@@ -233,6 +233,65 @@
 							<p>You can contact us through our general email at suddhi@orlandokannadasangha.org or visit our About page to see the current board members.</p>
 						</div>
 					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>How do I create an account and login?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p><strong>Creating an Account:</strong></p>
+							<ol>
+								<li>Click on "Register" in the navigation menu</li>
+								<li>Fill out the registration form with your details</li>
+								<li>Verify your email address when you receive the confirmation email</li>
+								<li>Your account will be activated after email verification</li>
+							</ol>
+							<p><strong>Logging In:</strong></p>
+							<ol>
+								<li>Click on "Login" in the navigation menu</li>
+								<li>Enter your email address and password</li>
+								<li>Click "Sign In" to access your account</li>
+								<li>If you forgot your password, use the "Forgot Password" link</li>
+							</ol>
+						</div>
+					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>What can I do after logging in?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>After logging in, you can:</p>
+							<ul>
+								<li>Access member-only content and resources</li>
+								<li>Register for events with member discounts</li>
+								<li>Participate in community discussions</li>
+								<li>Update your profile information</li>
+								<li>View your membership status and benefits</li>
+								<li>Access exclusive member events and programs</li>
+							</ul>
+						</div>
+					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>I'm having trouble logging in. What should I do?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>If you're having trouble logging in:</p>
+							<ul>
+								<li>Make sure you're using the correct email address</li>
+								<li>Check that your password is entered correctly (case-sensitive)</li>
+								<li>Try using the "Forgot Password" feature to reset your password</li>
+								<li>Ensure your email has been verified (check your inbox for verification email)</li>
+								<li>Clear your browser cache and cookies</li>
+								<li>Contact us at suddhi@orlandokannadasangha.org if problems persist</li>
+							</ul>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -540,7 +599,25 @@
 	.faq-answer p {
 		color: #666;
 		line-height: 1.6;
-		margin: 0;
+		margin: 0 0 1rem 0;
+	}
+
+	.faq-answer ol,
+	.faq-answer ul {
+		color: #666;
+		line-height: 1.6;
+		margin: 0.5rem 0;
+		padding-left: 1.5rem;
+	}
+
+	.faq-answer ol li,
+	.faq-answer ul li {
+		margin-bottom: 0.5rem;
+	}
+
+	.faq-answer strong {
+		color: #7a1f1f;
+		font-weight: 600;
 	}
 
 	/* Responsive Design */
