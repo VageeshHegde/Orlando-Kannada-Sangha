@@ -65,7 +65,7 @@
 		messages = [...messages, message];
 		newMessage = '';
 		
-		// Save message to database
+		// Save message to database and send to API
 		await saveMessageToDatabase(message.text);
 		
 		// Dispatch message event for parent component
@@ -77,20 +77,16 @@
 		
 		scrollToBottom();
 		
-		// Simulate typing indicator for demo
-		if (enableTypingIndicator) {
-			simulateTypingResponse();
-		}
-		
 		// Limit message history
 		if (messages.length > maxMessages) {
 			messages = messages.slice(-maxMessages);
 		}
 	}
 
-	// Save message to Supabase database
+	// Save message to Supabase database and send to API endpoint
 	async function saveMessageToDatabase(messageText) {
 		try {
+			// First, save to Supabase database
 			const { data, error } = await supabase
 				.from('chat_messages')
 				.insert([
@@ -102,46 +98,67 @@
 				]);
 
 			if (error) {
-				console.error('Error saving chat message:', error);
+				console.error('Error saving chat message to database:', error);
+			}
+
+			// Show typing indicator while waiting for API response
+			if (enableTypingIndicator) {
+				isTyping = true;
+				typingUsers = ['OKS Assistant'];
+			}
+
+			// Then, send to API endpoint
+			const response = await fetch('http://localhost:8080/oks', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+					'Accept': 'application/json'
+				},
+				body: JSON.stringify({
+					user_name: userName,
+					user_email: $user?.email || null,
+					message: messageText
+				})
+			});
+
+			// Hide typing indicator
+			if (enableTypingIndicator) {
+				isTyping = false;
+				typingUsers = [];
+			}
+
+			if (!response.ok) {
+				console.error('Error sending message to API:', response.status, response.statusText);
+				return;
+			}
+
+			// Handle API response if it contains a reply
+			const responseData = await response.json();
+			if (responseData && responseData.response) {
+				// Add the API response as a message
+				const apiResponseMessage = {
+					id: Date.now(),
+					type: 'user',
+					text: responseData.response,
+					timestamp: new Date(),
+					user: 'OKS Assistant',
+					avatar: getDefaultAvatar('OKS Assistant'),
+					isOwn: false
+				};
+				
+				messages = [...messages, apiResponseMessage];
+				scrollToBottom();
 			}
 		} catch (error) {
-			console.error('Exception saving chat message:', error);
+			// Hide typing indicator on error
+			if (enableTypingIndicator) {
+				isTyping = false;
+				typingUsers = [];
+			}
+			console.error('Exception in saveMessageToDatabase:', error);
 		}
 	}
 
-	// Simulate typing response (for demo purposes)
-	function simulateTypingResponse() {
-		isTyping = true;
-		typingUsers = ['OKS Assistant'];
-		
-		setTimeout(() => {
-			const responses = [
-				"I'm here to help! For specific questions about OKS, please visit our About page or contact us at board@orlandokannadasangha.org",
-				"Thank you for your question! You can find more information on our website or reach out to our team.",
-				"For membership information, please visit the Membership section or email us.",
-				"I can help you navigate our website! What would you like to know about OKS?",
-				"For event details and registration, please check our Events page.",
-				"Thanks for reaching out! Feel free to explore our website or contact us for more information."
-			];
-			
-			const randomResponse = responses[Math.floor(Math.random() * responses.length)];
-			
-			const responseMessage = {
-				id: Date.now(),
-				type: 'user',
-				text: randomResponse,
-				timestamp: new Date(),
-				user: 'OKS Assistant',
-				avatar: getDefaultAvatar('OKS Assistant'),
-				isOwn: false
-			};
-			
-			messages = [...messages, responseMessage];
-			isTyping = false;
-			typingUsers = [];
-			scrollToBottom();
-		}, 1500);
-	}
 
 	// Handle key press
 	function handleKeyPress(event) {
@@ -166,6 +183,27 @@
 			hour: '2-digit', 
 			minute: '2-digit' 
 		});
+	}
+
+	// Format message text with rich text support
+	function formatMessageText(text) {
+		if (!text) return '';
+		
+		return text
+			// Convert line breaks to <br>
+			.replace(/\n/g, '<br>')
+			// Convert bullet points
+			.replace(/^[\s]*[-•*]\s+/gm, '<span class="bullet">•</span> ')
+			// Convert numbered lists
+			.replace(/^[\s]*(\d+)\.\s+/gm, '<span class="number">$1.</span> ')
+			// Convert bold text **text**
+			.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+			// Convert italic text *text*
+			.replace(/\*(.*?)\*/g, '<em>$1</em>')
+			// Convert links
+			.replace(/(https?:\/\/[^\s]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+			// Convert email addresses
+			.replace(/([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})/g, '<a href="mailto:$1">$1</a>');
 	}
 
 	// Close chat
@@ -238,7 +276,7 @@
 									<div class="message-user">{message.user}</div>
 								{/if}
 								<div class="message-bubble {message.isOwn ? 'own' : ''}">
-									{message.text}
+									<div class="message-text">{@html formatMessageText(message.text)}</div>
 									<span class="message-time">{formatTime(message.timestamp)}</span>
 								</div>
 							</div>
@@ -574,6 +612,51 @@
 		opacity: 0.7;
 		margin-top: 4px;
 		text-align: right;
+	}
+
+	/* Message Text Formatting */
+	.message-text {
+		line-height: 1.5;
+		word-wrap: break-word;
+	}
+
+	.message-text strong {
+		font-weight: 600;
+	}
+
+	.message-text em {
+		font-style: italic;
+	}
+
+	.message-text a {
+		color: inherit;
+		text-decoration: underline;
+		opacity: 0.8;
+	}
+
+	.message-text a:hover {
+		opacity: 1;
+	}
+
+	.message-text .bullet {
+		color: #7a1f1f;
+		font-weight: bold;
+		margin-right: 4px;
+	}
+
+	.message-text .number {
+		color: #7a1f1f;
+		font-weight: bold;
+		margin-right: 4px;
+	}
+
+	/* For own messages, adjust link colors */
+	.message-bubble.own .message-text a {
+		color: rgba(255, 255, 255, 0.9);
+	}
+
+	.message-bubble.own .message-text a:hover {
+		color: white;
 	}
 
 	/* Typing Indicator */
