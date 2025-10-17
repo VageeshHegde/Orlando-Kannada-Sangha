@@ -515,9 +515,9 @@
 		max-width: 80%;
 	}
 
-	/* Assistant Message - Wider for better readability */
-	.message-wrapper:not(.own) .user-message {
-		max-width: 80%;
+	/* Assistant Message Bubble - Wider for better readability */
+	.message-wrapper:not(.own) .message-bubble {
+		max-width: 90%;
 	}
 
 	.message-wrapper.own .user-message {
@@ -802,9 +802,9 @@
 			max-width: 90%;
 		}
 
-		/* Assistant messages on mobile */
-		.message-wrapper:not(.own) .user-message {
-			max-width: 90%;
+		/* Assistant message bubbles on mobile */
+		.message-wrapper:not(.own) .message-bubble {
+			max-width: 95%;
 		}
 	}
 
