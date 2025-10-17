@@ -515,6 +515,11 @@
 		max-width: 80%;
 	}
 
+	/* Assistant Message - Wider for better readability */
+	.message-wrapper:not(.own) .user-message {
+		max-width: 80%;
+	}
+
 	.message-wrapper.own .user-message {
 		flex-direction: row;
 		align-self: flex-end;
@@ -794,6 +799,11 @@
 		}
 
 		.user-message {
+			max-width: 90%;
+		}
+
+		/* Assistant messages on mobile */
+		.message-wrapper:not(.own) .user-message {
 			max-width: 90%;
 		}
 	}
