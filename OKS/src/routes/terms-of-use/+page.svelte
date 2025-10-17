@@ -78,7 +78,6 @@
             <p>If you have any questions about these Terms of Use, please contact us at:</p>
             <ul>
               <li>Email: info@orlandokannadasangha.org</li>
-              <li>Phone: (407) 123-4567</li>
               <li>Address: Orlando, Florida, United States</li>
             </ul>
           </div>

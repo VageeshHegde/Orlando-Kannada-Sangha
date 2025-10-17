@@ -78,7 +78,6 @@
             <p>If you have any questions about this Privacy Policy, please contact us at:</p>
             <ul>
               <li>Email: info@orlandokannadasangha.org</li>
-              <li>Phone: (407) 123-4567</li>
             </ul>
 
             <h2>8. Changes to This Policy</h2>

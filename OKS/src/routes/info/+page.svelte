@@ -236,24 +236,18 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>How do I create an account and login?</h5>
+							<h5>How do I login to the website?</h5>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
-							<p><strong>Creating an Account:</strong></p>
-							<ol>
-								<li>Click on "Register" in the navigation menu</li>
-								<li>Fill out the registration form with your details</li>
-								<li>Verify your email address when you receive the confirmation email</li>
-								<li>Your account will be activated after email verification</li>
-							</ol>
 							<p><strong>Logging In:</strong></p>
 							<ol>
 								<li>Click on "Login" in the navigation menu</li>
-								<li>Enter your email address and password</li>
-								<li>Click "Sign In" to access your account</li>
-								<li>If you forgot your password, use the "Forgot Password" link</li>
+								<li>Enter your registered membership email address</li>
+								<li>Click "Send Login Link" - we'll email you a secure login link</li>
+								<li>Check your email and click the login link/button to access your account</li>
 							</ol>
+							<p><em>Note: We use login links for secure, password-free authentication. No registration form is required! The link expires in 1 hour.</em></p>
 						</div>
 					</div>
 					
@@ -277,19 +271,58 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>I'm having trouble logging in. What should I do?</h5>
+							<h5>I'm having trouble with the login link. What should I do?</h5>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
-							<p>If you're having trouble logging in:</p>
+							<p>If you're having trouble with login link:</p>
 							<ul>
 								<li>Make sure you're using the correct email address</li>
-								<li>Check that your password is entered correctly (case-sensitive)</li>
-								<li>Try using the "Forgot Password" feature to reset your password</li>
-								<li>Ensure your email has been verified (check your inbox for verification email)</li>
+								<li>Check your email inbox (and spam folder) for the login link</li>
+								<li>Login links expire after a certain time - try requesting a new one</li>
 								<li>Clear your browser cache and cookies</li>
+								<li>Try using a different browser or incognito mode</li>
 								<li>Contact us at suddhi@orlandokannadasangha.org if problems persist</li>
 							</ul>
+						</div>
+					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>How can I reach the web development team?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>To contact the web development team for technical issues or website improvements:</p>
+							<ul>
+								<li><strong>General Technical Issues:</strong> Contact us at suddhi@orlandokannadasangha.org</li>
+								<li><strong>Website Feedback:</strong> Use the contact form or email with "Website Feedback" in the subject</li>
+								<li><strong>Bug Reports:</strong> Describe the issue in detail and include screenshots if possible</li>
+								<li><strong>Feature Requests:</strong> Suggest improvements or new features for the website</li>
+								<li><strong>Mobile/Desktop Issues:</strong> Specify your device and browser when reporting problems</li>
+							</ul>
+							<p><em>Our web development team includes content segmentation, guidance & hosting, design & data collection, and core development specialists.</em></p>
+						</div>
+					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>I don't find the user icon. Where is it?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>If you can't find the user icon on our OKS website, try these solutions:</p>
+							<ul>
+								<li><strong>Look in the top navigation bar</strong> - The user icon (👤) should be visible in the main navigation menu</li>
+								<li><strong>Check the header area</strong> - The user icon is typically located in the top-right corner of the website</li>
+								<li><strong>Mobile users</strong> - On mobile devices, look for a hamburger menu (☰) or "Menu" button that contains the user icon</li>
+								<li><strong>Scroll to the very top</strong> - Make sure you're at the top of the page where the navigation is located</li>
+								<li><strong>Refresh the page</strong> - Sometimes the navigation doesn't load properly on first visit</li>
+								<li><strong>Clear browser cache</strong> - Old cached content might be hiding the navigation elements</li>
+								<li><strong>Try a different browser</strong> - Some browsers may have compatibility issues with our website</li>
+								<li><strong>Direct access</strong> - You can go directly to <a href="/login">orlandokannadasangha.org/login</a> to access the login page</li>
+							</ul>
+							<p><em>If you still can't find the user icon, contact our web development team at suddhi@orlandokannadasangha.org and we'll help you access the login page.</em></p>
 						</div>
 					</div>
 				</div>
