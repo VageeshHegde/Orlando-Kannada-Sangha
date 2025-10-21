@@ -30,7 +30,10 @@
 	// Initialize with welcome message
 	onMount(() => {
 		if (messages.length === 0) {
-			addSystemMessage('Hello! I\'m the OKS Assistant. How can I help you today?');
+			const greeting = isLoggedIn 
+				? `Hello ${userName}! I'm the OKS Assistant. How can I help you today?`
+				: 'Hello! I\'m the OKS Assistant. How can I help you today?';
+			addSystemMessage(greeting);
 		}
 	});
 

@@ -242,12 +242,13 @@
 						<div class="faq-answer">
 							<p><strong>Logging In:</strong></p>
 							<ol>
-								<li>Click on "Login" in the navigation menu</li>
-								<li>Enter your registered membership email address</li>
-								<li>Click "Send Login Link" - we'll email you a secure login link</li>
-								<li>Check your email and click the login link/button to access your account</li>
+								<li>Click on the user icon (👤) in the navigation menu - a dropdown will appear</li>
+								<li>Click "Login" from the dropdown menu - this will take you to the login page</li>
+								<li>Enter your registered email address with Zeffy</li>
+								<li>Click "Send Login Link" - we'll email you a secure login link (link expires in 1 hour)</li>
+								<li>Check your email inbox (and spam folder) and click the login link/button to access your account</li>
 							</ol>
-							<p><em>Note: We use login links for secure, password-free authentication. No registration form is required! The link expires in 1 hour.</em></p>
+							<p><em>Note: We use login links for secure, password-free authentication. No registration form is required!</em></p>
 						</div>
 					</div>
 					
@@ -277,7 +278,7 @@
 						<div class="faq-answer">
 							<p>If you're having trouble with login link:</p>
 							<ul>
-								<li>Make sure you're using the correct email address</li>
+								<li>Make sure you're using the correct registered membership email address</li>
 								<li>Check your email inbox (and spam folder) for the login link</li>
 								<li>Login links expire after a certain time - try requesting a new one</li>
 								<li>Clear your browser cache and cookies</li>
@@ -323,6 +324,26 @@
 								<li><strong>Direct access</strong> - You can go directly to <a href="/login">orlandokannadasangha.org/login</a> to access the login page</li>
 							</ul>
 							<p><em>If you still can't find the user icon, contact our web development team at suddhi@orlandokannadasangha.org and we'll help you access the login page.</em></p>
+						</div>
+					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>How can my business be featured as a sponsor on the OKS website?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>We welcome business partnerships and sponsorships to support our community activities. Here's how your business can be featured:</p>
+							<ul>
+								<li><strong>Contact Us</strong> - Reach out to us at suddhi@orlandokannadasangha.org with "Sponsorship Inquiry" in the subject line</li>
+								<li><strong>Sponsorship Levels</strong> - We offer various sponsorship tiers with different benefits and visibility</li>
+								<li><strong>Website Placement</strong> - Your business logo and information will be displayed on our sponsors page</li>
+								<li><strong>Website Links</strong> - Your business website will be linked from our sponsors page for direct traffic</li>
+								<li><strong>Event Recognition</strong> - Sponsors are acknowledged at our events and programs</li>
+								<li><strong>Community Reach</strong> - Connect with the Kannada community in Orlando and surrounding areas</li>
+								<li><strong>Support Cultural Activities</strong> - Help us preserve and promote Kannada culture and language</li>
+							</ul>
+							<p><em>We're always looking for businesses that align with our community values and cultural mission. Contact us to discuss sponsorship opportunities and benefits.</em></p>
 						</div>
 					</div>
 				</div>
