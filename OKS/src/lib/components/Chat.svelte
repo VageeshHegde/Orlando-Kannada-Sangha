@@ -43,6 +43,12 @@
 	function addWelcomeMessage() {
 		if (messages.length === 0 && !initialMessageAdded) {
 			const currentUserName = $user ? getUserDisplayName($user) : null;
+			console.log('Chat Welcome Message Debug:', {
+				hasUser: !!$user,
+				userName: currentUserName,
+				userEmail: $user?.email,
+				userMetadata: $user?.user_metadata
+			});
 			const greeting = currentUserName 
 				? `Hello ${currentUserName}! I'm the OKS Assistant. How can I help you today?`
 				: 'Hello! I\'m the OKS Assistant. How can I help you today?';
