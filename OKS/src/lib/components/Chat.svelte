@@ -29,19 +29,26 @@
 
 	// Track if initial message was added
 	let initialMessageAdded = false;
+	let userChecked = false;
 
-	// Initialize with welcome message
+	// Wait for user state to load, then add welcome message
 	onMount(() => {
-		addWelcomeMessage();
+		// Give time for auth to load
+		setTimeout(() => {
+			userChecked = true;
+			addWelcomeMessage();
+		}, 500);
 	});
 
-	// Update welcome message when user logs in
-	$: if ($user && !initialMessageAdded) {
+	// Also add welcome message when user becomes available
+	$: if (userChecked && $user && !initialMessageAdded) {
+		// User logged in after component mounted
+		messages = []; // Clear any existing messages
 		addWelcomeMessage();
 	}
 
 	function addWelcomeMessage() {
-		if (messages.length === 0 && !initialMessageAdded) {
+		if (!initialMessageAdded) {
 			const currentUserName = $user ? getUserDisplayName($user) : null;
 			console.log('Chat Welcome Message Debug:', {
 				hasUser: !!$user,
