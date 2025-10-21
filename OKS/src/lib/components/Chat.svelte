@@ -27,15 +27,29 @@
 	$: userName = $user ? getUserDisplayName($user) : 'Guest';
 	$: userAvatar = $user?.user_metadata?.avatar_url || getDefaultAvatar(userName);
 
+	// Track if initial message was added
+	let initialMessageAdded = false;
+
 	// Initialize with welcome message
 	onMount(() => {
-		if (messages.length === 0) {
-			const greeting = isLoggedIn 
-				? `Hello ${userName}! I'm the OKS Assistant. How can I help you today?`
+		addWelcomeMessage();
+	});
+
+	// Update welcome message when user logs in
+	$: if ($user && !initialMessageAdded) {
+		addWelcomeMessage();
+	}
+
+	function addWelcomeMessage() {
+		if (messages.length === 0 && !initialMessageAdded) {
+			const currentUserName = $user ? getUserDisplayName($user) : null;
+			const greeting = currentUserName 
+				? `Hello ${currentUserName}! I'm the OKS Assistant. How can I help you today?`
 				: 'Hello! I\'m the OKS Assistant. How can I help you today?';
 			addSystemMessage(greeting);
+			initialMessageAdded = true;
 		}
-	});
+	}
 
 
 	// Add a system message
