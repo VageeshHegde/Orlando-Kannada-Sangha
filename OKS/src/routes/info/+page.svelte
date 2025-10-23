@@ -346,6 +346,29 @@
 							<p><em>We're always looking for businesses that align with our community values and cultural mission. Contact us to discuss sponsorship opportunities and benefits.</em></p>
 						</div>
 					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>I'm having trouble purchasing tickets for OKS events. What should I do?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>If you're experiencing issues with ticket purchases for OKS events, try these solutions:</p>
+							<ul>
+								<li><strong>Check Your Internet Connection</strong> - Ensure you have a stable internet connection</li>
+								<li><strong>Clear Browser Cache</strong> - Clear your browser's cache and cookies, then try again</li>
+								<li><strong>Try a Different Browser</strong> - Switch to a different browser (Chrome, Firefox, Safari, Edge)</li>
+								<li><strong>Disable Browser Extensions</strong> - Temporarily disable ad blockers or other extensions</li>
+								<li><strong>Check Payment Method</strong> - Verify your payment information is correct and up-to-date</li>
+								<li><strong>Zeffy Server Issues</strong> - Zeffy's servers may be experiencing downtime. Try again after some time</li>
+								<li><strong>Board Member Link Management</strong> - Board members may have temporarily taken down the link for maintenance or updates</li>
+								<li><strong>Contact Event Organizers</strong> - Reach out to us at suddhi@orlandokannadasangha.org with "Ticket Purchase Issue" in the subject</li>
+								<li><strong>Include Details</strong> - When contacting us, include your name, event name, and specific error message</li>
+								<li><strong>Alternative Payment</strong> - We may be able to arrange alternative payment methods if needed</li>
+							</ul>
+							<p><em>We want to ensure everyone can attend our events. Don't hesitate to contact us if you need assistance with ticket purchases.</em></p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
