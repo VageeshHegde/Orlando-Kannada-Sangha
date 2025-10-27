@@ -369,6 +369,18 @@
 							<p><em>We want to ensure everyone can attend our events. Don't hesitate to contact us if you need assistance with ticket purchases.</em></p>
 						</div>
 					</div>
+					
+					<div class="faq-item">
+						<div class="faq-question">
+							<h5>What is OKS's phone number?</h5>
+							<i class="fas fa-chevron-down"></i>
+						</div>
+						<div class="faq-answer">
+							<p>Currently, OKS does not have a dedicated phone number. We maintain our communication primarily through email to ensure privacy and proper documentation of all inquiries.</p>
+							<p>For any questions, concerns, or assistance, please email us at <strong>suddhi@orlandokannadasangha.org</strong> and we will respond promptly or give you a call.</p>
+							<p><em>We respect the privacy of our board members and volunteers, so individual phone numbers are not provided for general inquiries.</em></p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
