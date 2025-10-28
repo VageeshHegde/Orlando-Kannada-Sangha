@@ -3,6 +3,89 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import PageTitle from '$lib/components/PageTitle.svelte';
+	import { onMount } from 'svelte';
+
+	// Statistics state
+	let stats = {
+		sponsors: 0,
+		lifetimeMembers: 0,
+		pastBoardMembers: 0,
+		presentBoardMembers: 0,
+		activeMembers: 0
+	};
+	let statsLoading = true;
+	let statsError = '';
+
+	// Load statistics on mount
+	onMount(async () => {
+		await loadStatistics();
+	});
+
+	async function loadStatistics() {
+		try {
+			statsLoading = true;
+			statsError = '';
+
+			// Fetch all statistics in parallel
+			const [sponsorsRes, lifetimeMembersRes, pastMembersRes, presentMembersRes, activeMembersRes] = await Promise.all([
+				fetch('/api/sponsors'),
+				fetch('/api/lifetime-members'),
+				fetch('/api/past-members'),
+				fetch('/api/present-board-members'),
+				fetch('/api/auth', {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/json' },
+					body: JSON.stringify({ action: 'get_member_count' })
+				})
+			]);
+
+			// Process sponsors count
+			if (sponsorsRes.ok) {
+				const sponsorsData = await sponsorsRes.json();
+				stats.sponsors = sponsorsData.total || 0;
+			} else {
+				stats.sponsors = 0;
+			}
+
+			// Process lifetime members count
+			if (lifetimeMembersRes.ok) {
+				const lifetimeMembersData = await lifetimeMembersRes.json();
+				stats.lifetimeMembers = lifetimeMembersData.total || 0;
+			} else {
+				stats.lifetimeMembers = 0;
+			}
+
+			// Process past board members count
+			if (pastMembersRes.ok) {
+				const pastMembersData = await pastMembersRes.json();
+				stats.pastBoardMembers = pastMembersData.total || 0;
+			} else {
+				stats.pastBoardMembers = 0;
+			}
+
+			// Process present board members count
+			if (presentMembersRes.ok) {
+				const presentMembersData = await presentMembersRes.json();
+				stats.presentBoardMembers = (presentMembersData.members || []).length;
+			} else {
+				stats.presentBoardMembers = 0;
+			}
+
+			// Process active members count (confirmed users from auth)
+			if (activeMembersRes.ok) {
+				const activeMembersData = await activeMembersRes.json();
+				stats.activeMembers = activeMembersData.confirmedUsers || 0;
+			} else {
+				stats.activeMembers = 0;
+			}
+
+		} catch (error) {
+			console.error('Error loading statistics:', error);
+			statsError = 'Failed to load statistics';
+		} finally {
+			statsLoading = false;
+		}
+	}
 </script>
 
 <Navbar />
@@ -54,6 +137,81 @@
 				<h3>Kannada Kali</h3>
 				<p>Learn Kannada language and culture through our structured Kannada Kali program for all ages.</p>
 				<a href="/kannada-kali" class="info-link">Learn More <i class="fas fa-arrow-right"></i></a>
+			</div>
+		</div>
+	</div>
+
+	<!-- Statistics Section -->
+	<div class="row mb-5">
+		<div class="col-12">
+			<div class="info-section">
+				<h2 class="section-title">
+					<i class="fas fa-chart-bar me-3"></i>
+					Organization Statistics
+				</h2>
+				{#if statsLoading}
+					<div class="text-center py-4">
+						<div class="spinner-border text-primary" role="status">
+							<span class="visually-hidden">Loading statistics...</span>
+						</div>
+					</div>
+				{:else if statsError}
+					<div class="text-center py-4 text-danger">
+						<p>{statsError}</p>
+					</div>
+				{:else}
+					<div class="stats-grid">
+						<div class="stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-handshake"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-number">{stats.sponsors}</div>
+								<div class="stat-label">Sponsors</div>
+							</div>
+						</div>
+						
+						<div class="stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-star"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-number">{stats.lifetimeMembers}</div>
+								<div class="stat-label">Lifetime Members</div>
+							</div>
+						</div>
+						
+						<div class="stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-history"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-number">{stats.pastBoardMembers}</div>
+								<div class="stat-label">Past Board Members</div>
+							</div>
+						</div>
+						
+						<div class="stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-user-tie"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-number">{stats.presentBoardMembers}</div>
+								<div class="stat-label">Present Board Members</div>
+							</div>
+						</div>
+						
+						<div class="stat-card">
+							<div class="stat-icon">
+								<i class="fas fa-users"></i>
+							</div>
+							<div class="stat-content">
+								<div class="stat-number">{stats.activeMembers}</div>
+								<div class="stat-label">Active Members</div>
+							</div>
+						</div>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>
@@ -709,6 +867,112 @@
 		font-weight: 600;
 	}
 
+	/* Statistics Section */
+	.stats-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1.5rem;
+		margin-top: 1rem;
+	}
+
+	.stat-card {
+		background: linear-gradient(135deg, #7a1f1f 0%, #f26c4f 100%);
+		border-radius: 20px;
+		padding: 2rem 1.75rem;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		gap: 1.25rem;
+		transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+		box-shadow: 0 8px 20px rgba(122, 31, 31, 0.15);
+		border: 2px solid rgba(255, 255, 255, 0.1);
+		position: relative;
+		overflow: hidden;
+	}
+
+	.stat-card::before {
+		content: '';
+		position: absolute;
+		top: -50%;
+		left: -50%;
+		width: 200%;
+		height: 200%;
+		background: radial-gradient(circle, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+		opacity: 0;
+		transition: opacity 0.4s ease;
+	}
+
+	.stat-card:hover::before {
+		opacity: 1;
+	}
+
+	.stat-card:hover {
+		transform: translateY(-8px) scale(1.02);
+		box-shadow: 0 15px 35px rgba(122, 31, 31, 0.25);
+		border-color: rgba(255, 255, 255, 0.2);
+	}
+
+	.stat-icon {
+		width: 80px;
+		height: 80px;
+		background: rgba(255, 255, 255, 0.15);
+		backdrop-filter: blur(10px);
+		border-radius: 50%;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-shrink: 0;
+		border: 2px solid rgba(255, 255, 255, 0.2);
+		transition: all 0.4s ease;
+		position: relative;
+		z-index: 1;
+	}
+
+	.stat-card:hover .stat-icon {
+		transform: scale(1.1) rotate(5deg);
+		background: rgba(255, 255, 255, 0.25);
+		border-color: rgba(255, 255, 255, 0.3);
+	}
+
+	.stat-icon i {
+		font-size: 2.25rem;
+		color: white;
+		text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+	}
+
+	.stat-content {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+	}
+
+	.stat-number {
+		font-size: 3rem;
+		font-weight: 800;
+		color: white;
+		line-height: 1;
+		margin-bottom: 0.75rem;
+		text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+		transition: all 0.3s ease;
+		font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	}
+
+	.stat-card:hover .stat-number {
+		transform: scale(1.05);
+	}
+
+	.stat-label {
+		font-size: 0.9rem;
+		color: rgba(255, 255, 255, 0.95);
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 1px;
+		line-height: 1.3;
+		text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+	}
+
 	/* Responsive Design */
 	@media (max-width: 768px) {
 		.membership-info {
@@ -730,6 +994,76 @@
 
 		.info-section {
 			padding: 1.5rem;
+		}
+
+		.stats-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1.25rem;
+		}
+
+		.stat-card {
+			padding: 1.75rem 1.5rem;
+			gap: 1rem;
+		}
+
+		.stat-icon {
+			width: 70px;
+			height: 70px;
+		}
+
+		.stat-icon i {
+			font-size: 1.875rem;
+		}
+
+		.stat-number {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.stat-label {
+			font-size: 0.85rem;
+			letter-spacing: 0.8px;
+		}
+	}
+
+	@media (max-width: 576px) {
+		.stats-grid {
+			grid-template-columns: 1fr;
+			gap: 1rem;
+		}
+
+		.stat-card {
+			padding: 1.5rem 1.25rem;
+			border-radius: 15px;
+		}
+
+		.stat-icon {
+			width: 65px;
+			height: 65px;
+		}
+
+		.stat-icon i {
+			font-size: 1.75rem;
+		}
+
+		.stat-number {
+			font-size: 2.25rem;
+		}
+
+		.stat-label {
+			font-size: 0.8rem;
+		}
+	}
+
+	@media (min-width: 1200px) {
+		.stats-grid {
+			grid-template-columns: repeat(5, 1fr);
+		}
+	}
+
+	@media (min-width: 992px) and (max-width: 1199px) {
+		.stats-grid {
+			grid-template-columns: repeat(3, 1fr);
 		}
 	}
 </style>
