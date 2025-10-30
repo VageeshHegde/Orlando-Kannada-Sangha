@@ -207,7 +207,7 @@
 							</div>
 							<div class="stat-content">
 								<div class="stat-number">{stats.activeMembers}</div>
-								<div class="stat-label">Active Members</div>
+								<div class="stat-label">Registered Members</div>
 							</div>
 						</div>
 					</div>

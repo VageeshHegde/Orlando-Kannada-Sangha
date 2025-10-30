@@ -662,12 +662,12 @@
               <span class="stat-simple"><strong>450+</strong> Community Members</span> 
               <div class="stat-inline">
                 <span class="stat-simple"><strong>4+</strong> Events per year</span>
+                <span class="stat-simple"><strong>{lifetimeMembers.length}</strong> Lifetime Members</span>
                 <span class="stat-simple"><strong>{sponsors.length}</strong> Sponsors</span>
               </div>
               <span class="stat-simple"><strong>58</strong> Kannada Kali Students</span>
               <div class="stat-inline">
-                <span class="stat-simple"><strong>{activeMembersCount}</strong> Active Members</span>
-                <span class="stat-simple"><strong>{lifetimeMembers.length}</strong> Lifetime Members</span>
+                <span class="stat-simple"><strong>{activeMembersCount}</strong> Registered Members</span>
               </div>
               <span class="stat-simple"><strong>380+</strong> Social Media Followers</span>
             </div>
@@ -680,7 +680,7 @@
                   </a>
                 </p>
               </div>
-              <div id="regions_div" class="mt-4" style="width: 100%; height: 100px;"></div>
+              <div id="regions_div" class="mt-4 map-container"></div>
             </div>
           </div>
         </div>
@@ -1493,7 +1493,7 @@
 
   /* Bottom content padding */
   .bottom-content {
-    padding-top: 0.02rem;
+    padding-top: 0.1rem;
   }
 
   .stat-inline {
@@ -1502,6 +1502,25 @@
 
   .stat-inline .stat-simple {
     margin-right: 0.1rem;
+  }
+
+  /* Map container styles */
+  .map-container {
+    width: 100%;
+    height: 100px;
+  }
+
+  /* Map height for mobile */
+  @media (max-width: 768px) {
+    .map-container {
+      height: 350px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .map-container {
+      height: 200px;
+    }
   }
 
 </style>
