@@ -269,6 +269,7 @@
 {#if isLoggedIn}
 <section class="pagination-section">
   <div class="container">
+    <hr class="my-4">
     <div class="row">
       <div class="col-12 d-flex justify-content-center">
         <nav aria-label="Page navigation example">
