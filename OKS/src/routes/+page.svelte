@@ -67,6 +67,7 @@
   let lifetimeMembersError = '';
   let lifetimeMemberImages = {};
   let lifetimeMemberImagesLoaded = false;
+  let lifetimeMembersCount = 0;
 
   // Sponsors data
   let sponsors = [];
@@ -170,6 +171,7 @@
 
       const data = await response.json();
       lifetimeMembers = data.members || [];
+      lifetimeMembersCount = (typeof data.total === 'number') ? data.total : lifetimeMembers.length;
 
       // Load images after getting members data
       if (lifetimeMembers.length > 0) {
@@ -637,11 +639,13 @@
             <div class="community-stats">
               <span class="stat-simple"><strong>450+</strong> Community Members</span>
               <br />
-              <span class="stat-simple"><strong>380+</strong> Social Media Followers</span>
-              <br />
+              <!-- <span class="stat-simple"><strong>380+</strong> Social Media Followers</span>
+              <br /> -->
               <span class="stat-simple"><strong>4+</strong> Events per year</span>
               <br />
               <span class="stat-simple"><strong>58</strong> Kannada Kali Students</span>
+              <br />
+              <span class="stat-simple"><strong>{lifetimeMembersCount}</strong> Lifetime Members</span>
             </div>
             
             <div class="bottom-content">
