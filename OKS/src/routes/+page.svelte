@@ -68,6 +68,7 @@
   let lifetimeMemberImages = {};
   let lifetimeMemberImagesLoaded = false;
   let lifetimeMembersCount = 0;
+  let activeMembersCount = 0;
 
   // Sponsors data
   let sponsors = [];
@@ -478,6 +479,9 @@
     
     // Load sponsors from database
     await loadSponsors();
+
+    // Load active members count
+    await loadActiveMembersCount();
     
     // Image scroller setup
     scrollContent = document.querySelector('.scroll-content');
@@ -557,6 +561,24 @@
   onDestroy(() => {
     if (cleanupResize) cleanupResize();
   });
+
+  async function loadActiveMembersCount() {
+    try {
+      const response = await fetch('/api/auth', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'get_member_count' })
+      });
+      if (response.ok) {
+        const data = await response.json();
+        activeMembersCount = data.confirmedUsers || 0;
+      } else {
+        activeMembersCount = 0;
+      }
+    } catch (error) {
+      activeMembersCount = 0;
+    }
+  }
 </script>
 
 <Navbar />
@@ -637,15 +659,17 @@
             
             <!-- Community Stats -->
             <div class="community-stats">
-              <span class="stat-simple"><strong>450+</strong> Community Members</span>
-              <br />
-              <!-- <span class="stat-simple"><strong>380+</strong> Social Media Followers</span>
-              <br /> -->
-              <span class="stat-simple"><strong>4+</strong> Events per year</span>
-              <br />
+              <span class="stat-simple"><strong>450+</strong> Community Members</span> 
+              <div class="stat-inline">
+                <span class="stat-simple"><strong>4+</strong> Events per year</span>
+                <span class="stat-simple"><strong>{sponsors.length}</strong> Sponsors</span>
+              </div>
               <span class="stat-simple"><strong>58</strong> Kannada Kali Students</span>
-              <br />
-              <span class="stat-simple"><strong>{lifetimeMembersCount}</strong> Lifetime Members</span>
+              <div class="stat-inline">
+                <span class="stat-simple"><strong>{activeMembersCount}</strong> Active Members</span>
+                <span class="stat-simple"><strong>{lifetimeMembers.length}</strong> Lifetime Members</span>
+              </div>
+              <span class="stat-simple"><strong>380+</strong> Social Media Followers</span>
             </div>
             
             <div class="bottom-content">
@@ -656,7 +680,7 @@
                   </a>
                 </p>
               </div>
-              <div id="regions_div" class="mt-4" style="width: 100%; height: 210px;"></div>
+              <div id="regions_div" class="mt-4" style="width: 100%; height: 100px;"></div>
             </div>
           </div>
         </div>
@@ -1312,7 +1336,6 @@
     font-size: 1.3rem;
   }
   
-  
   .thank-you-sponsors-content .fas.fa-heart {
     animation: heartbeat 2s ease-in-out infinite;
   }
@@ -1461,6 +1484,24 @@
   @keyframes spin {
     from { transform: rotate(0deg); }
     to { transform: rotate(360deg); }
+  }
+
+  /* Community Stats - keep specific stats inline */
+  .community-stats {
+    font-size: 0.860rem;
+  }
+
+  /* Bottom content padding */
+  .bottom-content {
+    padding-top: 0.02rem;
+  }
+
+  .stat-inline {
+    display: inline;
+  }
+
+  .stat-inline .stat-simple {
+    margin-right: 0.1rem;
   }
 
 </style>
