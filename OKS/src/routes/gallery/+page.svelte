@@ -4,6 +4,8 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import PageTitle from '$lib/components/PageTitle.svelte';
 	import { user } from '$lib/stores/auth.js';
+	import { supabase } from '$lib/supabase.js';
+	import { onMount } from 'svelte';
 	
 	// Real authentication state from Supabase
 	$: isLoggedIn = !!$user;
@@ -64,6 +66,201 @@
 	
 	function setActiveSection(sectionId) {
 		activeSection = sectionId;
+	}
+
+	// Gallery images state
+	let galleryImages = {
+		'all': [],
+		'cultural-events': [],
+		'community-gatherings': [],
+		'kannada-kali': [],
+		'performances': [],
+		'youth-programs': []
+	};
+	let imagesLoading = false;
+	let imagesError = '';
+	let imagesLoaded = false;
+
+	// Load gallery images from Supabase Storage
+	async function loadGalleryImages() {
+		try {
+			imagesLoading = true;
+			imagesError = '';
+
+			// Map section IDs to folder names
+			const folderMap = {
+				'cultural-events': 'cultural-events',
+				'community-gatherings': 'community-gatherings',
+				'kannada-kali': 'kannada-kali',
+				'performances': 'performances',
+				'youth-programs': 'youth-programs'
+			};
+
+			// Load images for each category
+			const imagePromises = Object.entries(folderMap).map(async ([sectionId, folderName]) => {
+				try {
+					const folderPath = `gallery/${folderName}`;
+					
+					// List files in the folder
+					const { data: files, error: listError } = await supabase.storage
+						.from('OKS')
+						.list(folderPath, {
+							limit: 100,
+							offset: 0,
+							sortBy: { column: 'name', order: 'asc' }
+						});
+
+					if (listError) {
+						// Try root gallery folder as fallback
+						if (folderPath.includes('/')) {
+							const rootPath = 'gallery';
+							const { data: rootFiles, error: rootError } = await supabase.storage
+								.from('OKS')
+								.list(rootPath, {
+									limit: 100,
+									offset: 0
+								});
+						}
+						return { sectionId, images: [] };
+					}
+
+					// Filter for image files
+					const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+					const imageFiles = (files || []).filter(file => {
+						if (!file.name) return false;
+						const extension = file.name.toLowerCase().split('.').pop();
+						return imageExtensions.includes(extension);
+					});
+
+					// Generate signed URLs for each image
+					const urlPromises = imageFiles.map(async (file) => {
+						try {
+							const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+								.from('OKS')
+								.createSignedUrl(`${folderPath}/${file.name}`, 3600); // 1 hour expiration
+
+							if (signedUrlError) {
+								return null;
+							}
+
+							return {
+								url: signedUrlData.signedUrl,
+								name: file.name,
+								category: sectionId
+							};
+						} catch (error) {
+							return null;
+						}
+					});
+
+					const urls = await Promise.all(urlPromises);
+					const validUrls = urls.filter(url => url !== null);
+
+					return { sectionId, images: validUrls };
+				} catch (error) {
+					return { sectionId, images: [] };
+				}
+			});
+
+			const results = await Promise.all(imagePromises);
+
+			// Organize images by section
+			const newGalleryImages = {
+				'all': [],
+				'cultural-events': [],
+				'community-gatherings': [],
+				'kannada-kali': [],
+				'performances': [],
+				'youth-programs': []
+			};
+
+			let totalImages = 0;
+			results.forEach(({ sectionId, images }) => {
+				newGalleryImages[sectionId] = images;
+				totalImages += images.length;
+				// Also add to 'all' category
+				newGalleryImages['all'].push(...images);
+			});
+
+			// If no images found in subfolders, try listing root gallery folder
+			if (totalImages === 0) {
+				try {
+					const { data: rootFiles, error: rootError } = await supabase.storage
+						.from('OKS')
+						.list('gallery', {
+							limit: 100,
+							offset: 0
+						});
+
+					if (!rootError && rootFiles && rootFiles.length > 0) {
+						// Filter for image files
+						const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
+						const imageFiles = rootFiles.filter(file => {
+							if (!file.name) return false;
+							const extension = file.name.toLowerCase().split('.').pop();
+							return imageExtensions.includes(extension);
+						});
+
+						// Generate signed URLs
+						const urlPromises = imageFiles.map(async (file) => {
+							try {
+								const { data: signedUrlData, error: signedUrlError } = await supabase.storage
+									.from('OKS')
+									.createSignedUrl(`gallery/${file.name}`, 3600);
+
+								if (signedUrlError) {
+									return null;
+								}
+
+								return {
+									url: signedUrlData.signedUrl,
+									name: file.name,
+									category: 'all'
+								};
+							} catch (error) {
+								return null;
+							}
+						});
+
+						const urls = await Promise.all(urlPromises);
+						const validUrls = urls.filter(url => url !== null);
+
+						if (validUrls.length > 0) {
+							newGalleryImages['all'] = validUrls;
+							totalImages = validUrls.length;
+						}
+					}
+				} catch (error) {
+					// Silently handle error
+				}
+			}
+
+			galleryImages = newGalleryImages;
+			imagesLoaded = true;
+
+		} catch (error) {
+			imagesError = 'Failed to load gallery images';
+			imagesLoaded = true;
+		} finally {
+			imagesLoading = false;
+		}
+	}
+
+	// Load images when component mounts or user logs in
+	onMount(() => {
+		if (isLoggedIn && !imagesLoaded) {
+			loadGalleryImages();
+		} else if (!isLoggedIn) {
+			imagesLoading = false;
+			imagesLoaded = true;
+		}
+	});
+
+	// Reload images when user logs in
+	$: if (isLoggedIn && !imagesLoaded) {
+		if (!imagesLoading) {
+			loadGalleryImages();
+		}
 	}
 </script>
 
@@ -173,130 +370,56 @@
 
 			<!-- Masonry Gallery -->
 			<div class="masonry-gallery">
-				{#if activeSection === 'all' || activeSection === 'cultural-events'}
-					<div class="gallery-item" data-category="cultural-events" style="height: 300px;">
-						<div class="placeholder-image" style="background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-calendar-alt"></i>
-								<p>Ugadi Celebration 2024</p>
-							</div>
-						</div>
+				{#if !isLoggedIn}
+					<!-- Login required message is shown above -->
+				{:else if imagesLoading}
+					<div class="loading-state">
+						<i class="fas fa-spinner fa-spin"></i>
+						<p>Loading gallery images...</p>
 					</div>
-					
-					<div class="gallery-item" data-category="cultural-events" style="height: 350px;">
-						<div class="placeholder-image" style="background: linear-gradient(135deg, #f0d9b5, #7a1f1f);">
-							<div class="placeholder-content">
-								<i class="fas fa-star"></i>
-								<p>Annual Event 2024</p>
-							</div>
-						</div>
+				{:else if imagesError}
+					<div class="error-state">
+						<i class="fas fa-exclamation-triangle"></i>
+						<p>{imagesError}</p>
 					</div>
-					
-					<div class="gallery-item" data-category="cultural-events" style="height: 280px;">
-						<div class="placeholder-image" style="background: linear-gradient(225deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-trophy"></i>
-								<p>Competition Winners</p>
+				{:else if galleryImages[activeSection] && galleryImages[activeSection].length > 0}
+					{#each galleryImages[activeSection] as image, index}
+						<div class="gallery-item" data-category={image.category}>
+							<img 
+								src={image.url} 
+								alt={image.name || `Gallery image ${index + 1}`}
+								loading="lazy"
+								style="display: block; width: 100%; height: auto;"
+								on:error={(e) => {
+									// Fallback to placeholder on error
+									e.target.style.display = 'none';
+									const placeholder = e.target.nextElementSibling;
+									if (placeholder) {
+										placeholder.style.display = 'flex';
+									}
+								}}
+								on:load={(e) => {
+									// Ensure image is visible when loaded
+									e.target.style.display = 'block';
+									e.target.style.opacity = '1';
+								}}
+							/>
+							<div class="placeholder-image" style="display: none; background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
+								<div class="placeholder-content">
+									<i class="fas fa-image"></i>
+									<p>Image not available</p>
+								</div>
 							</div>
 						</div>
-					</div>
-				{/if}
-				
-				{#if activeSection === 'all' || activeSection === 'community-gatherings'}
-					<div class="gallery-item" data-category="community-gatherings" style="height: 400px;">
-						<div class="placeholder-image" style="background: linear-gradient(135deg, #f0d9b5, #7a1f1f);">
-							<div class="placeholder-content">
-								<i class="fas fa-users"></i>
-								<p>Community Gathering</p>
-							</div>
-						</div>
-					</div>
-					
-					<div class="gallery-item" data-category="community-gatherings" style="height: 320px;">
-						<div class="placeholder-image" style="background: linear-gradient(315deg, #f0d9b5, #7a1f1f);">
-							<div class="placeholder-content">
-								<i class="fas fa-heart"></i>
-								<p>Community Bonding</p>
-							</div>
-						</div>
-					</div>
-					
-					<div class="gallery-item" data-category="community-gatherings" style="height: 290px;">
-						<div class="placeholder-image" style="background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-camera"></i>
-								<p>Photo Session</p>
-							</div>
-						</div>
-					</div>
-				{/if}
-				
-				{#if activeSection === 'all' || activeSection === 'kannada-kali'}
-					<div class="gallery-item" data-category="kannada-kali" style="height: 250px;">
-						<div class="placeholder-image" style="background: linear-gradient(225deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-graduation-cap"></i>
-								<p>Kannada Kali Class</p>
-							</div>
-						</div>
-					</div>
-					
-					<div class="gallery-item" data-category="kannada-kali" style="height: 260px;">
-						<div class="placeholder-image" style="background: linear-gradient(315deg, #f0d9b5, #7a1f1f);">
-							<div class="placeholder-content">
-								<i class="fas fa-book"></i>
-								<p>Language Workshop</p>
-							</div>
-						</div>
-					</div>
-				{/if}
-				
-				{#if activeSection === 'all' || activeSection === 'performances'}
-					<div class="gallery-item" data-category="performances" style="height: 350px;">
-						<div class="placeholder-image" style="background: linear-gradient(315deg, #f0d9b5, #7a1f1f);">
-							<div class="placeholder-content">
-								<i class="fas fa-music"></i>
-								<p>Cultural Performance</p>
-							</div>
-						</div>
-					</div>
-					
-					<div class="gallery-item" data-category="performances" style="height: 380px;">
-						<div class="placeholder-image" style="background: linear-gradient(225deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-drum"></i>
-								<p>Traditional Dance</p>
-							</div>
-						</div>
-					</div>
-				{/if}
-				
-				{#if activeSection === 'all' || activeSection === 'youth-programs'}
-					<div class="gallery-item" data-category="youth-programs" style="height: 280px;">
-						<div class="placeholder-image" style="background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-child"></i>
-								<p>Youth Program</p>
-							</div>
-						</div>
-					</div>
-					
-					<div class="gallery-item" data-category="youth-programs" style="height: 270px;">
-						<div class="placeholder-image" style="background: linear-gradient(315deg, #f0d9b5, #7a1f1f);">
-							<div class="placeholder-content">
-								<i class="fas fa-star"></i>
-								<p>Special Moments</p>
-							</div>
-						</div>
-					</div>
-					
-					<div class="gallery-item" data-category="youth-programs" style="height: 330px;">
-						<div class="placeholder-image" style="background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
-							<div class="placeholder-content">
-								<i class="fas fa-smile"></i>
-								<p>Happy Memories</p>
-							</div>
-						</div>
+					{/each}
+				{:else}
+					<div class="empty-state">
+						<i class="fas fa-images"></i>
+						<p>No images found in this category</p>
+						<p class="empty-subtitle">Images will appear here once uploaded to Supabase Storage</p>
+						{#if !isLoggedIn}
+							<p class="empty-subtitle mt-2"><strong>Please login to view gallery images</strong></p>
+						{/if}
 					</div>
 				{/if}
 			</div>
@@ -345,7 +468,6 @@
 
 	.category-link:hover {
 		background-color: rgba(122, 31, 31, 0.1);
-		color: #7a1f1f;
 		transform: translateX(5px);
 	}
 
@@ -439,10 +561,6 @@
 		padding: 0.75rem 1.5rem;
 		border-radius: 8px;
 		transition: all 0.3s ease;
-		text-align: center;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
 	}
 
 	.login-notice .btn-outline-primary:hover {
@@ -463,30 +581,48 @@
 		columns: 4;
 		column-gap: 20px;
 		margin-top: 2rem;
+		column-fill: balance;
 	}
 
 	.gallery-item {
 		break-inside: avoid;
+		page-break-inside: avoid;
 		margin-bottom: 20px;
 		border-radius: 12px;
 		overflow: hidden;
 		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 		transition: transform 0.3s ease, box-shadow 0.3s ease;
+		position: relative;
+		cursor: pointer;
+		display: inline-block;
+		width: 100%;
+		vertical-align: top;
 	}
 
 	.gallery-item:hover {
-		transform: translateY(-5px);
-		box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+		transform: translateY(-8px);
+		box-shadow: 0 12px 30px rgba(122, 31, 31, 0.25);
+		z-index: 10;
+	}
+
+	.gallery-item img {
+		width: 100%;
+		height: auto;
+		display: block;
+		object-fit: cover;
+		border-radius: 12px;
+		transition: transform 0.3s ease;
+	}
+
+	.gallery-item:hover img {
+		transform: scale(1.05);
 	}
 
 	.placeholder-image {
-		width: 100%;
-		height: 100%;
+		min-height: 200px;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		position: relative;
-		cursor: pointer;
 	}
 
 	.placeholder-content {
@@ -508,10 +644,72 @@
 		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
 	}
 
+	/* Loading, Error, and Empty States */
+	.loading-state,
+	.error-state,
+	.empty-state {
+		column-span: all;
+		text-align: center;
+		padding: 4rem 2rem;
+		color: #7a1f1f;
+	}
+
+	.loading-state i,
+	.error-state i,
+	.empty-state i {
+		font-size: 3rem;
+		margin-bottom: 1rem;
+	}
+
+	.loading-state i {
+		animation: spin 1s linear infinite;
+		color: #7a1f1f;
+	}
+
+	.error-state,
+	.error-state i {
+		color: #dc3545;
+	}
+
+	.empty-state i {
+		color: #7a1f1f;
+	}
+
+	.empty-state p {
+		font-size: 1.2rem;
+		margin: 0.5rem 0;
+	}
+
+	.empty-subtitle {
+		font-size: 0.9rem;
+		color: #666;
+		font-style: italic;
+	}
+
+	@keyframes spin {
+		from { transform: rotate(0deg); }
+		to { transform: rotate(360deg); }
+	}
+
 	/* Responsive Design */
+	@media (max-width: 1400px) {
+		.masonry-gallery {
+			columns: 4;
+			column-gap: 18px;
+		}
+	}
+
 	@media (max-width: 1200px) {
 		.masonry-gallery {
 			columns: 3;
+			column-gap: 18px;
+		}
+	}
+
+	@media (max-width: 992px) {
+		.masonry-gallery {
+			columns: 3;
+			column-gap: 15px;
 		}
 	}
 
@@ -523,6 +721,10 @@
 		
 		.gallery-item {
 			margin-bottom: 15px;
+		}
+
+		.gallery-item:hover {
+			transform: translateY(-5px);
 		}
 		
 		.placeholder-content i {
@@ -541,7 +743,11 @@
 		}
 		
 		.gallery-item {
-			margin-bottom: 10px;
+			margin-bottom: 12px;
+		}
+
+		.gallery-item:hover {
+			transform: translateY(-3px);
 		}
 		
 		.placeholder-content i {
