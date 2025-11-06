@@ -10,22 +10,17 @@
 	// Function to load QR code image from S3
 	async function loadQRCodeImage() {
 		try {
-			console.log('🔍 Loading membership QR code from S3...');
-			
 			const { data: signedUrlData, error: signedUrlError } = await supabase.storage
 				.from('OKS')
 				.createSignedUrl('qr-codes/MembershipQR.png', 3600); // 1 hour expiration
 			
 			if (signedUrlError) {
-				console.warn('⚠️ Failed to load MembershipQR.png:', signedUrlError.message);
 				// Fallback to local image
 				qrCodeImage = '/images/MembershipQR.png';
 			} else {
-				console.log('✅ Successfully loaded MembershipQR.png from S3');
 				qrCodeImage = signedUrlData.signedUrl;
 			}
 		} catch (error) {
-			console.warn('⚠️ Error loading QR code from S3:', error);
 			// Fallback to local image
 			qrCodeImage = '/images/MembershipQR.png';
 		} finally {

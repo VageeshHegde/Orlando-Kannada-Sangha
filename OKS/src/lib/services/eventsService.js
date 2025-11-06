@@ -11,8 +11,6 @@ class EventsService {
    */
   async getAllEvents() {
     try {
-      console.log('Fetching events from database...');
-      
       const { data, error } = await supabase
         .from(this.tableName)
         .select('*')
@@ -22,8 +20,6 @@ class EventsService {
         console.error('Error fetching events:', error);
         return { success: false, events: [], error };
       }
-
-      console.log('Events fetched successfully:', data?.length || 0, 'events');
       
       // Load images from S3 for events that have image_file
       const eventsWithImages = await this.loadEventImages(data || []);

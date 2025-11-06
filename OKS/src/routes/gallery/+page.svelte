@@ -87,6 +87,23 @@
 			imagesLoading = true;
 			imagesError = '';
 
+			// Image extensions to filter
+			const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg', 'bmp', 'tiff', 'tif'];
+			
+			// Helper function to filter image files
+			const filterImageFiles = (files) => {
+				return (files || []).filter(file => {
+					if (!file || !file.name) return false;
+					// Skip folders
+					if (file.metadata && file.metadata.mimetype === 'folder') return false;
+					if (file.id && !file.name.includes('.')) return false;
+					const parts = file.name.split('.');
+					if (parts.length < 2) return false;
+					const extension = file.name.toLowerCase().split('.').pop();
+					return imageExtensions.includes(extension);
+				});
+			};
+
 			// Map section IDs to folder names
 			const folderMap = {
 				'cultural-events': 'cultural-events',
@@ -111,26 +128,11 @@
 						});
 
 					if (listError) {
-						// Try root gallery folder as fallback
-						if (folderPath.includes('/')) {
-							const rootPath = 'gallery';
-							const { data: rootFiles, error: rootError } = await supabase.storage
-								.from('OKS')
-								.list(rootPath, {
-									limit: 100,
-									offset: 0
-								});
-						}
 						return { sectionId, images: [] };
 					}
 
 					// Filter for image files
-					const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-					const imageFiles = (files || []).filter(file => {
-						if (!file.name) return false;
-						const extension = file.name.toLowerCase().split('.').pop();
-						return imageExtensions.includes(extension);
-					});
+					const imageFiles = filterImageFiles(files);
 
 					// Generate signed URLs for each image
 					const urlPromises = imageFiles.map(async (file) => {
@@ -194,12 +196,7 @@
 
 					if (!rootError && rootFiles && rootFiles.length > 0) {
 						// Filter for image files
-						const imageExtensions = ['jpg', 'jpeg', 'png', 'gif', 'webp', 'svg'];
-						const imageFiles = rootFiles.filter(file => {
-							if (!file.name) return false;
-							const extension = file.name.toLowerCase().split('.').pop();
-							return imageExtensions.includes(extension);
-						});
+						const imageFiles = filterImageFiles(rootFiles);
 
 						// Generate signed URLs
 						const urlPromises = imageFiles.map(async (file) => {
@@ -246,15 +243,23 @@
 		}
 	}
 
-	// Load images when component mounts or user logs in
-	onMount(() => {
-		if (isLoggedIn && !imagesLoaded) {
-			loadGalleryImages();
-		} else if (!isLoggedIn) {
-			imagesLoading = false;
-			imagesLoaded = true;
-		}
-	});
+	// Reactive statement to reinitialize lightbox when gallery images are loaded
+	$: if (imagesLoaded && !imagesLoading && window.lightbox) {
+		setTimeout(() => {
+			if (window.lightbox) {
+				window.lightbox.init();
+				// Add click handlers to ensure lightbox works
+				document.querySelectorAll('a[data-lightbox="gallery"]').forEach(link => {
+					link.addEventListener('click', (e) => {
+						e.preventDefault();
+						if (window.lightbox) {
+							window.lightbox.start(link);
+						}
+					});
+				});
+			}
+		}, 100);
+	}
 
 	// Reload images when user logs in
 	$: if (isLoggedIn && !imagesLoaded) {
@@ -262,6 +267,33 @@
 			loadGalleryImages();
 		}
 	}
+
+	// Load images when component mounts and initialize lightbox
+	onMount(() => {
+		if (isLoggedIn && !imagesLoaded) {
+			loadGalleryImages();
+		} else if (!isLoggedIn) {
+			imagesLoading = false;
+			imagesLoaded = true;
+		}
+
+		// Initialize lightbox after images are loaded
+		if (window.lightbox) {
+			window.lightbox.option({
+				'resizeDuration': 200,
+				'wrapAround': true,
+				'showImageNumberLabel': true,
+				'albumLabel': 'Image %1 of %2'
+			});
+			
+			// Reinitialize lightbox to bind to new images
+			setTimeout(() => {
+				if (window.lightbox) {
+					window.lightbox.init();
+				}
+			}, 100);
+		}
+	});
 </script>
 
 <Navbar />
@@ -385,25 +417,31 @@
 				{:else if galleryImages[activeSection] && galleryImages[activeSection].length > 0}
 					{#each galleryImages[activeSection] as image, index}
 						<div class="gallery-item" data-category={image.category}>
-							<img 
-								src={image.url} 
-								alt={image.name || `Gallery image ${index + 1}`}
-								loading="lazy"
-								style="display: block; width: 100%; height: auto;"
-								on:error={(e) => {
-									// Fallback to placeholder on error
-									e.target.style.display = 'none';
-									const placeholder = e.target.nextElementSibling;
-									if (placeholder) {
-										placeholder.style.display = 'flex';
-									}
-								}}
-								on:load={(e) => {
-									// Ensure image is visible when loaded
-									e.target.style.display = 'block';
-									e.target.style.opacity = '1';
-								}}
-							/>
+							<a 
+								href={image.url} 
+								data-lightbox="gallery" 
+								data-title={image.name || `Gallery image ${index + 1}`}
+							>
+								<img 
+									src={image.url} 
+									alt={image.name || `Gallery image ${index + 1}`}
+									loading="lazy"
+									style="display: block; width: 100%; height: auto;"
+									on:error={(e) => {
+										// Fallback to placeholder on error
+										e.target.style.display = 'none';
+										const placeholder = e.target.parentElement.nextElementSibling;
+										if (placeholder) {
+											placeholder.style.display = 'flex';
+										}
+									}}
+									on:load={(e) => {
+										// Ensure image is visible when loaded
+										e.target.style.display = 'block';
+										e.target.style.opacity = '1';
+									}}
+								/>
+							</a>
 							<div class="placeholder-image" style="display: none; background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
 								<div class="placeholder-content">
 									<i class="fas fa-image"></i>
@@ -578,7 +616,7 @@
 
 	/* Masonry Gallery Styles */
 	.masonry-gallery {
-		columns: 4;
+		columns: 3;
 		column-gap: 20px;
 		margin-top: 2rem;
 		column-fill: balance;
@@ -603,6 +641,13 @@
 		transform: translateY(-8px);
 		box-shadow: 0 12px 30px rgba(122, 31, 31, 0.25);
 		z-index: 10;
+	}
+
+	.gallery-item a {
+		text-decoration: none;
+		display: block;
+		width: 100%;
+		height: 100%;
 	}
 
 	.gallery-item img {

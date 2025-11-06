@@ -192,11 +192,8 @@
   // Function to load lifetime member images from S3
   async function loadLifetimeMemberImages() {
     try {
-      console.log('Loading lifetime member images for:', lifetimeMembers.length, 'members');
-      
       // Only process members that have image files
       const membersWithImages = lifetimeMembers.filter(member => member.image_file);
-      console.log('Members with images:', membersWithImages.length);
       
       const imagePromises = membersWithImages.map(async (member) => {
         try {
@@ -276,11 +273,8 @@
   // Function to load sponsor images from S3
   async function loadSponsorImages() {
     try {
-      console.log('Loading sponsor images for:', sponsors.length, 'sponsors');
-      
       // Only process sponsors that have logo files
       const sponsorsWithLogos = sponsors.filter(sponsor => sponsor.logo_file);
-      console.log('Sponsors with logos:', sponsorsWithLogos.length);
       
       const imagePromises = sponsorsWithLogos.map(async (sponsor) => {
         try {
@@ -448,7 +442,6 @@
       const result = await getUpcomingEvents();
       if (result.success) {
         events = result.events;
-        console.log('Loaded events:', events.length);
       } else {
         console.error('Failed to load events:', result.error);
         events = [];
@@ -1167,8 +1160,6 @@
     margin: 0;
     font-size: 0.9rem;
   }
-
-  /* Email wrapping (not used; kept for reference) */
   
   /* Flag styling - combined and optimized */
   .flag-container {

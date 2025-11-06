@@ -67,8 +67,6 @@
 				const data = await response.json();
 				boardMembers = data.members || [];
 				boardMembersLoaded = true;
-				console.log('Present board members loaded from database:', boardMembers.length);
-				console.log('Sample member data:', boardMembers[0]);
 				
 				// Load images after members are loaded
 				loadBoardMemberImages();
@@ -94,8 +92,6 @@
 				const data = await response.json();
 				pastMembers = data.members || [];
 				pastMembersLoaded = true;
-				console.log('Past members loaded from database:', pastMembers.length);
-				console.log('Sample member data:', pastMembers[0]);
 				
 				// Load images after members are loaded
 				loadPastMemberImages();
@@ -217,11 +213,8 @@
 	// Load past board member images from Supabase Storage
 	async function loadPastMemberImages() {
 		try {
-			console.log('Loading past member images for:', pastMembers.length, 'members');
-			
 			// Only process members that have image files
 			const membersWithImages = pastMembers.filter(member => member.image_file);
-			console.log('Members with images:', membersWithImages.length);
 			
 			const imagePromises = membersWithImages.map(async (member) => {
 				try {

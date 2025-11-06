@@ -70,13 +70,6 @@
 			showDropdown = false;
 			const result = await authActions.signOut();
 			
-			// Check if there was an error but still clear local state
-			if (result && result.error) {
-				console.warn('Logout had issues but clearing local state:', result.error.message || result.error);
-			} else {
-				console.log('Logout successful');
-			}
-			
 			// Force clear local state regardless of server response
 			user.set(null);
 			session.set(null);

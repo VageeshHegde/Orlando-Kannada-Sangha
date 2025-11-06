@@ -10,8 +10,6 @@ export class SliderService {
   // Get slider images from S3
   async getSliderImages() {
     try {
-      console.log('🔍 Loading slider images from Supabase Storage...')
-      
       // Try slider folder first
       const { data: sliderFiles, error: sliderError } = await supabase.storage
         .from(this.bucketName)
@@ -20,11 +18,6 @@ export class SliderService {
           offset: 0,
           sortBy: { column: 'name', order: 'asc' }
         });
-
-      console.log('🔍 Slider folder result:', { 
-        files: sliderFiles?.length || 0, 
-        error: sliderError?.message || 'None' 
-      });
 
       let files = sliderFiles;
       let folderPath = 'slider';
@@ -78,7 +71,6 @@ export class SliderService {
               .createSignedUrl(`${folderPath}/${file.name}`, 3600); // 1 hour expiration
 
             if (signedUrlError) {
-              console.warn('⚠️ Failed to create signed URL for', file.name, ':', signedUrlError.message);
               // Fallback to public URL if signed URL fails
               const publicUrl = `${this.baseUrl}/${folderPath}/${file.name}`.replace('//', '/');
               return {
@@ -104,7 +96,6 @@ export class SliderService {
               signed: true
             };
           } catch (error) {
-            console.warn('⚠️ Error processing file', file.name, ':', error.message);
             // Fallback to public URL
             const publicUrl = `${this.baseUrl}/${folderPath}/${file.name}`.replace('//', '/');
             return {
@@ -121,15 +112,9 @@ export class SliderService {
         })
       );
 
-      const signedCount = images.filter(img => img.signed).length;
-      const publicCount = images.length - signedCount;
-      
-      console.log('✅ Successfully loaded', images.length, 'slider images from Supabase Storage')
-      console.log('🔐', signedCount, 'signed URLs,', publicCount, 'public URLs')
       return { success: true, images };
       
     } catch (error) {
-      console.error('❌ Failed to load slider images:', error.message)
       return { success: false, error: error.message, images: [] };
     }
   }
