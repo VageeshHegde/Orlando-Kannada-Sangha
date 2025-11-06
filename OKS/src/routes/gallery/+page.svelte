@@ -454,7 +454,7 @@
 					<div class="empty-state">
 						<i class="fas fa-images"></i>
 						<p>No images found in this category</p>
-						<p class="empty-subtitle">Images will appear here once uploaded to Supabase Storage</p>
+						<p class="empty-subtitle">Images will appear here once uploaded to Storage</p>
 						{#if !isLoggedIn}
 							<p class="empty-subtitle mt-2"><strong>Please login to view gallery images</strong></p>
 						{/if}
@@ -616,7 +616,7 @@
 
 	/* Masonry Gallery Styles */
 	.masonry-gallery {
-		columns: 3;
+		columns: 4;
 		column-gap: 20px;
 		margin-top: 2rem;
 		column-fill: balance;
