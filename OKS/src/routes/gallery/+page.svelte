@@ -355,6 +355,11 @@
 						These images reflect the strong bonds within our Kannadiga community and the joy we share 
 						in celebrating our cultural identity together.
 					</p>
+					<p class="mt-3">
+						<a href="https://framemebeautiful.shootproof.com/gallery/28697646" target="_blank" class="btn btn-outline-primary">
+							<i class="fas fa-images me-2"></i>Kannada Rajyotsava Images 2025
+						</a>
+					</p>
 				</div>
 				<div class="col-md-4">
 					<div class="card">
