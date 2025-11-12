@@ -268,6 +268,26 @@
 		}
 	}
 
+	// Download image function
+	async function downloadImage(imageUrl, imageName) {
+		try {
+			const response = await fetch(imageUrl);
+			const blob = await response.blob();
+			const url = window.URL.createObjectURL(blob);
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = imageName || 'gallery-image.jpg';
+			document.body.appendChild(link);
+			link.click();
+			document.body.removeChild(link);
+			window.URL.revokeObjectURL(url);
+		} catch (error) {
+			console.error('Error downloading image:', error);
+			// Fallback: open in new tab
+			window.open(imageUrl, '_blank');
+		}
+	}
+
 	// Load images when component mounts and initialize lightbox
 	onMount(() => {
 		if (isLoggedIn && !imagesLoaded) {
@@ -447,6 +467,17 @@
 									}}
 								/>
 							</a>
+							<button 
+								class="download-btn"
+								on:click|stopPropagation={(e) => {
+									e.preventDefault();
+									downloadImage(image.url, image.name);
+								}}
+								title="Download image"
+								aria-label="Download image"
+							>
+								<i class="fas fa-download"></i>
+							</button>
 							<div class="placeholder-image" style="display: none; background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
 								<div class="placeholder-content">
 									<i class="fas fa-image"></i>
@@ -642,6 +673,46 @@
 		vertical-align: top;
 	}
 
+	.download-btn {
+		position: absolute;
+		bottom: 10px;
+		right: 10px;
+		background-color: rgba(122, 31, 31, 0.9);
+		color: white;
+		border: none;
+		border-radius: 50%;
+		width: 40px;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		cursor: pointer;
+		opacity: 0;
+		transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
+		z-index: 20;
+		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+		font-size: 1rem;
+	}
+
+	.gallery-item:hover .download-btn {
+		opacity: 1;
+		transform: scale(1.1);
+	}
+
+	.download-btn:hover {
+		background-color: rgba(90, 21, 21, 1);
+		transform: scale(1.15);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+	}
+
+	.download-btn:active {
+		transform: scale(1.05);
+	}
+
+	.download-btn i {
+		font-size: 1rem;
+	}
+
 	.gallery-item:hover {
 		transform: translateY(-8px);
 		box-shadow: 0 12px 30px rgba(122, 31, 31, 0.25);
@@ -776,6 +847,17 @@
 		.gallery-item:hover {
 			transform: translateY(-5px);
 		}
+
+		.download-btn {
+			width: 36px;
+			height: 36px;
+			bottom: 8px;
+			right: 8px;
+		}
+
+		.download-btn i {
+			font-size: 0.9rem;
+		}
 		
 		.placeholder-content i {
 			font-size: 2.5rem;
@@ -798,6 +880,17 @@
 
 		.gallery-item:hover {
 			transform: translateY(-3px);
+		}
+
+		.download-btn {
+			width: 32px;
+			height: 32px;
+			bottom: 6px;
+			right: 6px;
+		}
+
+		.download-btn i {
+			font-size: 0.8rem;
 		}
 		
 		.placeholder-content i {
