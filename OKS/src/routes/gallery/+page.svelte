@@ -853,6 +853,7 @@
 			height: 36px;
 			bottom: 8px;
 			right: 8px;
+			opacity: 1;
 		}
 
 		.download-btn i {
@@ -887,6 +888,7 @@
 			height: 32px;
 			bottom: 6px;
 			right: 6px;
+			opacity: 1;
 		}
 
 		.download-btn i {
