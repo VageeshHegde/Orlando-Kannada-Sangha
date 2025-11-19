@@ -151,12 +151,13 @@
       data-bs-target="#navbarNav"
       on:click={() => isMobileMenuOpen = !isMobileMenuOpen}
       aria-expanded={isMobileMenuOpen}
+      aria-controls="navbarNav"
       aria-label="Toggle navigation menu"
     >
       {#if isMobileMenuOpen}
-        <i class="fas fa-times"></i>
+        <i class="fas fa-times" aria-hidden="true"></i>
       {:else}
-        <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon" aria-hidden="true"></span>
       {/if}
     </button>
       <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
@@ -208,19 +209,26 @@
        <!-- Profile Section -->
        <div class="profile-section">
         <div class="profile-container">
-          <button class="profile-button" on:click={toggleDropdown}>
+          <button 
+            class="profile-button" 
+            on:click={toggleDropdown}
+            aria-expanded={showDropdown}
+            aria-haspopup="true"
+            aria-label={isLoggedIn ? `User menu for ${userProfile.name || 'user'}` : 'User account menu'}
+            type="button"
+          >
             <div class="profile-image">
               {#if isLoggedIn}
-                <span class="user-initial">{userInitial}</span>
+                <span class="user-initial" aria-hidden="true">{userInitial}</span>
               {:else}
-                <i class="fas fa-user"></i>
+                <i class="fas fa-user" aria-hidden="true"></i>
               {/if}
             </div>
           </button>
           
           <!-- Dropdown Menu -->
           {#if showDropdown}
-            <div class="profile-dropdown">
+            <div class="profile-dropdown" role="menu" aria-label="User account menu">
               {#if isLoggedIn}
                 <div class="dropdown-header">
                   <div class="user-info">
@@ -232,7 +240,7 @@
                       <p class="user-email">{userProfile.email}</p>
                       {#if userProfile.memberSince}
                         <p class="member-duration">
-                          <i class="fas fa-calendar-alt me-1"></i>
+                          <i class="fas fa-calendar-alt me-1" aria-hidden="true"></i>
                           Joined {userProfile.memberSince} ago
                         </p>
                       {/if}
@@ -244,8 +252,8 @@
 								<i class="fas fa-key me-2"></i>Reset Password
 							</button> -->
                 <div class="dropdown-divider"></div>
-                <button class="dropdown-item logout-btn" on:click={handleLogout}>
-                  <i class="fas fa-sign-out-alt me-2"></i>Logout
+                <button class="dropdown-item logout-btn" on:click={handleLogout} role="menuitem" type="button">
+                  <i class="fas fa-sign-out-alt me-2" aria-hidden="true"></i>Logout
                 </button>
               {:else}
                 <div class="dropdown-header">
@@ -253,11 +261,11 @@
                   <p>Please login to access your account</p>
                 </div>
                 <div class="dropdown-divider"></div>
-                <a href="/login" class="dropdown-item login-btn">
-				          <i class="fas fa-sign-in-alt me-2"></i>Login
+                <a href="/login" class="dropdown-item login-btn" role="menuitem">
+				          <i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i>Login
 				        </a>
-                <a href="/membership" class="dropdown-item">
-                  <i class="fas fa-users me-2"></i>Membership
+                <a href="/membership" class="dropdown-item" role="menuitem">
+                  <i class="fas fa-users me-2" aria-hidden="true"></i>Membership
                 </a>
               {/if}
             </div>
@@ -321,6 +329,18 @@
   .navbar-nav .nav-link:hover {
     background-color: #7a1f1f;
     color: white;
+  }
+
+  .navbar-nav .nav-link:focus {
+    outline: 3px solid #7a1f1f;
+    outline-offset: 2px;
+    border-radius: 8px;
+  }
+
+  .navbar-nav .nav-link:focus-visible {
+    outline: 3px solid #7a1f1f;
+    outline-offset: 2px;
+    border-radius: 8px;
   }
 
   .navbar-brand-container:hover {
@@ -433,6 +453,18 @@
     padding: 0;
     cursor: pointer;
     transition: transform 0.2s ease;
+  }
+
+  .profile-button:focus {
+    outline: 3px solid #7a1f1f;
+    outline-offset: 2px;
+    border-radius: 50%;
+  }
+
+  .profile-button:focus-visible {
+    outline: 3px solid #7a1f1f;
+    outline-offset: 2px;
+    border-radius: 50%;
   }
 
   .profile-button:hover {
@@ -604,6 +636,18 @@
     color: #7a1f1f;
     text-decoration: none;
   }
+
+  .dropdown-item:focus {
+    outline: 2px solid #7a1f1f;
+    outline-offset: -2px;
+    background-color: #f8f9fa;
+  }
+
+  .dropdown-item:focus-visible {
+    outline: 2px solid #7a1f1f;
+    outline-offset: -2px;
+    background-color: #f8f9fa;
+  }
   
   .dropdown-item:last-child:hover {
     border-bottom-left-radius: 12px;
@@ -652,6 +696,18 @@
   .navbar-toggler:hover {
     color: #5a1515;
     transform: scale(1.1);
+  }
+
+  .navbar-toggler:focus {
+    outline: 3px solid #7a1f1f;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .navbar-toggler:focus-visible {
+    outline: 3px solid #7a1f1f;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
   
   .navbar-toggler i.fa-times {

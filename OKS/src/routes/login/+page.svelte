@@ -117,8 +117,8 @@
 					
 					<!-- Back to Home Link -->
 					<div class="back-to-home">
-						<a href="/" class="back-link">
-							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<a href="/" class="back-link" aria-label="Return to home page">
+							<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
 								<path d="m12 19-7-7 7-7"/>
 								<path d="M19 12H5"/>
 							</svg>
@@ -128,28 +128,28 @@
 					
 					<!-- Success Message -->
 					{#if successMessage}
-						<div class="alert alert-success" role="alert">
-							<i class="fas fa-check-circle me-2"></i>
+						<div class="alert alert-success" role="alert" aria-live="polite">
+							<i class="fas fa-check-circle me-2" aria-hidden="true"></i>
 							{successMessage}
 						</div>
 					{/if}
 					
 					<!-- Error Message -->
 					{#if errorMessage}
-						<div class="alert alert-danger" role="alert">
-							<i class="fas fa-exclamation-circle me-2"></i>
+						<div class="alert alert-danger" role="alert" aria-live="assertive">
+							<i class="fas fa-exclamation-circle me-2" aria-hidden="true"></i>
 							{errorMessage}
 						</div>
 					{/if}
 					
 					<!-- Login Link Form -->
 					{#if !magicLinkSent}
-						<form on:submit={handleMagicLinkLogin} class="login-form">
+						<form on:submit={handleMagicLinkLogin} class="login-form" aria-label="Login form">
 							<!-- Email Field -->
 							<div class="form-group">
 								<label for="email" class="form-label">Registered Membership Email Address:</label>
 								<div class="input-group">
-									<span class="input-group-text">
+									<span class="input-group-text" aria-hidden="true">
 										<i class="fas fa-envelope"></i>
 									</span>
 									<input
@@ -160,10 +160,12 @@
 										placeholder="example@gmail.com"
 										disabled={isLoading}
 										autocomplete="email"
+										aria-invalid={emailError ? 'true' : 'false'}
+										aria-describedby={emailError ? 'email-error' : undefined}
 									/>
 								</div>
 								{#if emailError}
-									<div class="invalid-feedback d-block">
+									<div class="invalid-feedback d-block" id="email-error" role="alert">
 										{emailError}
 									</div>
 								{/if}
@@ -174,21 +176,22 @@
 								type="submit"
 								class="btn btn-primary btn-lg w-100"
 								disabled={isLoading}
+								aria-label={isLoading ? 'Sending login link, please wait' : 'Send login link to email'}
 							>
 								{#if isLoading}
-									<i class="fas fa-spinner fa-spin me-2"></i>
-									Sending Login Link...
+									<i class="fas fa-spinner fa-spin me-2" aria-hidden="true"></i>
+									<span aria-live="polite">Sending Login Link...</span>
 								{:else}
-									<i class="fas fa-paper-plane me-2"></i>
+									<i class="fas fa-paper-plane me-2" aria-hidden="true"></i>
 									Send Login Link
 								{/if}
 							</button>
 						</form>
 					{:else}
 						<!-- Login Link Sent Success -->
-						<div class="magic-link-success">
+						<div class="magic-link-success" role="status" aria-live="polite">
 							<div class="text-center mb-4">
-								<i class="fas fa-envelope-open-text fa-3x text-primary mb-3"></i>
+								<i class="fas fa-envelope-open-text fa-3x text-primary mb-3" aria-hidden="true"></i>
 								<h4>Check Your Email!</h4>
 								<p class="text-muted">We've sent a login link to <strong>{email}</strong></p>
 								<p class="text-muted">Click the link in your email to login instantly.</p>
@@ -200,12 +203,13 @@
 									class="btn btn-outline-primary"
 									on:click={resendMagicLink}
 									disabled={isLoading}
+									aria-label={isLoading ? 'Resending login link, please wait' : 'Resend login link'}
 								>
 									{#if isLoading}
-										<i class="fas fa-spinner fa-spin me-2"></i>
-										Sending...
+										<i class="fas fa-spinner fa-spin me-2" aria-hidden="true"></i>
+										<span aria-live="polite">Sending...</span>
 									{:else}
-										<i class="fas fa-redo me-2"></i>
+										<i class="fas fa-redo me-2" aria-hidden="true"></i>
 										Resend Login Link
 									{/if}
 								</button>
@@ -214,8 +218,9 @@
 									type="button"
 									class="btn btn-outline-secondary"
 									on:click={() => { magicLinkSent = false; email = ''; }}
+									aria-label="Use a different email address"
 								>
-									<i class="fas fa-arrow-left me-2"></i>
+									<i class="fas fa-arrow-left me-2" aria-hidden="true"></i>
 									Use Different Email
 								</button>
 							</div>

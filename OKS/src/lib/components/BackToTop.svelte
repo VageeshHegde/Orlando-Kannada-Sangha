@@ -38,8 +38,10 @@
     class="back-to-top-btn"
     on:click={scrollToTop}
     aria-label="Back to top"
+    title="Back to top"
+    type="button"
   >
-    <i class="fas fa-chevron-up"></i>
+    <i class="fas fa-chevron-up" aria-hidden="true"></i>
   </button>
 {/if}
 
@@ -74,6 +76,16 @@
 
   .back-to-top-btn:active {
     transform: translateY(-1px);
+  }
+
+  .back-to-top-btn:focus {
+    outline: 3px solid #f26c4f;
+    outline-offset: 2px;
+  }
+
+  .back-to-top-btn:focus-visible {
+    outline: 3px solid #f26c4f;
+    outline-offset: 2px;
   }
 
   @keyframes fadeIn {

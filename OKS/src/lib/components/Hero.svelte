@@ -225,10 +225,10 @@
       <div class="calendar-wrapper">
         <div class="hook left"></div>
         <div class="hook right"></div>
-        <div class="calendar-today">
-          <div class="calendar-month"><i class="weather-header-icon fas fa-cloud-sun me-1 text-warning"></i>Weather</div>
+        <div class="calendar-today" role="region" aria-label="Weather information">
+          <div class="calendar-month"><i class="weather-header-icon fas fa-cloud-sun me-1 text-warning" aria-hidden="true"></i>Weather</div>
           <div>
-            <div id="weather-info" class="pt-2">Loading weather...</div>
+            <div id="weather-info" class="pt-2" role="status" aria-live="polite">Loading weather...</div>
           </div>            
         </div>
       </div>        
@@ -236,22 +236,22 @@
     
     <!-- Center Content -->
     <div class="text-center hero-content">
-      <img src={leftImage} alt="" class="hero-palace1"/>
-      <img src={rightImage} alt="" class="hero-palace2"/>
-      <img src={topLeftImage} alt="" class="hero-palace3"/>
-      <img src={bottomRightImage} alt="" class="hero-palace"/>
+      <img src={leftImage} alt="" class="hero-palace1" aria-hidden="true"/>
+      <img src={rightImage} alt="" class="hero-palace2" aria-hidden="true"/>
+      <img src={topLeftImage} alt="" class="hero-palace3" aria-hidden="true"/>
+      <img src={bottomRightImage} alt="" class="hero-palace" aria-hidden="true"/>
       
       <h1 class="mb-2">
-        <i class="fas fa-globe-asia icon me-2"></i>Orlando Kannada Sangha
+        <i class="fas fa-globe-asia icon me-2" aria-hidden="true"></i>Orlando Kannada Sangha
       </h1>
       
       <!-- Dynamic Greeting - Shows user name when logged in, general message when not -->
       <div class="greeting-section mb-2">
         <p class="greeting-text">
           {#if isLoggedIn && userName}
-            Hello <i class="fa-solid fa-hands"></i> {userName}!
+            Hello <i class="fa-solid fa-hands" aria-hidden="true"></i> {userName}!
           {:else}
-            Welcome <i class="fa-solid fa-hands"></i> to our community
+            Welcome <i class="fa-solid fa-hands" aria-hidden="true"></i> to our community
           {/if}
         </p>
       </div>
@@ -271,11 +271,11 @@
       <div class="calendar-wrapper">
         <div class="hook left"></div>
         <div class="hook right"></div>
-        <div class="calendar-today">
-            <div class="calendar-month"><i class="fas fa-calendar-alt me-1 text-warning"></i><span id="month">JAN</span></div>
-          <div class="calendar-day" id="day">15</div>
-          <div class="calendar-year" id="year">2025</div>
-          <div class="calendar-time" id="time">12:00:00 PM</div>
+        <div class="calendar-today" role="region" aria-label="Current date and time">
+            <div class="calendar-month"><i class="fas fa-calendar-alt me-1 text-warning" aria-hidden="true"></i><span id="month" aria-label="Current month">JAN</span></div>
+          <div class="calendar-day" id="day" aria-label="Current day">15</div>
+          <div class="calendar-year" id="year" aria-label="Current year">2025</div>
+          <div class="calendar-time" id="time" aria-label="Current time">12:00:00 PM</div>
         </div>
       </div>        
     </div>

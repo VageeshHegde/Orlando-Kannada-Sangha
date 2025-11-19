@@ -24,7 +24,7 @@
       <div class="col-lg-4 col-md-6">
         <div class="footer-section">
           <h5 class="footer-title">
-            <i class="fas fa-info-circle"></i>
+            <i class="fas fa-info-circle" aria-hidden="true"></i>
             About OKS
           </h5>
           <div class="footer-description">
@@ -37,15 +37,15 @@
               <span>Orlando, Florida, USA</span>
             </div> -->
             <div class="detail-item">
-              <i class="fas fa-calendar-alt"></i>
+              <i class="fas fa-calendar-alt" aria-hidden="true"></i>
               <span>Established 2012</span>
             </div>
             <div class="detail-item">
-              <i class="fas fa-shield-alt"></i>
+              <i class="fas fa-shield-alt" aria-hidden="true"></i>
               <span>501(c)(3) Non-Profit Organization</span>
             </div>
             <div class="detail-item">
-              <i class="fas fa-id-card"></i>
+              <i class="fas fa-id-card" aria-hidden="true"></i>
               <span>Tax ID: 46-2253530</span>
             </div>
           </div>
@@ -56,21 +56,21 @@
       <div class="col-lg-4 col-md-6">
         <div class="footer-section">
           <h5 class="footer-title">
-            <i class="fas fa-link"></i>
+            <i class="fas fa-link" aria-hidden="true"></i>
             Quick Links
           </h5>
-          <ul class="footer-links">
-            <li><a href="/"><i class="fas fa-home"></i>Home</a></li>
-            <li><a href="/about"><i class="fas fa-users"></i>About Us</a></li>
-            <!-- <li><a href="/events"><i class="fas fa-calendar-alt"></i>Events</a></li> -->
-            <li><a href="/membership"><i class="fas fa-id-card"></i>Membership</a></li>
-            <li><a href="/kannada-kali"><i class="fas fa-book"></i>Kannada Kali</a></li>
-            <li><a href="/gallery"><i class="fas fa-images"></i>Gallery</a></li>
-            <li><a href="/blog"><i class="fas fa-blog"></i>OKS Blog</a></li>
-            <li><a href="/constitution"><i class="fas fa-gavel"></i>Constitution</a></li>
-            <li><a href="/by-laws"><i class="fas fa-book-open"></i>By-Laws</a></li>
-            <li><a href="/login"><i class="fas fa-sign-in-alt"></i>Login</a></li>
-            <li><a href="https://www.zeffy.com/en-US/donation-form/e9e95cc9-b449-49eb-85c8-cf5efa4a712e" target="_blank" rel="noopener noreferrer"><i class="fas fa-hand-holding-dollar"></i>Donate</a></li>
+          <ul class="footer-links" role="list">
+            <li role="listitem"><a href="/"><i class="fas fa-home" aria-hidden="true"></i>Home</a></li>
+            <li role="listitem"><a href="/about"><i class="fas fa-users" aria-hidden="true"></i>About Us</a></li>
+            <!-- <li role="listitem"><a href="/events"><i class="fas fa-calendar-alt" aria-hidden="true"></i>Events</a></li> -->
+            <li role="listitem"><a href="/membership"><i class="fas fa-id-card" aria-hidden="true"></i>Membership</a></li>
+            <li role="listitem"><a href="/kannada-kali"><i class="fas fa-book" aria-hidden="true"></i>Kannada Kali</a></li>
+            <li role="listitem"><a href="/gallery"><i class="fas fa-images" aria-hidden="true"></i>Gallery</a></li>
+            <li role="listitem"><a href="/blog"><i class="fas fa-blog" aria-hidden="true"></i>OKS Blog</a></li>
+            <li role="listitem"><a href="/constitution"><i class="fas fa-gavel" aria-hidden="true"></i>Constitution</a></li>
+            <li role="listitem"><a href="/by-laws"><i class="fas fa-book-open" aria-hidden="true"></i>By-Laws</a></li>
+            <li role="listitem"><a href="/login"><i class="fas fa-sign-in-alt" aria-hidden="true"></i>Login</a></li>
+            <li role="listitem"><a href="https://www.zeffy.com/en-US/donation-form/e9e95cc9-b449-49eb-85c8-cf5efa4a712e" target="_blank" rel="noopener noreferrer" aria-label="Donate - opens in new window" title="Donate - opens in new window"><i class="fas fa-hand-holding-dollar" aria-hidden="true"></i>Donate</a></li>
           </ul>
         </div>
       </div>
@@ -79,36 +79,36 @@
       <div class="col-lg-4 col-md-12">
         <div class="footer-section">
           <h5 class="footer-title">
-            <i class="fas fa-paper-plane"></i>
+            <i class="fas fa-paper-plane" aria-hidden="true"></i>
             Connect With Us
           </h5>
           <div class="contact-info">
             <div class="contact-item">
-              <i class="fas fa-envelope"></i>
+              <i class="fas fa-envelope" aria-hidden="true"></i>
               <a href="mailto:suddhi@orlandokannadasangha.org">suddhi@orlandokannadasangha.org</a>
             </div>
             <div class="contact-item">
-              <i class="fas fa-envelope"></i>
+              <i class="fas fa-envelope" aria-hidden="true"></i>
               <a href="mailto:board@orlandokannadasangha.org">board@orlandokannadasangha.org</a>
             </div>
             <div class="contact-item">
-              <i class="fas fa-map-marker-alt"></i>
+              <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
               <span>Orlando, Florida, USA</span>
             </div>
           </div>
           
           <div class="social-section mt-4">
-            <div class="small-line"></div>
+            <div class="small-line" aria-hidden="true"></div>
             <h6 class="social-title">Follow Us</h6>
             <div class="social-links">
-              <a href="https://www.facebook.com/groups/240016079392735/?ref=share&mibextid=NSMWBT" class="social-icon" title="Facebook" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-facebook-f"></i>
+              <a href="https://www.facebook.com/groups/240016079392735/?ref=share&mibextid=NSMWBT" class="social-icon" aria-label="Visit our Facebook page - opens in new window" title="Visit our Facebook page" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-facebook-f" aria-hidden="true"></i>
               </a>
-              <a href="https://www.instagram.com/orlando.kannada.sangha?igsh=MXNmdjI0d29yZGVqYg==" class="social-icon" title="Instagram" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-instagram"></i>
+              <a href="https://www.instagram.com/orlando.kannada.sangha?igsh=MXNmdjI0d29yZGVqYg==" class="social-icon" aria-label="Visit our Instagram page - opens in new window" title="Visit our Instagram page" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-instagram" aria-hidden="true"></i>
               </a>
-              <a href="https://www.youtube.com/@orlandokannadasanghaoks7838" class="social-icon" title="YouTube" target="_blank" rel="noopener noreferrer">
-                <i class="fab fa-youtube"></i>
+              <a href="https://www.youtube.com/@orlandokannadasanghaoks7838" class="social-icon" aria-label="Visit our YouTube channel - opens in new window" title="Visit our YouTube channel" target="_blank" rel="noopener noreferrer">
+                <i class="fab fa-youtube" aria-hidden="true"></i>
               </a>
               <!-- <a href="#" class="social-icon" title="WhatsApp">
                 <i class="fab fa-whatsapp"></i>
@@ -124,10 +124,10 @@
       <div class="col-12">
         <div class="footer-section">
           <h5 class="footer-title">
-            <i class="fas fa-newspaper"></i>
+            <i class="fas fa-newspaper" aria-hidden="true"></i>
             OKS Suddi
           </h5>
-          <form class="footer-form" on:submit={handleSubmit}>
+          <form class="footer-form" on:submit={handleSubmit} aria-label="Subscribe to OKS Suddi newsletter">
             <div class="row">
               <div class="col-md-4">
                 <div class="mb-3">
@@ -170,7 +170,7 @@
               </div>
             </div>
             <div class="text-center">
-              <button type="submit" class="btn btn-primary">Subscribe</button>
+              <button type="submit" class="btn btn-primary" aria-label="Subscribe to newsletter">Subscribe</button>
             </div>
           </form>
           <div class="mt-3 text-center">
@@ -188,7 +188,7 @@
       <div class="row align-items-center">
         <div class="col-md-6">
           <div class="copyright">
-            <i class="fas fa-copyright"></i> 2025 Orlando Kannada Sangha
+            <i class="fas fa-copyright" aria-hidden="true"></i> 2025 Orlando Kannada Sangha
           </div>
         </div>
         <div class="col-md-6">
@@ -292,6 +292,18 @@
     color: #f0d9b5;
   }
 
+  .footer-links a:focus {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .footer-links a:focus-visible {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   .contact-info .contact-item {
     display: flex;
     align-items: center;
@@ -315,6 +327,18 @@
 
   .contact-item a:hover {
     color: #f0d9b5;
+  }
+
+  .contact-item a:focus {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .contact-item a:focus-visible {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+    border-radius: 4px;
   }
 
   .social-section {
@@ -358,6 +382,16 @@
     background-color: #f0d9b5;
     color: #7a1f1f;
     transform: translateY(-2px);
+  }
+
+  .social-icon:focus {
+    outline: 3px solid #f0d9b5;
+    outline-offset: 2px;
+  }
+
+  .social-icon:focus-visible {
+    outline: 3px solid #f0d9b5;
+    outline-offset: 2px;
   }
 
   .footer-divider {
@@ -412,6 +446,18 @@
     color: #f0d9b5;
   }
 
+  .footer-bottom-links a:focus {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  .footer-bottom-links a:focus-visible {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
   .footer-bottom-links .separator {
     color: rgba(255, 255, 255, 0.5);
     margin: 0 0.5rem;
@@ -447,6 +493,13 @@
     border-color: #f0d9b5;
     box-shadow: 0 0 0 0.2rem rgba(240, 217, 181, 0.25);
     color: white;
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
+  }
+
+  .footer-form .form-control:focus-visible {
+    outline: 2px solid #f0d9b5;
+    outline-offset: 2px;
   }
 
   .footer-form .btn-primary {
@@ -465,6 +518,16 @@
     border-color: #e6c99a;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(240, 217, 181, 0.3);
+  }
+
+  .footer-form .btn-primary:focus {
+    outline: 3px solid #f0d9b5;
+    outline-offset: 2px;
+  }
+
+  .footer-form .btn-primary:focus-visible {
+    outline: 3px solid #f0d9b5;
+    outline-offset: 2px;
   }
 
   @media (max-width: 768px) {

@@ -336,17 +336,17 @@
 				<div class="login-notice mb-4">
 					<div class="alert alert-warning" role="alert">
 						<div class="d-flex align-items-center">
-							<i class="fas fa-lock me-3"></i>
+							<i class="fas fa-lock me-3" aria-hidden="true"></i>
 							<div class="flex-grow-1">
 								<h5 class="alert-heading mb-2">Member Access Required</h5>
 								<p class="mb-3">To view our gallery, you must be a registered member of Orlando Kannada Sangha.</p>
 								<p class="mb-3">If you are a member, please login to access the gallery.</p>
 								<div class="d-flex gap-2">
-									<a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary">
-										<i class="fas fa-user-plus me-2"></i>Become a Member
+									<a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary" aria-label="Become a member - opens in new window">
+										<i class="fas fa-user-plus me-2" aria-hidden="true"></i>Become a Member
 									</a>
 									<a href="/login" class="btn btn-outline-primary">
-										<i class="fas fa-sign-in-alt me-2"></i>Login
+										<i class="fas fa-sign-in-alt me-2" aria-hidden="true"></i>Login
 									</a>
 								</div>
 							</div>
@@ -376,8 +376,8 @@
 						in celebrating our cultural identity together.
 					</p>
 					<p class="mt-3">
-						<a href="https://framemebeautiful.shootproof.com/gallery/28697646" target="_blank" class="btn btn-outline-primary">
-							<i class="fas fa-images me-2"></i>Kannada Rajyotsava Images 2025
+						<a href="https://framemebeautiful.shootproof.com/gallery/28697646" target="_blank" class="btn btn-outline-primary" aria-label="View Kannada Rajyotsava Images 2025 - opens in new window">
+							<i class="fas fa-images me-2" aria-hidden="true"></i>Kannada Rajyotsava Images 2025
 						</a>
 					</p>
 				</div>
@@ -385,14 +385,17 @@
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Gallery Categories</h5>
-							<ul class="list-unstyled">
+							<ul class="list-unstyled" role="list">
 								{#each sections as section}
-									<li class="mb-2">
+									<li class="mb-2" role="listitem">
 										<button 
 											class="category-link {activeSection === section.id ? 'active' : ''}"
 											on:click={() => setActiveSection(section.id)}
+											aria-pressed={activeSection === section.id ? 'true' : 'false'}
+											aria-label={`Filter gallery by ${section.name}`}
+											type="button"
 										>
-											<i class="{section.icon} me-2"></i>{section.name}
+											<i class="{section.icon} me-2" aria-hidden="true"></i>{section.name}
 										</button>
 									</li>
 								{/each}
@@ -404,10 +407,10 @@
 
 			<!-- Gallery Category Title -->
 			<div class="category-title-section mb-4">
-				<h3 class="category-title">
-					<i class="{sections.find(s => s.id === activeSection)?.icon} me-2"></i>
+				<h2 class="category-title">
+					<i class="{sections.find(s => s.id === activeSection)?.icon} me-2" aria-hidden="true"></i>
 					{sections.find(s => s.id === activeSection)?.name}
-				</h3>
+				</h2>
 				<div class="category-subtitle">
 					{#if activeSection === 'all'}
 						Browse all our gallery photos
@@ -426,26 +429,27 @@
 			</div>
 
 			<!-- Masonry Gallery -->
-			<div class="masonry-gallery">
+			<div class="masonry-gallery" role="region" aria-label="Gallery images">
 				{#if !isLoggedIn}
 					<!-- Login required message is shown above -->
 				{:else if imagesLoading}
-					<div class="loading-state">
-						<i class="fas fa-spinner fa-spin"></i>
+					<div class="loading-state" role="status" aria-live="polite" aria-busy="true">
+						<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
 						<p>Loading gallery images...</p>
 					</div>
 				{:else if imagesError}
-					<div class="error-state">
-						<i class="fas fa-exclamation-triangle"></i>
+					<div class="error-state" role="alert" aria-live="assertive">
+						<i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
 						<p>{imagesError}</p>
 					</div>
 				{:else if galleryImages[activeSection] && galleryImages[activeSection].length > 0}
 					{#each galleryImages[activeSection] as image, index}
-						<div class="gallery-item" data-category={image.category}>
+						<article class="gallery-item" data-category={image.category} role="img" aria-label={image.name || `Gallery image ${index + 1}`}>
 							<a 
 								href={image.url} 
 								data-lightbox="gallery" 
 								data-title={image.name || `Gallery image ${index + 1}`}
+								aria-label={`View full size: ${image.name || `Gallery image ${index + 1}`}`}
 							>
 								<img 
 									src={image.url} 
@@ -473,22 +477,24 @@
 									e.preventDefault();
 									downloadImage(image.url, image.name);
 								}}
-								title="Download image"
-								aria-label="Download image"
+								aria-label={`Download ${image.name || `image ${index + 1}`}`}
+								title={`Download ${image.name || `image ${index + 1}`}`}
+								type="button"
 							>
-								<i class="fas fa-download"></i>
+								<i class="fas fa-download" aria-hidden="true"></i>
+								<span class="sr-only">Download image</span>
 							</button>
-							<div class="placeholder-image" style="display: none; background: linear-gradient(45deg, #7a1f1f, #f0d9b5);">
+							<div class="placeholder-image" style="display: none; background: linear-gradient(45deg, #7a1f1f, #f0d9b5);" role="img" aria-label="Image not available">
 								<div class="placeholder-content">
-									<i class="fas fa-image"></i>
+									<i class="fas fa-image" aria-hidden="true"></i>
 									<p>Image not available</p>
 								</div>
 							</div>
-						</div>
+						</article>
 					{/each}
 				{:else}
-					<div class="empty-state">
-						<i class="fas fa-images"></i>
+					<div class="empty-state" role="status" aria-live="polite">
+						<i class="fas fa-images" aria-hidden="true"></i>
 						<p>No images found in this category</p>
 						<p class="empty-subtitle">Images will appear here once uploaded to Storage</p>
 						{#if !isLoggedIn}
@@ -520,7 +526,7 @@
 		font-weight: bold;
 	}
 	
-	h3 {
+	h2 {
 		color: #7a1f1f;
 	}
 
@@ -538,6 +544,16 @@
 		transition: all 0.3s ease;
 		font-size: 0.95rem;
 		font-weight: 500;
+	}
+
+	.category-link:focus {
+		outline: 3px solid #7a1f1f;
+		outline-offset: 2px;
+	}
+
+	.category-link:focus-visible {
+		outline: 3px solid #7a1f1f;
+		outline-offset: 2px;
 	}
 
 	.category-link:hover {
@@ -583,6 +599,19 @@
 		font-size: 2.2rem;
 		margin-right: 1rem;
 		color: #7a1f1f;
+	}
+
+	/* Screen reader only text */
+	.sr-only {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		padding: 0;
+		margin: -1px;
+		overflow: hidden;
+		clip: rect(0, 0, 0, 0);
+		white-space: nowrap;
+		border-width: 0;
 	}
 
 	.category-subtitle {
@@ -694,6 +723,18 @@
 		font-size: 1rem;
 	}
 
+	.download-btn:focus {
+		outline: 3px solid #7a1f1f;
+		outline-offset: 2px;
+		opacity: 1;
+	}
+
+	.download-btn:focus-visible {
+		outline: 3px solid #7a1f1f;
+		outline-offset: 2px;
+		opacity: 1;
+	}
+
 	.gallery-item:hover .download-btn {
 		opacity: 1;
 		transform: scale(1.1);
@@ -724,6 +765,18 @@
 		display: block;
 		width: 100%;
 		height: 100%;
+	}
+
+	.gallery-item a:focus {
+		outline: 3px solid #7a1f1f;
+		outline-offset: 2px;
+		border-radius: 12px;
+	}
+
+	.gallery-item a:focus-visible {
+		outline: 3px solid #7a1f1f;
+		outline-offset: 2px;
+		border-radius: 12px;
 	}
 
 	.gallery-item img {
