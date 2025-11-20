@@ -193,6 +193,7 @@
 <svelte:head>
   <title>Blog - Orlando Kannada Sangha</title>
   <meta name="description" content="Discover stories, insights, and updates from the Kannada community. Stay connected with our cultural heritage and community events." />
+  <meta name="keywords" content="Orlando Kannada Sangha blog, OKS blog, Kannada community stories, Kannada culture articles, community updates, Kannada heritage" />
 </svelte:head>
 
 <Navbar />

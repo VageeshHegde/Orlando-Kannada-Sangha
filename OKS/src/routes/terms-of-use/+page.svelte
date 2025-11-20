@@ -8,6 +8,7 @@
 <svelte:head>
   <title>Terms of Use - Orlando Kannada Sangha</title>
   <meta name="description" content="Terms of Use for Orlando Kannada Sangha - Learn about the terms and conditions for using our website and services.">
+  <meta name="keywords" content="Orlando Kannada Sangha terms of use, OKS terms, terms and conditions, website terms, user agreement" />
 </svelte:head>
 
 <Navbar />

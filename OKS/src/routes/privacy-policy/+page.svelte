@@ -8,6 +8,7 @@
 <svelte:head>
   <title>Privacy Policy - Orlando Kannada Sangha</title>
   <meta name="description" content="Privacy Policy for Orlando Kannada Sangha - Learn how we collect, use, and protect your personal information.">
+  <meta name="keywords" content="Orlando Kannada Sangha privacy policy, OKS privacy, data protection, personal information, privacy statement" />
 </svelte:head>
 
 <Navbar />

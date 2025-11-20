@@ -574,6 +574,12 @@
   }
 </script>
 
+<svelte:head>
+  <title>Home - Orlando Kannada Sangha</title>
+  <meta name="description" content="Orlando Kannada Sangha - A vibrant non-profit organization dedicated to preserving and promoting Kannada culture in central Florida." />
+  <meta name="keywords" content="Orlando Kannada Sangha, OKS, Kannada culture, Karnataka, Indian community Orlando, Kannadiga, cultural events, non-profit organization, Florida Kannada, Kannada association" />
+</svelte:head>
+
 <Navbar />
 <Hero 
   page="Home" 

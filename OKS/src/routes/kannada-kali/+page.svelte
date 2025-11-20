@@ -5,6 +5,12 @@
 	import PageTitle from '$lib/components/PageTitle.svelte';
 </script>
 
+<svelte:head>
+	<title>Kannada Kali - Orlando Kannada Sangha</title>
+	<meta name="description" content="Learn Kannada language through our Kannada Kali classes. Join our language learning program for children and adults." />
+	<meta name="keywords" content="Kannada Kali classes, learn Kannada language, Kannada language classes Orlando, Kannada learning, Kannada for kids, Kannada language program, Orlando Kannada classes" />
+</svelte:head>
+
 <Navbar />
 <Hero 
   page="Kannada Kali" 

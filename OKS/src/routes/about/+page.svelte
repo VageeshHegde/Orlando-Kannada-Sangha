@@ -266,6 +266,12 @@
 	});
 </script>
 
+<svelte:head>
+	<title>About Us - Orlando Kannada Sangha</title>
+	<meta name="description" content="Learn about Orlando Kannada Sangha, our board members, past members, and the team behind our organization." />
+	<meta name="keywords" content="Orlando Kannada Sangha about, OKS board members, Kannada community leaders, past members, web development team, Kannada organization history" />
+</svelte:head>
+
 <Navbar />
 <Hero 
   page="About" 

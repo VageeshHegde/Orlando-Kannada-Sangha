@@ -59,18 +59,18 @@
             <i class="fas fa-link" aria-hidden="true"></i>
             Quick Links
           </h5>
-          <ul class="footer-links" role="list">
-            <li role="listitem"><a href="/"><i class="fas fa-home" aria-hidden="true"></i>Home</a></li>
-            <li role="listitem"><a href="/about"><i class="fas fa-users" aria-hidden="true"></i>About Us</a></li>
-            <!-- <li role="listitem"><a href="/events"><i class="fas fa-calendar-alt" aria-hidden="true"></i>Events</a></li> -->
-            <li role="listitem"><a href="/membership"><i class="fas fa-id-card" aria-hidden="true"></i>Membership</a></li>
-            <li role="listitem"><a href="/kannada-kali"><i class="fas fa-book" aria-hidden="true"></i>Kannada Kali</a></li>
-            <li role="listitem"><a href="/gallery"><i class="fas fa-images" aria-hidden="true"></i>Gallery</a></li>
-            <li role="listitem"><a href="/blog"><i class="fas fa-blog" aria-hidden="true"></i>OKS Blog</a></li>
-            <li role="listitem"><a href="/constitution"><i class="fas fa-gavel" aria-hidden="true"></i>Constitution</a></li>
-            <li role="listitem"><a href="/by-laws"><i class="fas fa-book-open" aria-hidden="true"></i>By-Laws</a></li>
-            <li role="listitem"><a href="/login"><i class="fas fa-sign-in-alt" aria-hidden="true"></i>Login</a></li>
-            <li role="listitem"><a href="https://www.zeffy.com/en-US/donation-form/e9e95cc9-b449-49eb-85c8-cf5efa4a712e" target="_blank" rel="noopener noreferrer" aria-label="Donate - opens in new window" title="Donate - opens in new window"><i class="fas fa-hand-holding-dollar" aria-hidden="true"></i>Donate</a></li>
+          <ul class="footer-links">
+            <li><a href="/"><i class="fas fa-home" aria-hidden="true"></i>Home</a></li>
+            <li><a href="/about"><i class="fas fa-users" aria-hidden="true"></i>About Us</a></li>
+            <!-- <li><a href="/events"><i class="fas fa-calendar-alt" aria-hidden="true"></i>Events</a></li> -->
+            <li><a href="/membership"><i class="fas fa-id-card" aria-hidden="true"></i>Membership</a></li>
+            <li><a href="/kannada-kali"><i class="fas fa-book" aria-hidden="true"></i>Kannada Kali</a></li>
+            <li><a href="/gallery"><i class="fas fa-images" aria-hidden="true"></i>Gallery</a></li>
+            <li><a href="/blog"><i class="fas fa-blog" aria-hidden="true"></i>OKS Blog</a></li>
+            <li><a href="/constitution"><i class="fas fa-gavel" aria-hidden="true"></i>Constitution</a></li>
+            <li><a href="/by-laws"><i class="fas fa-book-open" aria-hidden="true"></i>By-Laws</a></li>
+            <li><a href="/login"><i class="fas fa-sign-in-alt" aria-hidden="true"></i>Login</a></li>
+            <li><a href="https://www.zeffy.com/en-US/donation-form/e9e95cc9-b449-49eb-85c8-cf5efa4a712e" target="_blank" rel="noopener noreferrer" aria-label="Donate - opens in new window" title="Donate - opens in new window"><i class="fas fa-hand-holding-dollar" aria-hidden="true"></i>Donate</a></li>
           </ul>
         </div>
       </div>

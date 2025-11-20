@@ -8,6 +8,7 @@
 <svelte:head>
   <title>Sitemap - Orlando Kannada Sangha</title>
   <meta name="description" content="Sitemap for Orlando Kannada Sangha - Find all pages and sections of our website.">
+  <meta name="keywords" content="Orlando Kannada Sangha sitemap, OKS sitemap, website navigation, site map, page index" />
 </svelte:head>
 
 <Navbar />

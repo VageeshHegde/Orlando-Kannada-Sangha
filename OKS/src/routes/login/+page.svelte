@@ -97,6 +97,7 @@
 <svelte:head>
 	<title>Login - Orlando Kannada Sangha</title>
 	<meta name="description" content="Login to your Orlando Kannada Sangha account to access member features and exclusive content." />
+	<meta name="keywords" content="Orlando Kannada Sangha login, OKS member login, Kannada community login, member access, OKS account" />
 </svelte:head>
 
 <!-- Navigation removed for clean login experience -->

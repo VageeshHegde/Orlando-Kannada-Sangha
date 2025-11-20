@@ -316,6 +316,12 @@
 	});
 </script>
 
+<svelte:head>
+	<title>Gallery - Orlando Kannada Sangha</title>
+	<meta name="description" content="Browse our photo gallery showcasing cultural events, community gatherings, and memorable moments from Orlando Kannada Sangha." />
+	<meta name="keywords" content="Orlando Kannada Sangha gallery, OKS photos, Kannada cultural events, community photos, Ugadi celebrations, Kannada Kali classes, cultural performances, Orlando Indian community photos" />
+</svelte:head>
+
 <Navbar />
 <Hero 
   page="Gallery" 
@@ -385,9 +391,9 @@
 					<div class="card">
 						<div class="card-body">
 							<h5 class="card-title">Gallery Categories</h5>
-							<ul class="list-unstyled" role="list">
+							<ul class="list-unstyled">
 								{#each sections as section}
-									<li class="mb-2" role="listitem">
+									<li class="mb-2">
 										<button 
 											class="category-link {activeSection === section.id ? 'active' : ''}"
 											on:click={() => setActiveSection(section.id)}
@@ -444,7 +450,7 @@
 					</div>
 				{:else if galleryImages[activeSection] && galleryImages[activeSection].length > 0}
 					{#each galleryImages[activeSection] as image, index}
-						<article class="gallery-item" data-category={image.category} role="img" aria-label={image.name || `Gallery image ${index + 1}`}>
+						<article class="gallery-item" data-category={image.category} aria-label={image.name || `Gallery image ${index + 1}`}>
 							<a 
 								href={image.url} 
 								data-lightbox="gallery" 
