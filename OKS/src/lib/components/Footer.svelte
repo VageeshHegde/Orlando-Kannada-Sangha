@@ -5,6 +5,10 @@
     email: ''
   };
 
+  // Get current year for copyright
+  const currentYear = new Date().getFullYear();
+  const foundingYear = 2012; // Year Orlando Kannada Sangha was founded
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // Handle form submission here
@@ -25,7 +29,7 @@
         <div class="footer-section">
           <h5 class="footer-title">
             <i class="fas fa-info-circle" aria-hidden="true"></i>
-            About OKS
+            About <abbr title="Orlando Kannada Sangha">OKS</abbr>
           </h5>
           <div class="footer-description">
             Orlando Kannada Sangha is a vibrant non-profit organization dedicated to preserving and promoting Kannada culture in central Florida.
@@ -42,11 +46,11 @@
             </div>
             <div class="detail-item">
               <i class="fas fa-shield-alt" aria-hidden="true"></i>
-              <span>501(c)(3) Non-Profit Organization</span>
+              <span><abbr title="Tax-exempt nonprofit organization under section 501(c)(3) of the Internal Revenue Code">501(c)(3)</abbr> Non-Profit Organization</span>
             </div>
             <div class="detail-item">
               <i class="fas fa-id-card" aria-hidden="true"></i>
-              <span>Tax ID: 46-2253530</span>
+              <span><abbr title="Tax Identification Number">Tax ID</abbr>: 46-2253530</span>
             </div>
           </div>
         </div>
@@ -66,7 +70,7 @@
             <li><a href="/membership"><i class="fas fa-id-card" aria-hidden="true"></i>Membership</a></li>
             <li><a href="/kannada-kali"><i class="fas fa-book" aria-hidden="true"></i>Kannada Kali</a></li>
             <li><a href="/gallery"><i class="fas fa-images" aria-hidden="true"></i>Gallery</a></li>
-            <li><a href="/blog"><i class="fas fa-blog" aria-hidden="true"></i>OKS Blog</a></li>
+            <li><a href="/blog"><i class="fas fa-blog" aria-hidden="true"></i><abbr title="Orlando Kannada Sangha">OKS</abbr> Blog</a></li>
             <li><a href="/constitution"><i class="fas fa-gavel" aria-hidden="true"></i>Constitution</a></li>
             <li><a href="/by-laws"><i class="fas fa-book-open" aria-hidden="true"></i>By-Laws</a></li>
             <li><a href="/login"><i class="fas fa-sign-in-alt" aria-hidden="true"></i>Login</a></li>
@@ -93,7 +97,7 @@
             </div>
             <div class="contact-item">
               <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
-              <span>Orlando, Florida, USA</span>
+              <span>Orlando, Florida, <abbr title="United States of America">USA</abbr></span>
             </div>
           </div>
           
@@ -125,7 +129,7 @@
         <div class="footer-section">
           <h5 class="footer-title">
             <i class="fas fa-newspaper" aria-hidden="true"></i>
-            OKS Suddi
+            <abbr title="Orlando Kannada Sangha">OKS</abbr> Suddi
           </h5>
           <form class="footer-form" on:submit={handleSubmit} aria-label="Subscribe to OKS Suddi newsletter">
             <div class="row">
@@ -188,7 +192,7 @@
       <div class="row align-items-center">
         <div class="col-md-6">
           <div class="copyright">
-            <i class="fas fa-copyright" aria-hidden="true"></i> 2025 Orlando Kannada Sangha
+            <i class="fas fa-copyright" aria-hidden="true"></i> {foundingYear}{currentYear !== foundingYear ? `-${currentYear}` : ''} Orlando Kannada Sangha
           </div>
         </div>
         <div class="col-md-6">

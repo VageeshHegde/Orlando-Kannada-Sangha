@@ -257,7 +257,7 @@
                 </button>
               {:else}
                 <div class="dropdown-header">
-                  <h6>Welcome OKS Member</h6>
+                  <h6>Welcome <abbr title="Orlando Kannada Sangha">OKS</abbr> Member</h6>
                   <p>Please login to access your account</p>
                 </div>
                 <div class="dropdown-divider"></div>

@@ -686,8 +686,8 @@
         <div class="col-md-4">
           <div class="card-custom">
             <h3><i class="fas fa-address-card icon"></i>About Us</h3>
-            <p>Orlando Kannada Sangha or OKS was formally registered as an organization in the year 2012. Although we have had a Kannada group and have been organizing activities since more than 20 years, we had not formally registered as an organization until 2012.</p>
-            <p>Orlando Kannada Sangha is an association for people that hail from the Karnataka state of India, and those who can speak the Kannada language. Its primary goal is to provide a platform for Kannada speaking people to meet, socialize and promote their cultural and social heritage to the next generation of Kannadiga's living in US.</p>
+            <p>Orlando Kannada Sangha or <abbr title="Orlando Kannada Sangha">OKS</abbr> was formally registered as an organization in the year 2012. Although we have had a Kannada group and have been organizing activities since more than 20 years, we had not formally registered as an organization until 2012.</p>
+            <p>Orlando Kannada Sangha is an association for people that hail from the Karnataka state of India, and those who can speak the Kannada language. Its primary goal is to provide a platform for Kannada speaking people to meet, socialize and promote their cultural and social heritage to the next generation of Kannadiga's living in <abbr title="United States">US</abbr>.</p>
             <p class="years-old-text">We are <strong>{yearsSinceFounded} years old</strong> and growing stronger every year!</p>
             <div class="bottom-content">
               <div class="mt-2">
@@ -814,7 +814,7 @@
       <div class="bylaws-content">
         <div class="alert alert-info" role="alert">
           <i class="fas fa-info-circle me-2"></i>
-          Our Article of Incorporation was recently amended by OKS Board of Directors to include Dissolution clause necessary for 501c non-profit organizations.
+          Our Article of Incorporation was recently amended by <abbr title="Orlando Kannada Sangha">OKS</abbr> Board of Directors to include Dissolution clause necessary for <abbr title="Tax-exempt nonprofit organization under section 501(c)(3) of the Internal Revenue Code">501(c)(3)</abbr> non-profit organizations.
         </div>
         <p class="text-left mb-4">Please click below to view the Orlando Kannada Sangha Constitution and By-laws:</p>
         <div class="document-links">

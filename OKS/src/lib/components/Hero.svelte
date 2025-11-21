@@ -262,7 +262,7 @@
         {page}
       </h4>
       <h2>ಒರ್ಲ್ಯಾಂಡೋ ಕನ್ನಡ ಸಂಘ</h2>
-      <h6 class="text-muted">A not-for-profit 501(c)(3) organization. Tax ID 46-2253530</h6>
+      <h6 class="text-muted">A not-for-profit <abbr title="Tax-exempt nonprofit organization under section 501(c)(3) of the Internal Revenue Code">501(c)(3)</abbr> organization. <abbr title="Tax Identification Number">Tax ID</abbr> 46-2253530</h6>
       <p class="mt-3">Kannada Cultural Association</p>
     </div>
     

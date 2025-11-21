@@ -49,7 +49,7 @@
 								<div class="col-md-6">
 									<div class="card">
 										<div class="card-header">
-											<h6><i class="fas fa-user-friends me-2"></i>OKS Members</h6>
+											<h6><i class="fas fa-user-friends me-2"></i><abbr title="Orlando Kannada Sangha">OKS</abbr> Members</h6>
 										</div>
 										<div class="card-body">
 											<p class="mb-1">$75 for one kid</p>
@@ -73,7 +73,7 @@
 
 						<div class="textbook-info">
 							<h6><i class="fas fa-book me-2"></i>Textbooks: $15 each</h6>
-							<p class="text-justify">Textbooks are highly recommended. If ordering, please include the cost of textbook in your payment. eg, For 1 OKS Member child with textbook $75 + $15 = $90.</p>
+							<p class="text-justify">Textbooks are highly recommended. If ordering, please include the cost of textbook in your payment. eg, For 1 <abbr title="Orlando Kannada Sangha">OKS</abbr> Member child with textbook $75 + $15 = $90.</p>
 						</div>
 
 						<div class="deadline-info">

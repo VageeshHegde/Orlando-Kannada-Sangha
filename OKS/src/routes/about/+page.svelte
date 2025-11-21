@@ -42,7 +42,7 @@
 			name: 'Mrs. Supreeta Bolar',
 			position: 'Design & Data Collection',
 			year: '2025 - present',
-			description: 'UI/UX design and data management',
+			description: '<abbr title="User Interface/User Experience">UI/UX</abbr> design and data management',
 			imageFile: 'Supreeta.jpg'
 		},
 		{
@@ -303,7 +303,7 @@
 						</div>
 
 						<div class="history-paragraph">
-							<p>In <span class="highlight-year">2000</span>, Orlando's Kannadigas held their first community picnic. The tradition continued annually, and in <span class="highlight-year">2004</span> the growing popularity of the Orlando Kannada Koota helped attract the <strong>AKKA Sammelana</strong>. With great enthusiasm, the community partnered with Tampa's Shrigandha Kannada Koota to make the event a success.</p>
+							<p>In <span class="highlight-year">2000</span>, Orlando's Kannadigas held their first community picnic. The tradition continued annually, and in <span class="highlight-year">2004</span> the growing popularity of the Orlando Kannada Koota helped attract the <strong><abbr title="American Kannada Kootagala Okkoota">AKKA</abbr> Sammelana</strong>. With great enthusiasm, the community partnered with Tampa's Shrigandha Kannada Koota to make the event a success.</p>
 						</div>
 
 						<div class="history-paragraph">
