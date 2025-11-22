@@ -150,6 +150,7 @@
 <svelte:head>
   <title>{currentPost ? currentPost.title : 'Blog Post'} - Orlando Kannada Sangha</title>
   <meta name="description" content={currentPost ? currentPost.content.replace(/<[^>]*>/g, '').substring(0, 160) : 'Read our latest blog post'} />
+  <meta name="keywords" content="Orlando Kannada Sangha blog post, OKS blog, Kannada community article, Kannada culture story, community news" />
 </svelte:head>
 
 <Navbar />
@@ -162,9 +163,9 @@
         <div class="col-lg-8 mx-auto">
           <div class="post-meta">
             <span class="post-category">{currentPost.category}</span>
-            <span class="post-date">
+            <time class="post-date" datetime={currentPost.date}>
               <i class="fas fa-calendar-alt me-2"></i>{formatDate(currentPost.date)}
-            </span>
+            </time>
             <span class="post-read-time">
               <i class="fas fa-clock me-2"></i>{currentPost.readTime}
             </span>

@@ -650,9 +650,9 @@
 		<button class="scroll-button right" on:click={() => scrollImages('right')}><i class="fas fa-chevron-right"></i></button> -->
       </div>
       
-      <div class="row text-center g-4">
-        <div class="col-md-4">
-          <div class="card-custom">
+      <section class="row text-center g-4">
+        <article class="col-md-4">
+          <article class="card-custom">
             <h3><i class="fas fa-house-user icon"></i>Home</h3>
             <p>Welcome to Kannada Sangha, a vibrant community celebrating Karnataka's rich cultural heritage.</p>
             
@@ -681,12 +681,12 @@
               </div>
               <div id="regions_div" class="mt-4 map-container"></div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="card-custom">
+          </article>
+        </article>
+        <article class="col-md-4">
+          <article class="card-custom">
             <h3><i class="fas fa-address-card icon"></i>About Us</h3>
-            <p>Orlando Kannada Sangha or <abbr title="Orlando Kannada Sangha">OKS</abbr> was formally registered as an organization in the year 2012. Although we have had a Kannada group and have been organizing activities since more than 20 years, we had not formally registered as an organization until 2012.</p>
+            <p>Orlando Kannada Sangha or <abbr title="Orlando Kannada Sangha">OKS</abbr> was formally registered as an organization in the year <time datetime="2012">2012</time>. Although we have had a Kannada group and have been organizing activities since more than 20 years, we had not formally registered as an organization until 2012.</p>
             <p>Orlando Kannada Sangha is an association for people that hail from the Karnataka state of India, and those who can speak the Kannada language. Its primary goal is to provide a platform for Kannada speaking people to meet, socialize and promote their cultural and social heritage to the next generation of Kannadiga's living in <abbr title="United States">US</abbr>.</p>
             <p class="years-old-text">We are <strong>{yearsSinceFounded} years old</strong> and growing stronger every year!</p>
             <div class="bottom-content">
@@ -694,10 +694,10 @@
                 <a href="/about" class="btn btn-sm btn-outline-primary">Read more <i class="fas fa-arrow-right ms-1"></i></a>
               </div>
             </div>
-          </div>
-        </div>
-        <div class="col-md-4" id="donate">
-          <div class="card-custom">
+          </article>
+        </article>
+        <article class="col-md-4" id="donate">
+          <article class="card-custom">
             <h3><i class="fas fa-hand-holding-heart icon"></i>Donate</h3>
             <p>Orlando Kannada Sangha is a 501 c(3) registered non-profit striving to conduct as many activities as possible for the Kannadigas in Orlando, especially for the kids and youth of our community giving them opportunities to excel. Your support in the form of donation or sponsorships, however, small will go a really long way. We look forward to your continuous support.</p>
             <div class="donate-options mt-3">
@@ -708,16 +708,18 @@
                   </a>
                 </div>
                 <div class="col-6">
-                  <div class="qr-placeholder">
+                  <figure class="qr-placeholder">
                     <img src="/images/DonateQR.png" alt="Donate QR Code" style="width: 100%; max-width: 250px; height: auto;">
-                  </div>
+                  </figure>
                 </div>
               </div>
               <div class="mt-3 text-center">
                 <p class="small text-muted mb-2">Or you can download the Donation Form below and email it to:</p>
-                  <a href="mailto:board@orlandokannadasangha.org" class="sponsor-email">
-                    <i class="fas fa-envelope me-2"></i>board@orlandokannadasangha.org
-                  </a>
+                  <address>
+                    <a href="mailto:board@orlandokannadasangha.org" class="sponsor-email">
+                      <i class="fas fa-envelope me-2"></i>board@orlandokannadasangha.org
+                    </a>
+                  </address>
               </div>
               <div class="bottom-content">
               <div class="mt-3 text-center">
@@ -727,9 +729,9 @@
               </div>
             </div>
             </div>
-          </div>
-        </div>
-      </div>
+          </article>
+        </article>
+      </section>
     </div>
   </div>
 </main>
@@ -739,8 +741,8 @@
   <h3 class="text-center mb-4"><i class="fas fa-address-card icon"></i>Membership</h3>
   <div class="row g-4">
     <!-- Benefits Column -->
-    <div class="col-md-4">
-      <div class="membership-card">
+    <article class="col-md-4">
+      <article class="membership-card">
         <h4><i class="fas fa-gift icon"></i>Membership Benefits</h4>
         <ul class="benefits-list">
           <li><i class="fas fa-check"></i> Discounts on All Events</li>
@@ -751,13 +753,13 @@
           <li><i class="fas fa-check"></i> Discounted Cultural Classes</li>
           <li><i class="fas fa-check"></i> Online Event Participations</li>
         </ul>
-      </div>
-    </div>
+      </article>
+    </article>
 
     <!-- Pricing Column -->
-    <div class="col-md-4">
-      <div class="membership-card">
-        <h4><i class="fas fa-tags icon"></i>Annual Membership <span>{membershipYear}</span></h4>
+    <article class="col-md-4">
+      <article class="membership-card">
+        <h4><i class="fas fa-tags icon"></i>Annual Membership <time>{membershipYear}</time></h4>
         <div class="pricing-options">
           <div class="price-card">
             <div class="price-header">Family</div>
@@ -776,12 +778,12 @@
           <div class="price-amount">$500</div>
           <div class="price-period">per Family (Husband-Wife and their Kids)</div>
         </div>
-      </div>
-    </div>
+      </article>
+    </article>
 
     <!-- Payment Column -->
-    <div class="col-md-4">
-      <div class="membership-card">
+    <article class="col-md-4">
+      <article class="membership-card">
         <h4><i class="fas fa-credit-card icon"></i>Payment Options</h4>
         <div class="payment-options">
           <a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary membership-btn mb-4">
@@ -789,7 +791,7 @@
           </a>
           <div class="qr-section">
             <p class="text-center mb-3">Or scan QR code</p>
-            <div class="qr-placeholder">
+            <figure class="qr-placeholder">
               {#if membershipQRLoaded && membershipQRImage}
                 <img src={membershipQRImage} alt="Membership QR Code" style="width: 100%; max-width: 120px; height: auto;">
               {:else}
@@ -798,11 +800,11 @@
                   <p>Loading QR Code...</p>
                 </div>
               {/if}
-            </div>
+            </figure>
           </div>
         </div>
-      </div>
-    </div>
+      </article>
+    </article>
   </div>
 </section>
 
@@ -940,15 +942,15 @@
   {:else if sponsors.length === 0}
     <!-- Show placeholder when no sponsors -->
     <div class="row g-4 justify-content-center">
-      <div class="col-lg-3 col-md-4 col-sm-6">
-        <div class="sponsor-card sponsor-image-card">
+      <article class="col-lg-3 col-md-4 col-sm-6">
+        <figure class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=1" alt="Sponsor" class="sponsor-full-image">
-          <div class="sponsor-overlay">
+          <figcaption class="sponsor-overlay">
             <h4 class="sponsor-overlay-title">Our Next Sponsor</h4>
             <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
-          </div>
-        </div>
-      </div>
+          </figcaption>
+        </figure>
+      </article>
       <div class="col-lg-3 col-md-4 col-sm-6">
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
@@ -981,17 +983,17 @@
     <!-- Display actual sponsors from database -->
     <div class="row g-4 justify-content-center">
       {#each sponsors as sponsor}
-        <div class="col-lg-3 col-md-4 col-sm-6">
+        <article class="col-lg-3 col-md-4 col-sm-6">
           {#if sponsor.website}
             <a href={sponsor.website} target="_blank" rel="noopener noreferrer" class="sponsor-card-link">
-              <div class="sponsor-card sponsor-image-card">
+              <figure class="sponsor-card sponsor-image-card">
                 {#if sponsorImages[sponsor.id]}
                   <!-- S3 image loaded -->
                   <img src={sponsorImages[sponsor.id]} alt={sponsor.company} class="sponsor-full-image">
-                  <div class="sponsor-overlay">
+                  <figcaption class="sponsor-overlay">
                     <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                     <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
-                  </div>
+                  </figcaption>
                 {:else if sponsor.logo_file}
                   <!-- Static file fallback -->
                   <img 
@@ -1004,31 +1006,31 @@
                   <div class="sponsor-avatar-fallback" style="display: none; background-color: {getAvatarColor(sponsor.company)}">
                     <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
                   </div>
-                  <div class="sponsor-overlay">
+                  <figcaption class="sponsor-overlay">
                     <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                     <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
-                  </div>
+                  </figcaption>
                 {:else}
                   <!-- No logo file - show avatar -->
                   <div class="sponsor-avatar-fallback" style="background-color: {getAvatarColor(sponsor.company)}">
                     <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
                   </div>
-                  <div class="sponsor-overlay">
+                  <figcaption class="sponsor-overlay">
                     <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                     <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
-                  </div>
+                  </figcaption>
                 {/if}
-              </div>
+              </figure>
             </a>
           {:else}
-            <div class="sponsor-card sponsor-image-card">
+            <figure class="sponsor-card sponsor-image-card">
               {#if sponsorImages[sponsor.id]}
                 <!-- S3 image loaded -->
                 <img src={sponsorImages[sponsor.id]} alt={sponsor.company} class="sponsor-full-image">
-                <div class="sponsor-overlay">
-                  <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                <figcaption class="sponsor-overlay">
+                  <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                   <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
-                </div>
+                </figcaption>
               {:else if sponsor.logo_file}
                 <!-- Static file fallback -->
                 <img 
@@ -1041,23 +1043,23 @@
                 <div class="sponsor-avatar-fallback" style="display: none; background-color: {getAvatarColor(sponsor.company)}">
                   <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
                 </div>
-                <div class="sponsor-overlay">
-                  <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                <figcaption class="sponsor-overlay">
+                  <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                   <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
-                </div>
+                </figcaption>
               {:else}
                 <!-- No logo file - show avatar -->
                 <div class="sponsor-avatar-fallback" style="background-color: {getAvatarColor(sponsor.company)}">
                   <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
                 </div>
-                <div class="sponsor-overlay">
-                  <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                <figcaption class="sponsor-overlay">
+                  <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                   <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
-                </div>
+                </figcaption>
               {/if}
-            </div>
+            </figure>
           {/if}
-        </div>
+        </article>
       {/each}
     </div>
   {/if}

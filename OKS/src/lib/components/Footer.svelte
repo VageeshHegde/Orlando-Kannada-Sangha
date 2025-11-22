@@ -42,7 +42,7 @@
             </div> -->
             <div class="detail-item">
               <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-              <span>Established 2012</span>
+              <span>Established <time datetime="2012">2012</time></span>
             </div>
             <div class="detail-item">
               <i class="fas fa-shield-alt" aria-hidden="true"></i>
@@ -86,7 +86,7 @@
             <i class="fas fa-paper-plane" aria-hidden="true"></i>
             Connect With Us
           </h5>
-          <div class="contact-info">
+          <address class="contact-info">
             <div class="contact-item">
               <i class="fas fa-envelope" aria-hidden="true"></i>
               <a href="mailto:suddhi@orlandokannadasangha.org">suddhi@orlandokannadasangha.org</a>
@@ -99,7 +99,7 @@
               <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
               <span>Orlando, Florida, <abbr title="United States of America">USA</abbr></span>
             </div>
-          </div>
+          </address>
           
           <div class="social-section mt-4">
             <div class="small-line" aria-hidden="true"></div>

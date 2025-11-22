@@ -378,9 +378,9 @@
 					<div class="row">
 						{#if boardMembersLoaded}
 							{#each boardMembers as member}
-								<div class="col-lg-3 col-md-6 mb-4">
-									<div class="board-member-card">
-										<div class="member-image">
+								<article class="col-lg-3 col-md-6 mb-4">
+									<article class="board-member-card">
+										<figure class="member-image">
 											{#if boardMemberImages[member.id]}
 												<img 
 													src={boardMemberImages[member.id]} 
@@ -394,15 +394,15 @@
 													<p class="text-muted small mt-2">Image not available</p>
 												</div>
 											{/if}
-										</div>
+										</figure>
 										<div class="member-info">
 											<h3 class="member-name">{member.name}</h3>
 											<p class="member-position">{member.position}</p>
-											<p class="member-year">{member.year}</p>
+											<time class="member-year">{member.year}</time>
 											<p class="member-description">{member.description}</p>
 										</div>
-									</div>
-								</div>
+									</article>
+								</article>
 							{/each}
 						{:else}
 							<!-- Loading state -->

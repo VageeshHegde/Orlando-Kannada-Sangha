@@ -250,7 +250,7 @@
           <div class="blog-post-content">
             <h3 class="post-title">{post.title}</h3>
             <div class="post-meta">
-              <span class="post-date">{post.date}</span>
+              <time class="post-date" datetime={post.date}>{post.date}</time>
               <span class="post-separator">|</span>
               <span class="post-category">{post.category}</span>
               <span class="post-separator">|</span>

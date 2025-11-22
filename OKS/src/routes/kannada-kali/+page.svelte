@@ -27,11 +27,11 @@
 			<PageTitle englishTitle="Kannada Kali" kannadaTitle="ಕನ್ನಡ ಕಲಿ" />
 			<div class="row">
 				<div>
-					<h3>Kannada Kali 2024 – 25 Registration</h3>
+					<h3>Kannada Kali <time datetime="2024">2024</time> – <time datetime="2025">25</time> Registration</h3>
 					<div class="registration-info">
 						<div class="alert alert-info">
-							<h4><i class="fas fa-calendar-check me-2"></i>Classes Starting on Sunday, August 17th 2024</h4>
-							<p><i class="fas fa-info-circle me-2"></i>Information session on class details will be on Aug 11th 2024.</p>
+							<h4><i class="fas fa-calendar-check me-2"></i>Classes Starting on Sunday, <time datetime="2024-08-17">August 17th 2024</time></h4>
+							<p><i class="fas fa-info-circle me-2"></i>Information session on class details will be on <time datetime="2024-08-11">Aug 11th 2024</time>.</p>
 							<p><i class="fas fa-map-marker-alt me-2"></i>Location: Online via Google Meet.</p>
 						</div>
 
@@ -78,7 +78,7 @@
 
 						<div class="deadline-info">
 							<div class="alert alert-warning">
-								<h5><i class="fas fa-clock me-2"></i>Registration and Payment deadline: Jul 30th 2024.</h5>
+								<h5><i class="fas fa-clock me-2"></i>Registration and Payment deadline: <time datetime="2024-07-30">Jul 30th 2024</time>.</h5>
 								<p class="mb-0">No date extension. This will give us time to organize classes, teachers and order textbooks. Thank you.</p>
 							</div>
 						</div>
