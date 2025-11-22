@@ -36,6 +36,7 @@
 <svelte:head>
 	<title>Membership - Orlando Kannada Sangha</title>
 	<meta name="description" content="Join the Orlando Kannada Sangha community. Become a member to connect with fellow Kannadigas and participate in cultural events." />
+	<meta name="keywords" content="Orlando Kannada Sangha membership, join OKS, Kannada community membership, become a member, Kannadiga membership, OKS join" />
 </svelte:head>
 
 <!-- Navigation removed for clean membership experience -->
@@ -81,7 +82,7 @@
 							<div class="row">
 								<div class="col-md-6">
 									<div class="payment-option">
-										<h5><i class="fas fa-link me-2"></i>Payment Link</h5>
+										<h3><i class="fas fa-link me-2"></i>Payment Link</h3>
 										<a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="payment-btn">
 											<i class="fas fa-credit-card"></i>
 											<span>Payment<br>Link</span>
@@ -90,7 +91,7 @@
 								</div>
 								<div class="col-md-6">
 									<div class="payment-option">
-										<h5><i class="fas fa-qrcode me-2"></i>QR Code</h5>
+										<h3><i class="fas fa-qrcode me-2"></i>QR Code</h3>
 										<div class="qr-placeholder">
 											{#if qrCodeLoaded && qrCodeImage}
 												<img src={qrCodeImage} alt="Membership Payment QR Code" style="width: 100%; max-width: 100px; height: auto;">
@@ -230,7 +231,7 @@
 		flex-direction: column;
 	}
 	
-	.payment-option h5 {
+	.payment-option h3 {
 		color: #7a1f1f;
 		font-size: 14px;
 		font-weight: 600;

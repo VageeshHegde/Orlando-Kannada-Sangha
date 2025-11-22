@@ -155,6 +155,7 @@
 <svelte:head>
   <title>By-Laws - Orlando Kannada Sangha</title>
   <meta name="description" content="By-Laws of Orlando Kannada Sangha - A not-for-profit 501(c)(3) organization promoting Kannada culture in Orlando." />
+  <meta name="keywords" content="Orlando Kannada Sangha by-laws, OKS bylaws, organization bylaws, 501c3 bylaws, Kannada organization rules" />
 </svelte:head>
 
 <Navbar />

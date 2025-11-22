@@ -390,7 +390,7 @@
 				<div class="col-md-4">
 					<div class="card">
 						<div class="card-body">
-							<h5 class="card-title">Gallery Categories</h5>
+							<h3 class="card-title">Gallery Categories</h3>
 							<ul class="list-unstyled">
 								{#each sections as section}
 									<li class="mb-2">

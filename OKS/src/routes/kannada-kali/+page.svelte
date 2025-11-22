@@ -30,12 +30,12 @@
 					<h3>Kannada Kali 2024 – 25 Registration</h3>
 					<div class="registration-info">
 						<div class="alert alert-info">
-							<h5><i class="fas fa-calendar-check me-2"></i>Classes Starting on Sunday, August 17th 2024</h5>
+							<h4><i class="fas fa-calendar-check me-2"></i>Classes Starting on Sunday, August 17th 2024</h4>
 							<p><i class="fas fa-info-circle me-2"></i>Information session on class details will be on Aug 11th 2024.</p>
 							<p><i class="fas fa-map-marker-alt me-2"></i>Location: Online via Google Meet.</p>
 						</div>
 
-						<h5>Highlights:</h5>
+						<h4>Highlights:</h4>
 						<ul class="highlights-list">
 							<li><i class="fas fa-laptop me-2"></i>Classes are online.</li>
 							<li><i class="fas fa-book-open me-2"></i>Fun activities like storytelling will be part of class.</li>
@@ -43,13 +43,13 @@
 							<li><i class="fas fa-book me-2"></i>Textbooks are available online. A copy can be purchased.</li>
 						</ul>
 
-						<h5>Pricing:</h5>
+						<h4>Pricing:</h4>
 						<div class="pricing-table">
 							<div class="row">
 								<div class="col-md-6">
 									<div class="card">
 										<div class="card-header">
-											<h6><i class="fas fa-user-friends me-2"></i><abbr title="Orlando Kannada Sangha">OKS</abbr> Members</h6>
+											<h5><i class="fas fa-user-friends me-2"></i><abbr title="Orlando Kannada Sangha">OKS</abbr> Members</h5>
 										</div>
 										<div class="card-body">
 											<p class="mb-1">$75 for one kid</p>
@@ -60,7 +60,7 @@
 								<div class="col-md-6">
 									<div class="card">
 										<div class="card-header">
-											<h6><i class="fas fa-user me-2"></i>Non Members</h6>
+											<h5><i class="fas fa-user me-2"></i>Non Members</h5>
 										</div>
 										<div class="card-body">
 											<p class="mb-1">$90 for one kid</p>
@@ -72,29 +72,29 @@
 						</div>
 
 						<div class="textbook-info">
-							<h6><i class="fas fa-book me-2"></i>Textbooks: $15 each</h6>
+							<h5><i class="fas fa-book me-2"></i>Textbooks: $15 each</h5>
 							<p class="text-justify">Textbooks are highly recommended. If ordering, please include the cost of textbook in your payment. eg, For 1 <abbr title="Orlando Kannada Sangha">OKS</abbr> Member child with textbook $75 + $15 = $90.</p>
 						</div>
 
 						<div class="deadline-info">
 							<div class="alert alert-warning">
-								<h6><i class="fas fa-clock me-2"></i>Registration and Payment deadline: Jul 30th 2024.</h6>
+								<h5><i class="fas fa-clock me-2"></i>Registration and Payment deadline: Jul 30th 2024.</h5>
 								<p class="mb-0">No date extension. This will give us time to organize classes, teachers and order textbooks. Thank you.</p>
 							</div>
 						</div>
 
-                        <h5 class="mt-4">REGISTRATION AND PAYMENT DETAILS</h5>
+                        <h4 class="mt-4">REGISTRATION AND PAYMENT DETAILS</h4>
 						<div class="registration-options">
 							<div class="card mb-3">
 								<div class="card-body">
-									<h6 class="card-title"><i class="fas fa-credit-card me-2"></i>Online Registration</h6>
+									<h5 class="card-title"><i class="fas fa-credit-card me-2"></i>Online Registration</h5>
 									<a href="#" class="btn btn-primary">Click here to Register and Pay Now</a>
 								</div>
 							</div>
 							
 							<div class="card mb-3">
 								<div class="card-body">
-									<h6 class="card-title"><i class="fas fa-envelope me-2"></i>Mail Check to:</h6>
+									<h5 class="card-title"><i class="fas fa-envelope me-2"></i>Mail Check to:</h5>
 									<p class="mb-1">Orlando Kannada Sangha</p>
 									<p class="mb-0">1539 Katie Cove</p>
 									<p class="mb-0">Sanford FL 32771</p>
@@ -102,7 +102,7 @@
 							</div>
 						</div>
 
-						<h5>Student Requirements</h5>
+						<h4>Student Requirements</h4>
 						<ul class="requirements-list">
 							<li>Students should be able to sit for an hour at the computer without parents by their side.</li>
 							<li>Students must have a computer with working video and audio. Video must be on during class.</li>
@@ -114,7 +114,7 @@
 
 						<div class="contact-info">
 							<div class="alert alert-success">
-								<h6><i class="fas fa-envelope me-2"></i>For additional information, please contact:</h6>
+								<h5><i class="fas fa-envelope me-2"></i>For additional information, please contact:</h5>
 								<p class="mb-0">Email: <a href="mailto:okskannadakali@gmail.com">okskannadakali@gmail.com</a></p>
 							</div>
 						</div>

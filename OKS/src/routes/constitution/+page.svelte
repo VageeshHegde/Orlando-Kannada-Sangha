@@ -155,6 +155,7 @@
 <svelte:head>
   <title>Constitution - Orlando Kannada Sangha</title>
   <meta name="description" content="Constitution of Orlando Kannada Sangha - A not-for-profit 501(c)(3) organization promoting Kannada culture in Orlando." />
+  <meta name="keywords" content="Orlando Kannada Sangha constitution, OKS constitution, organization constitution, 501c3 constitution, Kannada organization charter" />
 </svelte:head>
 
 <Navbar />

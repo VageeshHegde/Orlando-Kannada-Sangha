@@ -88,6 +88,12 @@
 	}
 </script>
 
+<svelte:head>
+	<title>Information Center - Orlando Kannada Sangha</title>
+	<meta name="description" content="Access information about Orlando Kannada Sangha including statistics, member counts, and organizational details." />
+	<meta name="keywords" content="Orlando Kannada Sangha information, OKS statistics, member count, sponsors, lifetime members, board members, organization details" />
+</svelte:head>
+
 <Navbar />
 <Hero 
   page="Info" 
@@ -274,7 +280,7 @@
 							<i class="fas fa-envelope"></i>
 						</div>
 						<div class="contact-details">
-							<h5>General Inquiries</h5>
+							<h3>General Inquiries</h3>
 							<p>suddhi@orlandokannadasangha.org</p>
 						</div>
 					</div>
@@ -284,7 +290,7 @@
 							<i class="fas fa-map-marker-alt"></i>
 						</div>
 						<div class="contact-details">
-							<h5>Location</h5>
+							<h3>Location</h3>
 							<p>Orlando, Florida, USA</p>
 						</div>
 					</div>
@@ -294,7 +300,7 @@
 							<i class="fas fa-calendar"></i>
 						</div>
 						<div class="contact-details">
-							<h5>Meeting Schedule</h5>
+							<h3>Meeting Schedule</h3>
 							<p>Regular meetings and events throughout the year</p>
 						</div>
 					</div>
@@ -354,7 +360,7 @@
 				<div class="faq-list">
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>How do I become a member?</h5>
+							<h3>How do I become a member?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -364,7 +370,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>What events do you organize?</h5>
+							<h3>What events do you organize?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -374,7 +380,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>Is Kannada Kali school available for children?</h5>
+							<h3>Is Kannada Kali school available for children?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -384,7 +390,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>How can I contact the board members?</h5>
+							<h3>How can I contact the board members?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -394,7 +400,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>How do I login to the website?</h5>
+							<h3>How do I login to the website?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -412,7 +418,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>What can I do after logging in?</h5>
+							<h3>What can I do after logging in?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -430,7 +436,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>I'm having trouble with the login link. What should I do?</h5>
+							<h3>I'm having trouble with the login link. What should I do?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -448,7 +454,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>How can I reach the web development team?</h5>
+							<h3>How can I reach the web development team?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -466,11 +472,11 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>I don't find the user icon. Where is it?</h5>
+							<h3>I don't find the user icon. Where is it?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
-							<p>If you can't find the user icon on our OKS website, try these solutions:</p>
+							<p>If you can't find the user icon on our <abbr title="Orlando Kannada Sangha">OKS</abbr> website, try these solutions:</p>
 							<ul>
 								<li><strong>Look in the top navigation bar</strong> - The user icon (👤) should be visible in the main navigation menu</li>
 								<li><strong>Check the header area</strong> - The user icon is typically located in the top-right corner of the website</li>
@@ -487,7 +493,7 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>How can my business be featured as a sponsor on the OKS website?</h5>
+							<h3>How can my business be featured as a sponsor on the <abbr title="Orlando Kannada Sangha">OKS</abbr> website?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
@@ -507,11 +513,11 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>I'm having trouble purchasing tickets for OKS events. What should I do?</h5>
+							<h3>I'm having trouble purchasing tickets for <abbr title="Orlando Kannada Sangha">OKS</abbr> events. What should I do?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
-							<p>If you're experiencing issues with ticket purchases for OKS events, try these solutions:</p>
+							<p>If you're experiencing issues with ticket purchases for <abbr title="Orlando Kannada Sangha">OKS</abbr> events, try these solutions:</p>
 							<ul>
 								<li><strong>Check Your Internet Connection</strong> - Ensure you have a stable internet connection</li>
 								<li><strong>Clear Browser Cache</strong> - Clear your browser's cache and cookies, then try again</li>
@@ -530,11 +536,11 @@
 					
 					<div class="faq-item">
 						<div class="faq-question">
-							<h5>What is OKS's phone number?</h5>
+							<h3>What is <abbr title="Orlando Kannada Sangha">OKS</abbr>'s phone number?</h3>
 							<i class="fas fa-chevron-down"></i>
 						</div>
 						<div class="faq-answer">
-							<p>Currently, OKS does not have a dedicated phone number. We maintain our communication primarily through email to ensure privacy and proper documentation of all inquiries.</p>
+							<p>Currently, <abbr title="Orlando Kannada Sangha">OKS</abbr> does not have a dedicated phone number. We maintain our communication primarily through email to ensure privacy and proper documentation of all inquiries.</p>
 							<p>For any questions, concerns, or assistance, please email us at <strong>suddhi@orlandokannadasangha.org</strong> and we will respond promptly or give you a call.</p>
 							<p><em>We respect the privacy of our board members and volunteers, so individual phone numbers are not provided for general inquiries.</em></p>
 						</div>
@@ -827,7 +833,7 @@
 		background: #f8f9fa;
 	}
 
-	.faq-question h5 {
+	.faq-question h3 {
 		font-weight: 600;
 		color: #7a1f1f;
 		margin: 0;

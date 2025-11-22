@@ -64,6 +64,12 @@
 	];
 </script>
 
+<svelte:head>
+	<title>Events - Orlando Kannada Sangha</title>
+	<meta name="description" content="View upcoming events, cultural programs, and community gatherings organized by Orlando Kannada Sangha." />
+	<meta name="keywords" content="Orlando Kannada Sangha events, OKS cultural programs, Kannada community events, Ugadi celebration, cultural performances, community gatherings, Orlando Indian events" />
+</svelte:head>
+
 <Navbar />
 <Hero 
   page="Events" 
@@ -91,20 +97,20 @@
 					<h3>Regular Events</h3>
 					<div class="regular-events">
 						<div class="event-item">
-							<h5><i class="fas fa-book me-2"></i>Kannada Kali Classes</h5>
-							<p>Every Sunday, 10:00 AM - 12:00 PM</p>
+							<h4><i class="fas fa-book me-2"></i>Kannada Kali Classes</h4>
+							<p>Every Sunday, 10:00 <abbr title="Ante Meridiem">AM</abbr> - 12:00 <abbr title="Post Meridiem">PM</abbr></p>
 							<p>Online via Google Meet</p>
 						</div>
 						
 						<div class="event-item">
-							<h5><i class="fas fa-users me-2"></i>Community Meetings</h5>
-							<p>First Saturday of every month, 2:00 PM - 4:00 PM</p>
+							<h4><i class="fas fa-users me-2"></i>Community Meetings</h4>
+							<p>First Saturday of every month, 2:00 <abbr title="Post Meridiem">PM</abbr> - 4:00 <abbr title="Post Meridiem">PM</abbr></p>
 							<p>Community Center, Orlando</p>
 						</div>
 						
 						<div class="event-item">
-							<h5><i class="fas fa-pray me-2"></i>Bhajan Sessions</h5>
-							<p>Every Friday, 7:00 PM - 8:30 PM</p>
+							<h4><i class="fas fa-pray me-2"></i>Bhajan Sessions</h4>
+							<p>Every Friday, 7:00 <abbr title="Post Meridiem">PM</abbr> - 8:30 <abbr title="Post Meridiem">PM</abbr></p>
 							<p>Online via Zoom</p>
 						</div>
 					</div>
@@ -118,7 +124,7 @@
 								<i class="fas fa-heart"></i>
 							</div>
 							<div class="highlight-content">
-								<h5>Our Community Spirit</h5>
+								<h4>Our Community Spirit</h4>
 								<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
 							</div>
 						</div>
@@ -128,7 +134,7 @@
 								<i class="fas fa-star"></i>
 							</div>
 							<div class="highlight-content">
-								<h5>Cultural Excellence</h5>
+								<h4>Cultural Excellence</h4>
 								<p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
 							</div>
 						</div>
@@ -139,7 +145,7 @@
 					<div class="sidebar-section">
 						<div class="card">
 							<div class="card-body">
-								<h5 class="card-title"><i class="fas fa-calendar-plus me-2"></i>Event Registration</h5>
+								<h4 class="card-title"><i class="fas fa-calendar-plus me-2"></i>Event Registration</h4>
 								<p class="card-text">
 									To register for upcoming events or get more information, please contact us:
 								</p>
@@ -153,7 +159,7 @@
 						
 						<div class="card mt-3">
 							<div class="card-body">
-								<h5 class="card-title"><i class="fas fa-bullhorn me-2"></i>Event Updates</h5>
+								<h4 class="card-title"><i class="fas fa-bullhorn me-2"></i>Event Updates</h4>
 								<p class="card-text">
 									Stay updated with our latest events and announcements by subscribing to our newsletter.
 								</p>
@@ -166,7 +172,7 @@
 						
 						<div class="card mt-3">
 							<div class="card-body">
-								<h5 class="card-title"><i class="fas fa-hand-holding-heart me-2"></i>Volunteer</h5>
+								<h4 class="card-title"><i class="fas fa-hand-holding-heart me-2"></i>Volunteer</h4>
 								<p class="card-text">
 									Interested in helping organize events? We welcome volunteers for various roles.
 								</p>
@@ -266,7 +272,7 @@
 		background: linear-gradient(135deg, #f0d9b5 0%, #e8c8a0 100%);
 	}
 
-	.event-item h5 {
+	.event-item h4 {
 		color: #7a1f1f;
 		font-weight: 600;
 		margin-bottom: 0.5rem;
@@ -441,7 +447,7 @@
 		color: white;
 	}
 
-	.highlight-content h5 {
+	.highlight-content h4 {
 		color: #7a1f1f;
 		font-weight: 600;
 		margin-bottom: 1rem;

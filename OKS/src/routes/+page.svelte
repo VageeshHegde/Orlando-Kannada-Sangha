@@ -741,7 +741,7 @@
     <!-- Benefits Column -->
     <div class="col-md-4">
       <div class="membership-card">
-        <h5><i class="fas fa-gift icon"></i>Membership Benefits</h5>
+        <h4><i class="fas fa-gift icon"></i>Membership Benefits</h4>
         <ul class="benefits-list">
           <li><i class="fas fa-check"></i> Discounts on All Events</li>
           <li><i class="fas fa-check"></i> Ugadi Picnic, Youth Conference, and some competitions</li>
@@ -757,7 +757,7 @@
     <!-- Pricing Column -->
     <div class="col-md-4">
       <div class="membership-card">
-        <h5><i class="fas fa-tags icon"></i>Annual Membership <span>{membershipYear}</span></h5>
+        <h4><i class="fas fa-tags icon"></i>Annual Membership <span>{membershipYear}</span></h4>
         <div class="pricing-options">
           <div class="price-card">
             <div class="price-header">Family</div>
@@ -770,7 +770,7 @@
             <div class="price-period">per Individual</div>
           </div>
         </div>
-        <h5 class="mt-3"><i class="fas fa-infinity icon"></i>Life Time Membership</h5>
+        <h4 class="mt-3"><i class="fas fa-infinity icon"></i>Life Time Membership</h4>
         <div class="price-card">
           <div class="price-header">Family</div>
           <div class="price-amount">$500</div>
@@ -782,7 +782,7 @@
     <!-- Payment Column -->
     <div class="col-md-4">
       <div class="membership-card">
-        <h5><i class="fas fa-credit-card icon"></i>Payment Options</h5>
+        <h4><i class="fas fa-credit-card icon"></i>Payment Options</h4>
         <div class="payment-options">
           <a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary membership-btn mb-4">
             <i class="fas fa-shopping-cart me-2"></i>Membership Payment
@@ -944,7 +944,7 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=1" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h4 class="sponsor-overlay-title">Our Next Sponsor</h4>
             <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
@@ -953,7 +953,7 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h4 class="sponsor-overlay-title">Our Next Sponsor</h4>
             <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
@@ -962,7 +962,7 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h4 class="sponsor-overlay-title">Our Next Sponsor</h4>
             <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
@@ -971,7 +971,7 @@
         <div class="sponsor-card sponsor-image-card">
           <img src="https://picsum.photos/300/200?random=2" alt="Sponsor" class="sponsor-full-image">
           <div class="sponsor-overlay">
-            <h5 class="sponsor-overlay-title">Our Next Sponsor</h5>
+            <h4 class="sponsor-overlay-title">Our Next Sponsor</h4>
             <p class="sponsor-overlay-subtitle">Your support keeps us shining</p>
           </div>
         </div>
@@ -989,7 +989,7 @@
                   <!-- S3 image loaded -->
                   <img src={sponsorImages[sponsor.id]} alt={sponsor.company} class="sponsor-full-image">
                   <div class="sponsor-overlay">
-                    <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                    <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                     <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
                   </div>
                 {:else if sponsor.logo_file}
@@ -1005,7 +1005,7 @@
                     <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
                   </div>
                   <div class="sponsor-overlay">
-                    <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                    <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                     <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
                   </div>
                 {:else}
@@ -1014,7 +1014,7 @@
                     <span class="sponsor-avatar-initial">{getMemberInitial(sponsor.company)}</span>
                   </div>
                   <div class="sponsor-overlay">
-                    <h5 class="sponsor-overlay-title">{sponsor.company}</h5>
+                    <h4 class="sponsor-overlay-title">{sponsor.company}</h4>
                     <p class="sponsor-overlay-subtitle">{sponsor.name}</p>
                   </div>
                 {/if}
@@ -1077,10 +1077,10 @@
         <div class="sponsor-divider"></div>
         
         <div class="thank-you-sponsors-content">
-          <h5 class="mb-0">
+          <h4 class="mb-0">
             <i class="fas fa-heart me-2" style="color: #7a1f1f;"></i>
             Thanks to All Our Amazing Sponsors
-          </h5>
+          </h4>
         </div>
       </div>
     </div>
@@ -1089,7 +1089,7 @@
 
 <style>
   /* Compact the membership section heights slightly */
-  .membership-section .membership-card h5 {
+  .membership-section .membership-card h4 {
     margin-bottom: 0.75rem;
     padding-bottom: 0.5rem;
     text-align: center;
@@ -1327,7 +1327,7 @@
     border-radius: 1px;
   }
   
-  .thank-you-sponsors-content h5 {
+  .thank-you-sponsors-content h4 {
     color: #7a1f1f;
     font-weight: 600;
     font-size: 1.3rem;

@@ -396,7 +396,7 @@
 											{/if}
 										</div>
 										<div class="member-info">
-											<h4 class="member-name">{member.name}</h4>
+											<h3 class="member-name">{member.name}</h3>
 											<p class="member-position">{member.position}</p>
 											<p class="member-year">{member.year}</p>
 											<p class="member-description">{member.description}</p>
@@ -483,7 +483,7 @@
 										{/if}
 									</div>
 									<div class="member-info">
-										<h4 class="member-name">{member.name}</h4>
+										<h3 class="member-name">{member.name}</h3>
 										<p class="member-position">{member.position}</p>
 										<p class="member-year">{member.year}</p>
 										<p class="member-description">{member.description}</p>

@@ -111,13 +111,13 @@
                 <div class="row">
                   <div class="col-md-6">
                     <div class="contact-item">
-                      <h5><i class="fas fa-envelope me-2"></i>Email</h5>
+                      <h3><i class="fas fa-envelope me-2"></i>Email</h3>
                       <p>info@orlandokannadasangha.org</p>
                     </div>
                   </div>
                   <!-- <div class="col-md-6">
                     <div class="contact-item">
-                      <h5><i class="fas fa-phone me-2"></i>Phone</h5>
+                      <h3><i class="fas fa-phone me-2"></i>Phone</h3>
                       <p>(407) 123-4567</p>
                     </div>
                   </div> -->
@@ -125,14 +125,14 @@
                 <div class="row mt-3">
                   <div class="col-md-6">
                     <div class="contact-item">
-                      <h5><i class="fas fa-map-marker-alt me-2"></i>Location</h5>
+                      <h3><i class="fas fa-map-marker-alt me-2"></i>Location</h3>
                       <p>Orlando, Florida, United States</p>
                     </div>
                   </div>
                   <!-- <div class="col-md-6">
                     <div class="contact-item">
-                      <h5><i class="fas fa-clock me-2"></i>Office Hours</h5>
-                      <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
+                      <h3><i class="fas fa-clock me-2"></i>Office Hours</h3>
+                      <p>Monday - Friday: 9:00 <abbr title="Ante Meridiem">AM</abbr> - 5:00 <abbr title="Post Meridiem">PM</abbr></p>
                     </div>
                   </div> -->
                 </div>
@@ -200,7 +200,7 @@
     border-left: 4px solid #7a1f1f;
   }
 
-  .contact-item h5 {
+  .contact-item h3 {
     color: #7a1f1f;
     margin-bottom: 0.5rem;
     font-size: 1.1rem;
