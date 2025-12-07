@@ -772,6 +772,7 @@
             <div class="price-period">per Individual</div>
           </div>
         </div>
+        <hr class="my-3" style="border-color: rgba(122, 31, 31, 0.2);">
         <h4 class="mt-3"><i class="fas fa-infinity icon"></i>Life Time Membership</h4>
         <div class="price-card">
           <div class="price-header">Family</div>
@@ -1092,6 +1093,7 @@
 <style>
   /* Compact the membership section heights slightly */
   .membership-section .membership-card h4 {
+    color: #7a1f1f;
     margin-bottom: 0.75rem;
     padding-bottom: 0.5rem;
     text-align: center;
