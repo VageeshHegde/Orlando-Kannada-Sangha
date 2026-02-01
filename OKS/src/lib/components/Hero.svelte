@@ -241,13 +241,13 @@
       <img src={topLeftImage} alt="" class="hero-palace3" aria-hidden="true"/>
       <img src={bottomRightImage} alt="" class="hero-palace" aria-hidden="true"/>
       
-      <h1 class="mb-2">
+      <h1 class="mb-2" lang="en">
         <i class="fas fa-globe-asia icon me-2" aria-hidden="true"></i>Orlando Kannada Sangha
       </h1>
       
       <!-- Dynamic Greeting - Shows user name when logged in, general message when not -->
       <div class="greeting-section mb-2">
-        <p class="greeting-text">
+        <p class="greeting-text" lang="en">
           {#if isLoggedIn && userName}
             Hello <i class="fa-solid fa-hands" aria-hidden="true"></i> {userName}!
           {:else}
@@ -255,15 +255,15 @@
           {/if}
         </p>
       </div>
-      <h2 class="page-indicator">
+      <h2 class="page-indicator" lang="en">
         <div class="logo-circle-small">
           <img src="/images/OKSlogo.png" alt="OKS Logo" class="oks-logo-small"/>
         </div>
         {page}
       </h2>
-      <h3>ಒರ್ಲ್ಯಾಂಡೋ ಕನ್ನಡ ಸಂಘ</h3>
-      <p class="text-muted mt-2">A not-for-profit <abbr title="Tax-exempt nonprofit organization under section 501(c)(3) of the Internal Revenue Code">501(c)(3)</abbr> organization. <abbr title="Tax Identification Number">Tax ID</abbr> 46-2253530</p>
-      <p class="mt-3">Kannada Cultural Association</p>
+      <h3 lang="kn">ಒರ್ಲ್ಯಾಂಡೋ ಕನ್ನಡ ಸಂಘ</h3>
+      <p class="text-muted mt-2" lang="en">A not-for-profit <abbr title="Tax-exempt nonprofit organization under section 501(c)(3) of the Internal Revenue Code">501(c)(3)</abbr> organization. <abbr title="Tax Identification Number">Tax ID</abbr> 46-2253530</p>
+      <p class="mt-3" lang="en">Kannada Cultural Association</p>
     </div>
     
     <!-- Right Calendar - Positioned absolutely -->

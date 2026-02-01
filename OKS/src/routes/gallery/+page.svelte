@@ -3,6 +3,7 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import PageTitle from '$lib/components/PageTitle.svelte';
+	import MasonryGallery from '$lib/components/MasonryGallery.svelte';
 	import { user } from '$lib/stores/auth.js';
 	import { supabase } from '$lib/supabase.js';
 	import { onMount } from 'svelte';
@@ -268,25 +269,6 @@
 		}
 	}
 
-	// Download image function
-	async function downloadImage(imageUrl, imageName) {
-		try {
-			const response = await fetch(imageUrl);
-			const blob = await response.blob();
-			const url = window.URL.createObjectURL(blob);
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = imageName || 'gallery-image.jpg';
-			document.body.appendChild(link);
-			link.click();
-			document.body.removeChild(link);
-			window.URL.revokeObjectURL(url);
-		} catch (error) {
-			console.error('Error downloading image:', error);
-			// Fallback: open in new tab
-			window.open(imageUrl, '_blank');
-		}
-	}
 
 	// Load images when component mounts and initialize lightbox
 	onMount(() => {
@@ -435,80 +417,21 @@
 			</div>
 
 			<!-- Masonry Gallery -->
-			<div class="masonry-gallery" role="region" aria-label="Gallery images">
-				{#if !isLoggedIn}
-					<!-- Login required message is shown above -->
-				{:else if imagesLoading}
-					<div class="loading-state" role="status" aria-live="polite" aria-busy="true">
-						<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-						<p>Loading gallery images...</p>
-					</div>
-				{:else if imagesError}
-					<div class="error-state" role="alert" aria-live="assertive">
-						<i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
-						<p>{imagesError}</p>
-					</div>
-				{:else if galleryImages[activeSection] && galleryImages[activeSection].length > 0}
-					{#each galleryImages[activeSection] as image, index}
-						<article class="gallery-item" data-category={image.category} aria-label={image.name || `Gallery image ${index + 1}`}>
-							<a 
-								href={image.url} 
-								data-lightbox="gallery" 
-								data-title={image.name || `Gallery image ${index + 1}`}
-								aria-label={`View full size: ${image.name || `Gallery image ${index + 1}`}`}
-							>
-								<img 
-									src={image.url} 
-									alt={image.name || `Gallery image ${index + 1}`}
-									loading="lazy"
-									style="display: block; width: 100%; height: auto;"
-									on:error={(e) => {
-										// Fallback to placeholder on error
-										e.target.style.display = 'none';
-										const placeholder = e.target.parentElement.nextElementSibling;
-										if (placeholder) {
-											placeholder.style.display = 'flex';
-										}
-									}}
-									on:load={(e) => {
-										// Ensure image is visible when loaded
-										e.target.style.display = 'block';
-										e.target.style.opacity = '1';
-									}}
-								/>
-							</a>
-							<button 
-								class="download-btn"
-								on:click|stopPropagation={(e) => {
-									e.preventDefault();
-									downloadImage(image.url, image.name);
-								}}
-								aria-label={`Download ${image.name || `image ${index + 1}`}`}
-								title={`Download ${image.name || `image ${index + 1}`}`}
-								type="button"
-							>
-								<i class="fas fa-download" aria-hidden="true"></i>
-								<span class="sr-only">Download image</span>
-							</button>
-							<div class="placeholder-image" style="display: none; background: linear-gradient(45deg, #7a1f1f, #f0d9b5);" role="img" aria-label="Image not available">
-								<div class="placeholder-content">
-									<i class="fas fa-image" aria-hidden="true"></i>
-									<p>Image not available</p>
-								</div>
-							</div>
-						</article>
-					{/each}
-				{:else}
-					<div class="empty-state" role="status" aria-live="polite">
-						<i class="fas fa-images" aria-hidden="true"></i>
-						<p>No images found in this category</p>
-						<p class="empty-subtitle">Images will appear here once uploaded to Storage</p>
-						{#if !isLoggedIn}
-							<p class="empty-subtitle mt-2"><strong>Please login to view gallery images</strong></p>
-						{/if}
-					</div>
-				{/if}
-			</div>
+			{#if !isLoggedIn}
+				<!-- Login required message is shown above, gallery is hidden -->
+			{:else}
+				<MasonryGallery 
+					items={galleryImages[activeSection] || []}
+					loading={imagesLoading}
+					error={imagesError}
+					emptyMessage="No images found in this category"
+					emptySubtitle="Images will appear here once uploaded to Storage"
+					showDownloadButton={true}
+					showOverlay={false}
+					enableLightbox={true}
+					lightboxGalleryName="gallery"
+				/>
+			{/if}
 			{/if}
 		</div>
 	</div>
@@ -683,283 +606,5 @@
 	.login-notice i.fa-lock {
 		font-size: 2rem;
 		color: #856404;
-	}
-
-	/* Masonry Gallery Styles */
-	.masonry-gallery {
-		columns: 4;
-		column-gap: 20px;
-		margin-top: 2rem;
-		column-fill: balance;
-	}
-
-	.gallery-item {
-		break-inside: avoid;
-		page-break-inside: avoid;
-		margin-bottom: 20px;
-		border-radius: 12px;
-		overflow: hidden;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-		transition: transform 0.3s ease, box-shadow 0.3s ease;
-		position: relative;
-		cursor: pointer;
-		display: inline-block;
-		width: 100%;
-		vertical-align: top;
-	}
-
-	.download-btn {
-		position: absolute;
-		bottom: 10px;
-		right: 10px;
-		background-color: rgba(122, 31, 31, 0.9);
-		color: white;
-		border: none;
-		border-radius: 50%;
-		width: 40px;
-		height: 40px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		cursor: pointer;
-		opacity: 0;
-		transition: opacity 0.3s ease, transform 0.3s ease, background-color 0.3s ease;
-		z-index: 20;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-		font-size: 1rem;
-	}
-
-	.download-btn:focus {
-		outline: 3px solid #7a1f1f;
-		outline-offset: 2px;
-		opacity: 1;
-	}
-
-	.download-btn:focus-visible {
-		outline: 3px solid #7a1f1f;
-		outline-offset: 2px;
-		opacity: 1;
-	}
-
-	.gallery-item:hover .download-btn {
-		opacity: 1;
-		transform: scale(1.1);
-	}
-
-	.download-btn:hover {
-		background-color: rgba(90, 21, 21, 1);
-		transform: scale(1.15);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
-	}
-
-	.download-btn:active {
-		transform: scale(1.05);
-	}
-
-	.download-btn i {
-		font-size: 1rem;
-	}
-
-	.gallery-item:hover {
-		transform: translateY(-8px);
-		box-shadow: 0 12px 30px rgba(122, 31, 31, 0.25);
-		z-index: 10;
-	}
-
-	.gallery-item a {
-		text-decoration: none;
-		display: block;
-		width: 100%;
-		height: 100%;
-	}
-
-	.gallery-item a:focus {
-		outline: 3px solid #7a1f1f;
-		outline-offset: 2px;
-		border-radius: 12px;
-	}
-
-	.gallery-item a:focus-visible {
-		outline: 3px solid #7a1f1f;
-		outline-offset: 2px;
-		border-radius: 12px;
-	}
-
-	.gallery-item img {
-		width: 100%;
-		height: auto;
-		display: block;
-		object-fit: cover;
-		border-radius: 12px;
-		transition: transform 0.3s ease;
-	}
-
-	.gallery-item:hover img {
-		transform: scale(1.05);
-	}
-
-	.placeholder-image {
-		min-height: 200px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.placeholder-content {
-		text-align: center;
-		color: white;
-		padding: 20px;
-	}
-
-	.placeholder-content i {
-		font-size: 3rem;
-		margin-bottom: 1rem;
-		opacity: 0.9;
-	}
-
-	.placeholder-content p {
-		font-size: 1.1rem;
-		font-weight: 600;
-		margin: 0;
-		text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-	}
-
-	/* Loading, Error, and Empty States */
-	.loading-state,
-	.error-state,
-	.empty-state {
-		column-span: all;
-		text-align: center;
-		padding: 4rem 2rem;
-		color: #7a1f1f;
-	}
-
-	.loading-state i,
-	.error-state i,
-	.empty-state i {
-		font-size: 3rem;
-		margin-bottom: 1rem;
-	}
-
-	.loading-state i {
-		animation: spin 1s linear infinite;
-		color: #7a1f1f;
-	}
-
-	.error-state,
-	.error-state i {
-		color: #dc3545;
-	}
-
-	.empty-state i {
-		color: #7a1f1f;
-	}
-
-	.empty-state p {
-		font-size: 1.2rem;
-		margin: 0.5rem 0;
-	}
-
-	.empty-subtitle {
-		font-size: 0.9rem;
-		color: #666;
-		font-style: italic;
-	}
-
-	@keyframes spin {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(360deg); }
-	}
-
-	/* Responsive Design */
-	@media (max-width: 1400px) {
-		.masonry-gallery {
-			columns: 4;
-			column-gap: 18px;
-		}
-	}
-
-	@media (max-width: 1200px) {
-		.masonry-gallery {
-			columns: 3;
-			column-gap: 18px;
-		}
-	}
-
-	@media (max-width: 992px) {
-		.masonry-gallery {
-			columns: 3;
-			column-gap: 15px;
-		}
-	}
-
-	@media (max-width: 768px) {
-		.masonry-gallery {
-			columns: 2;
-			column-gap: 15px;
-		}
-		
-		.gallery-item {
-			margin-bottom: 15px;
-		}
-
-		.gallery-item:hover {
-			transform: translateY(-5px);
-		}
-
-		.download-btn {
-			width: 36px;
-			height: 36px;
-			bottom: 8px;
-			right: 8px;
-			opacity: 1;
-		}
-
-		.download-btn i {
-			font-size: 0.9rem;
-		}
-		
-		.placeholder-content i {
-			font-size: 2.5rem;
-		}
-		
-		.placeholder-content p {
-			font-size: 1rem;
-		}
-	}
-
-	@media (max-width: 576px) {
-		.masonry-gallery {
-			columns: 1;
-			column-gap: 10px;
-		}
-		
-		.gallery-item {
-			margin-bottom: 12px;
-		}
-
-		.gallery-item:hover {
-			transform: translateY(-3px);
-		}
-
-		.download-btn {
-			width: 32px;
-			height: 32px;
-			bottom: 6px;
-			right: 6px;
-			opacity: 1;
-		}
-
-		.download-btn i {
-			font-size: 0.8rem;
-		}
-		
-		.placeholder-content i {
-			font-size: 2rem;
-		}
-		
-		.placeholder-content p {
-			font-size: 0.9rem;
-		}
 	}
 </style> 
