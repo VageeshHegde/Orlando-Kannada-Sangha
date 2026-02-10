@@ -958,7 +958,15 @@
       <div class="become-sponsor-section">
         <h4 class="mb-3">Become a Sponsor</h4>
         <p class="mb-4">Support our community and help us continue promoting Kannada culture in Orlando. Contact us to learn about sponsorship opportunities.</p>
-        <p class="mb-3">Click the email below to contact us for sponsorship opportunities:</p>
+        
+        <!-- Sponsorship Button -->
+        <div class="mb-4">
+          <a href="https://www.zeffy.com/en-US/donation-form/sponsorship-39" target="_blank" class="btn btn-primary">
+            <i class="fas fa-handshake me-2"></i>Become a Sponsor
+          </a>
+        </div>
+        
+        <p class="mb-3">Or click the email below to contact us for sponsorship opportunities:</p>
         <a href="mailto:suddhi@orlandokannadasangha.org" class="sponsor-email-display">
           <i class="fas fa-envelope me-2"></i>
           <span class="email-text">suddhi@orlandokannadasangha.org</span>
