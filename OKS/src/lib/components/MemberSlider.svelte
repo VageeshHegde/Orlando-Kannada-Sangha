@@ -107,7 +107,7 @@
 	{/if}
 	
 	{#if subtitle}
-		<h4 class="text-center mb-4" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">{subtitle}</h4>
+		<h4 class="text-center mb-4" lang="kn" style="font-family: 'Noto Sans Kannada', sans-serif; color: #7a1f1f;">{subtitle}</h4>
 	{/if}
 	
 	<!-- Members Slider -->

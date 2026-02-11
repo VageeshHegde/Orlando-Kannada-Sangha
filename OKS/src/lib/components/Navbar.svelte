@@ -200,7 +200,7 @@
                on:click={() => { isKannada = true; showLanguageDropdown = false; }}
              >
                <span class="flag-icon">🇮🇳</span>
-               ಕನ್ನಡ
+               <span lang="kn">ಕನ್ನಡ</span>
              </button>
            </div>
          {/if}
