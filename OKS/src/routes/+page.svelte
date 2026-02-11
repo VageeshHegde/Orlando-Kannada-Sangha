@@ -947,6 +947,7 @@
     error={sponsorsError}
     emptyMessage="No sponsors yet"
     emptySubtitle="Become our first sponsor!"
+    placeholderMessage="Our Next Sponsor"
     showOverlay={false}
     enableLightbox={false}
     showDownloadButton={false}

@@ -7,6 +7,7 @@
 	export let error = '';
 	export let emptyMessage = 'No items found';
 	export let emptySubtitle = '';
+	export let placeholderMessage = 'Image not available';
 	export let showDownloadButton = false;
 	export let showOverlay = true;
 	export let enableLightbox = false;
@@ -87,7 +88,7 @@
 						<div class="placeholder-image" style="display: none;">
 							<div class="placeholder-content">
 								<i class="fas fa-image" aria-hidden="true"></i>
-								<p>Image not available</p>
+								<p>{placeholderMessage}</p>
 							</div>
 						</div>
 						{#if showOverlay && (item.title || item.subtitle)}
@@ -126,7 +127,7 @@
 						<div class="placeholder-image" style="display: none;">
 							<div class="placeholder-content">
 								<i class="fas fa-image" aria-hidden="true"></i>
-								<p>Image not available</p>
+								<p>{placeholderMessage}</p>
 							</div>
 						</div>
 					</a>
@@ -164,7 +165,7 @@
 						<div class="placeholder-image" style="display: none;">
 							<div class="placeholder-content">
 								<i class="fas fa-image" aria-hidden="true"></i>
-								<p>Image not available</p>
+								<p>{placeholderMessage}</p>
 							</div>
 						</div>
 						{#if showOverlay && (item.title || item.subtitle)}
