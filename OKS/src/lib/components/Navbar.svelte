@@ -283,6 +283,7 @@
   .navbar {
     background-color: #ede1cf;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    overflow: visible;
   }
 
   .navbar-brand-container {
@@ -318,12 +319,28 @@
     border-radius: 8px;
   }
 
+  .navbar-nav .nav-link {
+    display: inline-flex;
+    align-items: center;
+    position: relative;
+  }
+
   .navbar-nav .nav-link.active {
     color: #7a1f1f;
-    text-decoration: underline;
-    text-decoration-color: rgb(255, 162, 0);
-    text-decoration-thickness: 3px;
-    text-underline-offset: 4px;
+    text-decoration: none;
+  }
+
+  .navbar-nav .nav-link.active::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 4px;
+    background-color: rgb(255, 162, 0);
+    /* border-radius: 3px 3px 0 0; */
+    /* Push bar down so it touches the navbar bottom edge */
+    transform: translateY(var(--bs-navbar-padding-y, 0.5rem));
   }
 
   .navbar-nav .nav-link:hover {
