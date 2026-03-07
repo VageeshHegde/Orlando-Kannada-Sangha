@@ -33,3 +33,47 @@ export async function GET() {
 		return json({ error: 'Internal server error' }, { status: 500 });
 	}
 }
+
+export async function POST({ request }) {
+	try {
+		const { email, name, tag_line, image_file } = await request.json();
+
+		if (!email || !name || !tag_line) {
+			return json({ error: 'Email, name and tag line are required' }, { status: 400 });
+		}
+
+		// Verify admin is authenticated
+		const { data: { user }, error: authError } = await supabase.auth.getUser();
+		
+		if (authError || !user) {
+			return json({ error: 'Authentication required' }, { status: 401 });
+		}
+
+		// Insert lifetime member (ID will be auto-generated)
+		const { data, error } = await supabase
+			.from('lifetime_members')
+			.insert({
+				email,
+				name,
+				tag_line,
+				image_file: image_file || null
+			})
+			.select()
+			.single();
+
+		if (error) {
+			console.error('Error creating lifetime member:', error);
+			return json({ error: 'Failed to create lifetime member' }, { status: 500 });
+		}
+
+		return json({ 
+			success: true, 
+			member: data,
+			message: 'Lifetime member created successfully' 
+		});
+
+	} catch (error) {
+		console.error('Lifetime member creation error:', error);
+		return json({ error: 'Internal server error' }, { status: 500 });
+	}
+}

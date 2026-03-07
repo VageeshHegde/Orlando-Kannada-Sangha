@@ -24,21 +24,74 @@ const supabaseAdmin = supabaseServiceRoleKey ? createClient(supabaseUrl, supabas
 	}
 }) : null;
 
+/** Get the authenticated user's id from the request's Bearer token. Returns null if missing or invalid. */
+async function getUserIdFromRequest(request) {
+	const authHeader = request.headers.get('Authorization');
+	if (!authHeader?.startsWith('Bearer ')) return null;
+	const token = authHeader.slice(7).trim();
+	if (!token) return null;
+	const client = createClient(supabaseUrl, supabaseAnonKey, {
+		global: { headers: { Authorization: `Bearer ${token}` } },
+		auth: { autoRefreshToken: false, persistSession: false }
+	});
+	const { data: { user }, error } = await client.auth.getUser();
+	if (error || !user) return null;
+	return user.id;
+}
+
+/** Check if the user is in the admin_users allowlist. Requires supabaseAdmin and valid request token. */
+async function requireAdmin(request) {
+	const userId = await getUserIdFromRequest(request);
+	if (!userId) return json({ error: 'Authentication required' }, { status: 401 });
+	if (!supabaseAdmin) return json({ error: 'Admin access not configured' }, { status: 503 });
+	const { data, error } = await supabaseAdmin.from('admin_users').select('user_id').eq('user_id', userId).maybeSingle();
+	if (error) {
+		console.error('Admin check error:', error);
+		return json({ error: 'Failed to verify access' }, { status: 500 });
+	}
+	if (!data) return json({ error: 'Admin access required' }, { status: 403 });
+	return null; // null means allowed
+}
+
 export async function POST({ request }) {
 	try {
-		const { action, data } = await request.json();
+		const body = await request.json();
+		const { action, data, users } = body;
 
 		switch (action) {
 			case 'magic_link':
 				return await sendMagicLink(data);
-			case 'update_user_profile':
+			case 'check_admin': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
+				return json({ admin: true });
+			}
+			case 'update_user_profile': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
 				return await updateUserProfile(data);
-			case 'get_user':
+			}
+			case 'get_user': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
 				return await getUser(data);
-			case 'get_member_count':
+			}
+			case 'get_member_count': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
 				return await getMemberCount();
-			case 'bulk_create_users':
-				return await bulkCreateUsers(data);
+			}
+			case 'get_all_members': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
+				return await getAllMembers();
+			}
+			case 'bulk_create_users': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
+				const userData = data?.users || users;
+				return await bulkCreateUsers({ users: userData });
+			}
 			default:
 				return json({ error: 'Invalid action' }, { status: 400 });
 		}
@@ -176,6 +229,67 @@ async function getMemberCount() {
 	} catch (error) {
 		console.error('getMemberCount error:', error);
 		return json({ error: error.message }, { status: 500 });
+	}
+}
+
+// Get all members from auth.users
+async function getAllMembers() {
+	if (!supabaseAdmin) {
+		return json({ error: 'Admin client not available' }, { status: 500 });
+	}
+
+	try {
+		// Fetch all users with pagination
+		let allUsers = [];
+		let page = 1;
+		const perPage = 1000; // Large page size to get all users
+		let hasMore = true;
+
+		while (hasMore) {
+			const { data: authUsers, error: authError } = await supabaseAdmin.auth.admin.listUsers({
+				page: page,
+				perPage: perPage
+			});
+			
+			if (authError) {
+				console.error('Error fetching auth users:', authError);
+				return json({ error: 'Failed to fetch users from auth' }, { status: 500 });
+			}
+
+			if (authUsers.users && authUsers.users.length > 0) {
+				allUsers = allUsers.concat(authUsers.users);
+				page++;
+			} else {
+				hasMore = false;
+			}
+
+			// Safety break to prevent infinite loops
+			if (page > 100) {
+				console.warn('Stopping pagination at page 100 to prevent infinite loop');
+				break;
+			}
+		}
+
+		// Transform auth users to member format
+		const members = allUsers.map(user => ({
+			id: user.id,
+			email: user.email,
+			first_name: user.user_metadata?.first_name || '',
+			last_name: user.user_metadata?.last_name || '',
+			phone: user.user_metadata?.phone || null,
+			created_at: user.created_at,
+			email_confirmed_at: user.email_confirmed_at,
+			last_sign_in_at: user.last_sign_in_at
+		}));
+
+		return json({ 
+			success: true, 
+			members: members,
+			total: members.length
+		});
+	} catch (error) {
+		console.error('getAllMembers error:', error);
+		return json({ error: 'Internal server error: ' + error.message }, { status: 500 });
 	}
 }
 

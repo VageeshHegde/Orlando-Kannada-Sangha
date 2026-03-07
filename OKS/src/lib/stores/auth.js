@@ -7,6 +7,14 @@ export const user = writable(null)
 export const session = writable(null)
 export const loading = writable(true)
 
+/** Get current session's access token (for API calls that require auth). */
+export function getAccessToken() {
+  let token = null
+  const unsub = session.subscribe((s) => { token = s?.access_token ?? null })
+  unsub()
+  return token
+}
+
 // Initialize authentication state
 export const initAuth = async () => {
   if (!browser) return
