@@ -6,6 +6,20 @@ import { supabase, auth } from '../supabase.js'
 export const user = writable(null)
 export const session = writable(null)
 export const loading = writable(true)
+/** Set to true when user passes admin check. Cleared on sign out. */
+export const isAdmin = writable(false)
+
+function checkAdminAccess(accessToken) {
+  if (!accessToken) return
+  fetch('/api/auth', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${accessToken}` },
+    body: JSON.stringify({ action: 'check_admin' })
+  })
+    .then((res) => res.json())
+    .then((data) => { if (data?.admin) isAdmin.set(true) })
+    .catch(() => {})
+}
 
 /** Get current session's access token (for API calls that require auth). */
 export function getAccessToken() {
@@ -30,6 +44,7 @@ export const initAuth = async () => {
     if (initialSession) {
       session.set(initialSession)
       user.set(initialSession.user)
+      checkAdminAccess(initialSession.access_token)
     }
 
     // Listen for auth changes
@@ -38,9 +53,11 @@ export const initAuth = async () => {
       if (currentSession) {
         session.set(currentSession)
         user.set(currentSession.user)
+        checkAdminAccess(currentSession.access_token)
       } else {
         session.set(null)
         user.set(null)
+        isAdmin.set(false)
       }
       
       // Always set loading to false after auth state change
@@ -89,16 +106,14 @@ export const authActions = {
     try {
       const result = await auth.signOut()
       
-      // Always clear local state regardless of server response
       user.set(null)
       session.set(null)
-      
-      // Don't set loading to false here - let the auth state change handle it
+      isAdmin.set(false)
       return result
     } catch (error) {
-      // Clear local state even if server signout fails
       user.set(null)
       session.set(null)
+      isAdmin.set(false)
       loading.set(false)
       return { error }
     }

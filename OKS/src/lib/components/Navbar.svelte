@@ -1,6 +1,6 @@
 <script>
 	import { page } from '$app/stores';
-	import { user, session, authActions } from '$lib/stores/auth.js';
+	import { user, session, isAdmin, authActions } from '$lib/stores/auth.js';
 	import { onMount } from 'svelte';
 	import { getUserDisplayName, getMembershipDuration, createUserProfile, getMemberInitial } from '$lib/utils/avatarUtils.js';
 	
@@ -251,7 +251,12 @@
 							<button class="dropdown-item" on:click={resetPassword}>
 								<i class="fas fa-key me-2"></i>Reset Password
 							</button> -->
-                <div class="dropdown-divider"></div>
+                {#if $isAdmin}
+                  <a href="/admin" class="dropdown-item" role="menuitem">
+                    <i class="fas fa-cog me-2" aria-hidden="true"></i>Admin
+                  </a>
+                  <div class="dropdown-divider"></div>
+                {/if}
                 <button class="dropdown-item logout-btn" on:click={handleLogout} role="menuitem" type="button">
                   <i class="fas fa-sign-out-alt me-2" aria-hidden="true"></i>Logout
                 </button>
