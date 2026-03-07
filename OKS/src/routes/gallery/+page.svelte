@@ -319,22 +319,25 @@
 	<div class="row">
 		<div class="col-12">
 			<PageTitle englishTitle="Photo Collection/Gallery" kannadaTitle="ಛಾಯಾಚಿತ್ರ ಸಂಗ್ರಹ" />
-			
-			<!-- Login Required Notice -->
-			{#if !isLoggedIn}
-				<LoginNotice
-					heading="Member Access Required"
-					paragraphs={[
-						'To view our gallery, you must be a registered member of Orlando Kannada Sangha.',
-						'If you are a member, please login to access the gallery.'
-					]}
-					buttons={[
-						{ href: 'https://www.zeffy.com/en-US/ticketing/oks-membership--2026', text: 'Become a Member', icon: 'fas fa-user-plus', primary: true, external: true },
-						{ href: '/login', text: 'Login', icon: 'fas fa-sign-in-alt', primary: false }
-					]}
-				/>
-			{:else}
-			
+		</div>
+	</div>
+
+	<!-- Login Required Notice (same structure as blog – direct child of main for consistent spacing) -->
+	{#if !isLoggedIn}
+		<LoginNotice
+			heading="Member Access Required"
+			paragraphs={[
+				'To view our gallery, you must be a registered member of Orlando Kannada Sangha.',
+				'If you are a member, please login to access the gallery.'
+			]}
+			buttons={[
+				{ href: 'https://www.zeffy.com/en-US/ticketing/oks-membership--2026', text: 'Become a Member', icon: 'fas fa-user-plus', primary: true, external: true },
+				{ href: '/login', text: 'Login', icon: 'fas fa-sign-in-alt', primary: false }
+			]}
+		/>
+	{:else}
+	<div class="row">
+		<div class="col-12">
 			<!-- Gallery Categories Card -->
 			<div class="row mb-5">
 				<div class="col-md-8">
@@ -409,24 +412,20 @@
 			</div>
 
 			<!-- Masonry Gallery -->
-			{#if !isLoggedIn}
-				<!-- Login required message is shown above, gallery is hidden -->
-			{:else}
-				<MasonryGallery 
-					items={galleryImages[activeSection] || []}
-					loading={imagesLoading}
-					error={imagesError}
-					emptyMessage="No images found in this category"
-					emptySubtitle="Images will appear here once uploaded to Storage"
-					showDownloadButton={true}
-					showOverlay={false}
-					enableLightbox={true}
-					lightboxGalleryName="gallery"
-				/>
-			{/if}
-			{/if}
+			<MasonryGallery 
+				items={galleryImages[activeSection] || []}
+				loading={imagesLoading}
+				error={imagesError}
+				emptyMessage="No images found in this category"
+				emptySubtitle="Images will appear here once uploaded to Storage"
+				showDownloadButton={true}
+				showOverlay={false}
+				enableLightbox={true}
+				lightboxGalleryName="gallery"
+			/>
 		</div>
 	</div>
+	{/if}
 </main>
 
 <Footer />
