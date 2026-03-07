@@ -252,10 +252,10 @@
 								<i class="fas fa-key me-2"></i>Reset Password
 							</button> -->
                 {#if $isAdmin}
+                <div class="dropdown-divider"></div>
                   <a href="/admin" class="dropdown-item" role="menuitem">
                     <i class="fas fa-cog me-2" aria-hidden="true"></i>Admin
                   </a>
-                  <!-- <div class="dropdown-divider"></div> -->
                 {/if}
                 <button class="dropdown-item logout-btn" on:click={handleLogout} role="menuitem" type="button">
                   <i class="fas fa-sign-out-alt me-2" aria-hidden="true"></i>Logout
