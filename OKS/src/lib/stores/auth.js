@@ -36,20 +36,17 @@ export const initAuth = async () => {
   loading.set(true)
 
   try {
-    // Get initial session
-    
-    
     const { session: initialSession } = await auth.getSession()
-    
+
     if (initialSession) {
       session.set(initialSession)
       user.set(initialSession.user)
       checkAdminAccess(initialSession.access_token)
     }
 
-    // Listen for auth changes
-    supabase.auth.onAuthStateChange(async (event, currentSession) => {
-      
+    loading.set(false)
+
+    supabase.auth.onAuthStateChange((_event, currentSession) => {
       if (currentSession) {
         session.set(currentSession)
         user.set(currentSession.user)
@@ -59,11 +56,9 @@ export const initAuth = async () => {
         user.set(null)
         isAdmin.set(false)
       }
-      
-      // Always set loading to false after auth state change
       loading.set(false)
     })
-  } catch (error) {
+  } catch {
     loading.set(false)
   }
 }

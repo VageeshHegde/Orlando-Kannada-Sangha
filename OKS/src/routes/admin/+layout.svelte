@@ -27,33 +27,37 @@
 		(async () => {
 			const token = getAccessToken();
 			if (!token) {
-				isAdmin = false;
 				adminCheckLoading = false;
 				goto('/login?redirectTo=/admin', { replaceState: true });
 				return;
 			}
 			const apiUrl = `${base}/api/auth`.replace(/\/+/g, '/');
+			const controller = new AbortController();
+			const timeoutId = setTimeout(() => controller.abort(), 12000);
 			try {
 				const res = await fetch(apiUrl, {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-					body: JSON.stringify({ action: 'check_admin' })
+					body: JSON.stringify({ action: 'check_admin' }),
+					signal: controller.signal
 				});
+				clearTimeout(timeoutId);
 				const data = await res.json().catch(() => ({}));
 				if (res.ok && data.admin) {
 					isAdmin = true;
 					adminError = '';
 				} else {
 					isAdmin = false;
-					if (res.status === 404) adminError = 'Admin API not found (404). Check base path and deployment.';
-					else if (res.status === 401) goto('/login?redirectTo=/admin', { replaceState: true });
-					else if (res.status === 403) adminError = 'You are not in the admin list. Add your user ID to the admin_users table in Supabase.';
-					else goto('/', { replaceState: true });
+					if (res.status === 401) goto('/login?redirectTo=/admin', { replaceState: true });
+					else if (res.status === 404) adminError = 'Admin API not found (404).';
+					else if (res.status === 403) adminError = 'Not in admin list. Add your user ID to admin_users in Supabase.';
+					else adminError = data.error || 'Access denied.';
 				}
 			} catch (e) {
 				isAdmin = false;
-				adminError = e?.message || 'Could not reach admin check.';
+				adminError = e?.name === 'AbortError' ? 'Request timed out.' : (e?.message || 'Could not verify access.');
 			} finally {
+				clearTimeout(timeoutId);
 				adminCheckLoading = false;
 			}
 		})();
