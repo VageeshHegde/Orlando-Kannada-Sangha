@@ -11,11 +11,11 @@
 
 	const authApiUrl = `${base}/api/auth`.replace(/\/+/g, '/');
 
-	/** Headers for admin-only auth API calls (includes Bearer token). */
-	function authApiHeaders() {
+	/** Headers for admin API calls (includes Bearer token). Use for GET and POST. */
+	function authApiHeaders(includeContentType = true) {
 		const token = getAccessToken();
 		return {
-			'Content-Type': 'application/json',
+			...(includeContentType ? { 'Content-Type': 'application/json' } : {}),
 			...(token ? { Authorization: `Bearer ${token}` } : {})
 		};
 	}
@@ -153,7 +153,9 @@
 
 			// Fetch past members count
 			try {
-				const pastMembersResponse = await fetch('/api/past-members');
+				const pastMembersResponse = await fetch('/api/past-members', {
+					headers: authApiHeaders(false)
+				});
 				if (pastMembersResponse.ok) {
 					const pastMembersData = await pastMembersResponse.json();
 					memberCount.pastMembers = pastMembersData.total || 0;
@@ -165,7 +167,9 @@
 
 			// Fetch lifetime members count
 			try {
-				const lifetimeMembersResponse = await fetch('/api/lifetime-members');
+				const lifetimeMembersResponse = await fetch('/api/lifetime-members', {
+					headers: authApiHeaders(false)
+				});
 				if (lifetimeMembersResponse.ok) {
 					const lifetimeMembersData = await lifetimeMembersResponse.json();
 					memberCount.lifetimeMembers = lifetimeMembersData.total || 0;
@@ -453,7 +457,7 @@
 
 			const response = await fetch('/api/lifetime-members', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: authApiHeaders(),
 				body: JSON.stringify(lifetimeMember)
 			});
 
@@ -492,7 +496,7 @@
 
 			const response = await fetch('/api/past-members', {
 				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
+				headers: authApiHeaders(),
 				body: JSON.stringify(pastMember)
 			});
 
@@ -519,8 +523,10 @@
 			pastMembersLoading = true;
 			pastMembersError = '';
 
-			const response = await fetch('/api/past-members');
-			
+			const response = await fetch('/api/past-members', {
+				headers: authApiHeaders(false)
+			});
+
 			if (!response.ok) {
 				throw new Error('Failed to fetch past members');
 			}
@@ -620,8 +626,10 @@
 			lifetimeMembersLoading = true;
 			lifetimeMembersError = '';
 
-			const response = await fetch('/api/lifetime-members');
-			
+			const response = await fetch('/api/lifetime-members', {
+				headers: authApiHeaders(false)
+			});
+
 			if (!response.ok) {
 				throw new Error('Failed to fetch lifetime members');
 			}
@@ -693,8 +701,10 @@
 			sponsorsLoading = true;
 			sponsorsError = '';
 
-			const response = await fetch('/api/sponsors');
-			
+			const response = await fetch('/api/sponsors', {
+				headers: authApiHeaders(false)
+			});
+
 			if (!response.ok) {
 				throw new Error('Failed to fetch sponsors');
 			}

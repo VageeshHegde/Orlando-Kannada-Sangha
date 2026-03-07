@@ -3,6 +3,7 @@
   import Hero from '$lib/components/Hero.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import PageTitle from '$lib/components/PageTitle.svelte';
+  import LoginNotice from '$lib/components/LoginNotice.svelte';
   import { onMount } from 'svelte';
   import { user } from '$lib/stores/auth.js';
   
@@ -217,26 +218,17 @@
   
   <!-- Login Required Notice -->
   {#if !isLoggedIn}
-    <div class="login-notice mb-4">
-      <div class="alert alert-warning" role="alert">
-        <div class="d-flex align-items-center">
-          <i class="fas fa-lock me-3"></i>
-          <div class="flex-grow-1">
-            <h5 class="alert-heading mb-2">Member Access Required</h5>
-            <p class="mb-3">To view our blog posts, you must be a registered member of Orlando Kannada Sangha.</p>
-            <p class="mb-3">If you are a member, please login to access the blog.</p>
-            <div class="d-flex gap-2">
-              <a href="https://www.zeffy.com/en-US/ticketing/oks-membership--2026" target="_blank" class="btn btn-primary">
-                <i class="fas fa-user-plus me-2"></i>Become a Member
-              </a>
-              <a href="/login" class="btn btn-outline-primary">
-                <i class="fas fa-sign-in-alt me-2"></i>Login
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    <LoginNotice
+      heading="Member Access Required"
+      paragraphs={[
+        'To view our blog posts, you must be a registered member of Orlando Kannada Sangha.',
+        'If you are a member, please login to access the blog.'
+      ]}
+      buttons={[
+        { href: 'https://www.zeffy.com/en-US/ticketing/oks-membership--2026', text: 'Become a Member', icon: 'fas fa-user-plus', primary: true, external: true },
+        { href: '/login', text: 'Login', icon: 'fas fa-sign-in-alt', primary: false }
+      ]}
+    />
   {:else}
   
   <!-- Blog Posts List -->
@@ -450,72 +442,5 @@
     .post-meta {
       font-size: 0.8rem;
     }
-  }
-
-  /* Login Notice Styles */
-  .login-notice .alert {
-    border: 2px solid #ffc107;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-    box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
-  }
-
-  .login-notice .alert-heading {
-    color: #856404;
-    font-weight: 600;
-    font-size: 1.2rem;
-  }
-
-  .login-notice .alert p {
-    color: #856404;
-    font-size: 1rem;
-    margin-bottom: 0;
-  }
-
-  .login-notice .btn-primary {
-    background-color: #7a1f1f;
-    border-color: #7a1f1f;
-    font-weight: 600;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-  }
-
-  .login-notice .btn-primary:hover {
-    background-color: #5a1515;
-    border-color: #5a1515;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(122, 31, 31, 0.3);
-  }
-
-  .login-notice .btn-outline-primary {
-    color: #7a1f1f;
-    border-color: #7a1f1f;
-    font-weight: 600;
-    padding: 0.75rem 1.5rem;
-    border-radius: 8px;
-    transition: all 0.3s ease;
-    text-align: center;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .login-notice .btn-outline-primary:hover {
-    background-color: #7a1f1f;
-    border-color: #7a1f1f;
-    color: white;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(122, 31, 31, 0.3);
-  }
-
-  .login-notice i.fa-lock {
-    font-size: 2rem;
-    color: #856404;
-  }
-
-  /* Add extra margin-bottom to blog page alert */
-  .login-notice {
-    margin-bottom: 5rem !important;
   }
 </style>
