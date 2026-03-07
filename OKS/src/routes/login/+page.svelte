@@ -12,10 +12,14 @@
 	// Form validation
 	let emailError = '';
 	
-	// Check for registration success message
+	// Redirect after login (e.g. when sent from /admin)
+	let redirectTo = '/';
+	// Check for registration success message and redirectTo
 	onMount(() => {
 		if (typeof window !== 'undefined') {
 			const urlParams = new URLSearchParams(window.location.search);
+			const to = urlParams.get('redirectTo');
+			if (to && to.startsWith('/')) redirectTo = to;
 			if (urlParams.get('registered') === 'true') {
 				successMessage = 'Registration successful! Please check your email to verify your account, then login.';
 			} else if (urlParams.get('message') === 'password-set') {
@@ -51,7 +55,9 @@
 		}
 		
 		isLoading = true;
-		
+		const to = (typeof window !== 'undefined' && new URLSearchParams(window.location.search).get('redirectTo')) || redirectTo;
+		const finalRedirect = to && to.startsWith('/') ? to : '/';
+
 		try {
 			// Send magic link
 			const response = await fetch('/api/auth', {
@@ -63,7 +69,7 @@
 					action: 'magic_link',
 					data: {
 						email: email,
-						redirectTo: '/'
+						redirectTo: finalRedirect
 					}
 				})
 			});

@@ -53,6 +53,11 @@ async function requireAdmin(request) {
 	return null; // null means allowed
 }
 
+/** Auth API only accepts POST. GET returns 405 so it never looks like a missing route (404). */
+export async function GET() {
+	return json({ error: 'Method not allowed. Use POST with action and body.' }, { status: 405 });
+}
+
 export async function POST({ request }) {
 	try {
 		const body = await request.json();
