@@ -90,8 +90,7 @@ export async function POST({ request }) {
 				return await getUser(data);
 			}
 			case 'get_member_count': {
-				const forbidden = await requireAdmin(request);
-				if (forbidden) return forbidden;
+				// Public: home and info pages show registered member count; no admin required
 				return await getMemberCount();
 			}
 			case 'get_all_members': {
