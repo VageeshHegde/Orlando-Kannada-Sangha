@@ -52,6 +52,16 @@
     return 'Member';
   }
 
+  // Liked post IDs (client-side; resets on refresh)
+  let likedPostIds = new Set();
+
+  function toggleLike(postId) {
+    const next = new Set(likedPostIds);
+    if (next.has(postId)) next.delete(postId);
+    else next.add(postId);
+    likedPostIds = next;
+  }
+
   // Blog posts data
   let blogPosts = [
     {
@@ -247,6 +257,18 @@
               <span class="post-category">{post.category}</span>
               <span class="post-separator">|</span>
               <span class="post-author">By {post.author}</span>
+              <span class="post-separator">|</span>
+              <button
+                type="button"
+                class="post-like-btn"
+                class:liked={likedPostIds.has(post.id)}
+                on:click={() => toggleLike(post.id)}
+                aria-label={likedPostIds.has(post.id) ? 'Unlike this post' : 'Like this post'}
+                title={likedPostIds.has(post.id) ? 'Unlike' : 'Like'}
+              >
+                <i class="{likedPostIds.has(post.id) ? 'fas' : 'far'} fa-thumbs-up" aria-hidden="true"></i>
+                <span class="post-like-count">{likedPostIds.has(post.id) ? 1 : 0}</span>
+              </button>
             </div>
             <p class="post-excerpt">{post.excerpt}</p>
             <a href="/blog/{post.id}" class="read-more-link">Read more...</a>
@@ -369,6 +391,39 @@
   .post-author {
     font-style: italic;
     color: #666;
+  }
+
+  .post-like-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+    font-size: 1rem;
+  }
+
+  .post-like-btn:hover {
+    color: #7a1f1f;
+    transform: scale(1.1);
+  }
+
+  .post-like-btn.liked {
+    color: #7a1f1f;
+  }
+
+  .post-like-btn.liked:hover {
+    color: #5a1717;
+  }
+
+  .post-like-count {
+    margin-left: 0.35rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+    min-width: 1ch;
   }
 
   .post-excerpt {
