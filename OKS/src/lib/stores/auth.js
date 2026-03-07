@@ -34,6 +34,7 @@ export const initAuth = async () => {
   if (!browser) return
 
   loading.set(true)
+  let fallback = setTimeout(() => loading.set(false), 4000)
 
   try {
     const { session: initialSession } = await auth.getSession()
@@ -45,6 +46,7 @@ export const initAuth = async () => {
     }
 
     loading.set(false)
+    clearTimeout(fallback)
 
     supabase.auth.onAuthStateChange((_event, currentSession) => {
       if (currentSession) {
@@ -60,6 +62,7 @@ export const initAuth = async () => {
     })
   } catch {
     loading.set(false)
+    if (fallback) clearTimeout(fallback)
   }
 }
 
