@@ -2,6 +2,7 @@
 	import { goto } from '$app/navigation';
 	import { onMount } from 'svelte';
 	import { supabase } from '$lib/supabase.js';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	
 	// QR Code image from S3
 	let qrCodeImage = '';
@@ -78,7 +79,7 @@
 						</div>
 						
 						<div class="form-group text-center">
-							<label class="form-label">Payment Options</label>
+							<span class="form-label d-block">Payment Options</span>
 							<div class="row">
 								<div class="col-md-6">
 									<div class="payment-option">
@@ -96,10 +97,7 @@
 											{#if qrCodeLoaded && qrCodeImage}
 												<img src={qrCodeImage} alt="Membership Payment QR Code" style="width: 100%; max-width: 100px; height: auto;">
 											{:else}
-												<div class="qr-loading">
-													<i class="fas fa-spinner fa-spin"></i>
-													<p>Loading QR Code...</p>
-												</div>
+												<LoadingSpinner message="Loading QR Code..." size="small" />
 											{/if}
 											<p class="qr-text">Scan to pay</p>
 										</div>
@@ -270,35 +268,6 @@
 		font-size: 1.5rem;
 		margin: 0;
 	}
-	
-	/* QR Code Loading State */
-	.qr-loading {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		padding: 2rem;
-		color: #7a1f1f;
-		text-align: center;
-	}
-	
-	.qr-loading i {
-		font-size: 1.5rem;
-		margin-bottom: 0.5rem;
-		animation: spin 1s linear infinite;
-	}
-	
-	.qr-loading p {
-		margin: 0;
-		font-size: 0.875rem;
-		font-weight: 500;
-	}
-	
-	@keyframes spin {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(360deg); }
-	}
-	
 	
 	.qr-text {
 		color: #666;

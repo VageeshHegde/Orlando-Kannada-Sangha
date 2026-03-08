@@ -3,6 +3,7 @@
 	import Hero from '$lib/components/Hero.svelte';
 	import Footer from '$lib/components/Footer.svelte';
 	import PageTitle from '$lib/components/PageTitle.svelte';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { onMount } from 'svelte';
 	import { getMemberInitial, getAvatarColor } from '$lib/utils/avatarUtils.js';
 	import { supabase } from '$lib/supabase.js';
@@ -851,10 +852,7 @@
 				</div>
 				<div class="card-body">
 							{#if memberCountLoading}
-						<div class="loading-state">
-							<i class="fas fa-spinner fa-spin"></i>
-							<p>Loading member statistics...</p>
-						</div>
+						<LoadingSpinner message="Loading member statistics..." />
 					{:else if memberCountError}
 						<div class="alert alert-danger">
 							<i class="fas fa-exclamation-triangle me-2"></i>
@@ -972,10 +970,7 @@
 
 							<!-- Members Table -->
 					{#if membersLoading}
-						<div class="loading-state">
-							<i class="fas fa-spinner fa-spin"></i>
-							<p>Loading members...</p>
-						</div>
+						<LoadingSpinner message="Loading members..." />
 							{:else if membersError}
 								<div class="alert alert-danger">
 									<i class="fas fa-exclamation-triangle me-2"></i>
@@ -1190,10 +1185,7 @@
 
 							<!-- Past Members Table -->
 					{#if pastMembersLoading}
-						<div class="loading-state">
-							<i class="fas fa-spinner fa-spin"></i>
-							<p>Loading past board members...</p>
-						</div>
+						<LoadingSpinner message="Loading past board members..." />
 							{:else if pastMembersError}
 								<div class="alert alert-danger">
 									<i class="fas fa-exclamation-triangle me-2"></i>
@@ -1391,10 +1383,7 @@
 
 							<!-- Lifetime Members Table -->
 							{#if lifetimeMembersLoading}
-								<div class="loading-state">
-									<i class="fas fa-spinner fa-spin"></i>
-									<p>Loading lifetime members...</p>
-								</div>
+								<LoadingSpinner message="Loading lifetime members..." />
 							{:else if lifetimeMembersError}
 								<div class="alert alert-danger">
 									<i class="fas fa-exclamation-triangle me-2"></i>
@@ -1799,10 +1788,7 @@
 
 							<!-- Sponsors Table -->
 							{#if sponsorsLoading}
-								<div class="loading-state">
-									<i class="fas fa-spinner fa-spin"></i>
-									<p>Loading sponsors...</p>
-								</div>
+								<LoadingSpinner message="Loading sponsors..." />
 							{:else if sponsorsError}
 								<div class="alert alert-danger">
 									<i class="fas fa-exclamation-triangle me-2"></i>
@@ -1919,28 +1905,6 @@
 	}
 
 	/* Loading state for all components */
-	.loading-state {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		min-height: 200px;
-		width: 100%;
-		color: #6c757d;
-		text-align: center;
-		padding: 2rem;
-	}
-
-	.loading-state i {
-		font-size: 2rem;
-		margin-bottom: 1rem;
-	}
-
-	.loading-state p {
-		margin: 0;
-		font-size: 0.9rem;
-	}
-
 	.member-count-display {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));

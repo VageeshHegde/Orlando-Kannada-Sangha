@@ -1,6 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
-	
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
+
 	// Props
 	export let items = []; // Array of items to display
 	export let loading = false;
@@ -43,9 +44,8 @@
 <!-- Masonry Gallery -->
 <div class="masonry-gallery" role="region" aria-label="Gallery">
 	{#if loading}
-		<div class="loading-state" role="status" aria-live="polite" aria-busy="true">
-			<i class="fas fa-spinner fa-spin" aria-hidden="true"></i>
-			<p>Loading...</p>
+		<div class="gallery-loading-wrapper">
+			<LoadingSpinner message="Loading..." />
 		</div>
 	{:else if error}
 		<div class="error-state" role="alert" aria-live="assertive">
@@ -375,8 +375,12 @@
 		border-width: 0;
 	}
 
-	/* Loading, Error, and Empty States */
-	.loading-state,
+	/* Gallery wrapper so loader spans all columns */
+	.gallery-loading-wrapper {
+		column-span: all;
+	}
+
+	/* Error and Empty States */
 	.error-state,
 	.empty-state {
 		column-span: all;
@@ -385,16 +389,10 @@
 		color: #7a1f1f;
 	}
 
-	.loading-state i,
 	.error-state i,
 	.empty-state i {
 		font-size: 3rem;
 		margin-bottom: 1rem;
-	}
-
-	.loading-state i {
-		animation: spin 1s linear infinite;
-		color: #7a1f1f;
 	}
 
 	.error-state,
@@ -415,11 +413,6 @@
 		font-size: 0.9rem;
 		color: #666;
 		font-style: italic;
-	}
-
-	@keyframes spin {
-		from { transform: rotate(0deg); }
-		to { transform: rotate(360deg); }
 	}
 
 	/* Responsive Design */

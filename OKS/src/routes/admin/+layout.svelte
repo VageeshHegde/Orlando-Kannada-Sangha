@@ -7,6 +7,7 @@
 	import Footer from '$lib/components/Footer.svelte';
 	import PageTitle from '$lib/components/PageTitle.svelte';
 	import LoginNotice from '$lib/components/LoginNotice.svelte';
+	import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
 	import { onMount } from 'svelte';
 
 	let { children } = $props();
@@ -109,8 +110,7 @@
 	<main class="container my-5">
 		<div class="row">
 			<div class="col-12 text-center py-5">
-				<i class="fas fa-spinner fa-spin fa-2x text-secondary"></i>
-				<p class="mt-3 text-secondary">Loading...</p>
+				<LoadingSpinner message="Loading..." wrapperClass="text-secondary" />
 			</div>
 		</div>
 	</main>

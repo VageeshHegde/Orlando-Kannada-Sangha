@@ -3,6 +3,7 @@
   import Navbar from '$lib/components/Navbar.svelte';
   import Footer from '$lib/components/Footer.svelte';
   import PageTitle from '$lib/components/PageTitle.svelte';
+  import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
   import { supabase } from '$lib/supabase.js';
   import { onMount, tick } from 'svelte';
 
@@ -172,10 +173,7 @@
       <div class="container">
         <div class="pdf-viewer-wrapper">
           {#if loading}
-            <div class="loading-state">
-              <i class="fas fa-spinner fa-spin"></i>
-              <p>Loading By-Laws PDF...</p>
-            </div>
+            <LoadingSpinner message="Loading By-Laws PDF..." />
           {/if}
 
           {#if error}
@@ -245,29 +243,6 @@
     border: 1px solid #dee2e6;
     border-radius: 8px;
     background-color: #f8f9fa;
-  }
-
-  /* Loading state for all components */
-  .loading-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
-    width: 100%;
-    color: #6c757d;
-    text-align: center;
-    padding: 2rem;
-  }
-
-  .loading-state i {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .loading-state p {
-    margin: 0;
-    font-size: 0.9rem;
   }
 
   .alert {

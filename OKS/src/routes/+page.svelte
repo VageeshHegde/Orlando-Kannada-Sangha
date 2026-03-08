@@ -6,6 +6,7 @@
   import MemberSlider from '$lib/components/MemberSlider.svelte';
   import PageTitle from '$lib/components/PageTitle.svelte';
   import MasonryGallery from '$lib/components/MasonryGallery.svelte';
+  import LoadingSpinner from '$lib/components/LoadingSpinner.svelte';
   import { onMount, onDestroy } from 'svelte';
   import { browser } from '$app/environment';
   import { getSliderImages } from '$lib/services/sliderService.js';
@@ -649,11 +650,7 @@
                 <img src="/images/Yakshagana2.png" alt="Yakshagana Performance 2" class="scroll-image" loading="lazy">
               </a> -->
             {:else}
-              <!-- Loading state -->
-              <div class="loading-state">
-                <i class="fas fa-spinner fa-spin"></i>
-                <p>Loading images...</p>
-              </div>
+              <LoadingSpinner message="Loading images..." />
             {/if}
           </div>
         </div>
@@ -807,10 +804,7 @@
               {#if membershipQRLoaded && membershipQRImage}
                 <img src={membershipQRImage} alt="Membership QR Code" style="width: 100%; max-width: 120px; height: auto;">
               {:else}
-                <div class="qr-loading">
-                  <i class="fas fa-spinner fa-spin"></i>
-                  <p>Loading QR Code...</p>
-                </div>
+                <LoadingSpinner message="Loading QR Code..." size="small" />
               {/if}
             </figure>
           </div>
@@ -903,10 +897,7 @@
 <!-- Lifetime Members Section -->
 <section class="section container py-4 my-3">
   {#if lifetimeMembersLoading}
-    <div class="loading-state">
-      <i class="fas fa-spinner fa-spin"></i>
-      <p>Loading lifetime members...</p>
-    </div>
+    <LoadingSpinner message="Loading lifetime members..." />
   {:else if lifetimeMembersError}
     <div class="alert alert-warning text-center">
       <i class="fas fa-exclamation-triangle me-2"></i>
@@ -1046,27 +1037,6 @@
     }
   }
 
-  /* Loading state for image slider */
-  .loading-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 200px;
-    width: 100%;
-    color: #6c757d;
-  }
-
-  .loading-state i {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-  }
-
-  .loading-state p {
-    margin: 0;
-    font-size: 0.9rem;
-  }
-  
   /* Flag styling - combined and optimized */
   .flag-container {
     height: 100%;
@@ -1204,56 +1174,6 @@
     .become-sponsor-section p {
       font-size: 1rem;
     }
-  }
-
-  /* Loading state for slider */
-  .loading-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    color: #666;
-    font-size: 1.2rem;
-  }
-
-  .loading-state i {
-    font-size: 2rem;
-    margin-bottom: 1rem;
-    color: #7a1f1f;
-  }
-
-  .loading-state p {
-    margin: 0;
-    font-weight: 500;
-  }
-
-  /* QR Code Loading State */
-  .qr-loading {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 2rem;
-    color: #7a1f1f;
-    text-align: center;
-  }
-
-  .qr-loading i {
-    font-size: 1.5rem;
-    margin-bottom: 0.5rem;
-    animation: spin 1s linear infinite;
-  }
-
-  .qr-loading p {
-    margin: 0;
-    font-size: 0.875rem;
-    font-weight: 500;
-  }
-
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
   }
 
   /* Community Stats - keep specific stats inline */
