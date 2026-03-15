@@ -1060,7 +1060,7 @@
 												<th>UID</th>
 												<th>Member Since</th>
 												<th>Status</th>
-												<th class="text-end">Actions</th>
+												<th class="text-end">Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1280,7 +1280,7 @@
 												<th>Position</th>
 												<th>Year</th>
 												<th>Image File</th>
-												<th class="text-end">Actions</th>
+												<th class="text-end">Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1484,7 +1484,7 @@
 												<th>Name</th>
 												<th>Tag Line</th>
 												<th>Image File</th>
-												<th class="text-end">Actions</th>
+												<th class="text-end">Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1895,7 +1895,7 @@
 												<th>Company</th>
 												<th>Logo</th>
 												<th>Website</th>
-												<th class="text-end">Actions</th>
+												<th class="text-end">Action</th>
 											</tr>
 										</thead>
 										<tbody>
