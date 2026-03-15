@@ -104,6 +104,11 @@ export async function POST({ request }) {
 				const userData = data?.users || users;
 				return await bulkCreateUsers({ users: userData });
 			}
+			case 'delete_user': {
+				const forbidden = await requireAdmin(request);
+				if (forbidden) return forbidden;
+				return await deleteUser(data);
+			}
 			default:
 				return json({ error: 'Invalid action' }, { status: 400 });
 		}
@@ -191,6 +196,30 @@ async function getUser(data) {
 			success: true, 
 			user: result.user 
 		});
+	} catch (error) {
+		return json({ error: error.message }, { status: 500 });
+	}
+}
+
+async function deleteUser(data) {
+	const { userId } = data;
+
+	if (!userId) {
+		return json({ error: 'User ID is required' }, { status: 400 });
+	}
+
+	if (!supabaseAdmin) {
+		return json({ error: 'Admin access required for this operation' }, { status: 403 });
+	}
+
+	try {
+		const { error } = await supabaseAdmin.auth.admin.deleteUser(userId);
+
+		if (error) {
+			return json({ error: error.message }, { status: 400 });
+		}
+
+		return json({ success: true, message: 'User deleted' });
 	} catch (error) {
 		return json({ error: error.message }, { status: 500 });
 	}

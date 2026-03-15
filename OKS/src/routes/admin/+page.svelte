@@ -773,6 +773,74 @@
 		updateSponsorPagination();
 	}
 
+	// Delete handlers (confirm then call API and refresh)
+	async function deleteMember(member) {
+		if (!confirm(`Remove member ${member.first_name} ${member.last_name}? This will delete their auth account.`)) return;
+		try {
+			const res = await fetch(authApiUrl, {
+				method: 'POST',
+				headers: authApiHeaders(),
+				body: JSON.stringify({ action: 'delete_user', data: { userId: member.id } })
+			});
+			const data = await res.json().catch(() => ({}));
+			if (!res.ok) throw new Error(data.error || 'Failed to delete');
+			await loadMembers();
+		} catch (e) {
+			alert(e.message || 'Delete failed');
+		}
+	}
+
+	async function deletePastMember(member) {
+		if (!confirm(`Delete past board member "${member.name}"?`)) return;
+		try {
+			const res = await fetch(`/api/past-members?id=${encodeURIComponent(member.id)}`, {
+				method: 'DELETE',
+				headers: authApiHeaders(false)
+			});
+			if (!res.ok) {
+				const data = await res.json().catch(() => ({}));
+				throw new Error(data.error || 'Failed to delete');
+			}
+			await loadPastMembers();
+		} catch (e) {
+			alert(e.message || 'Delete failed');
+		}
+	}
+
+	async function deleteLifetimeMember(member) {
+		if (!confirm(`Delete lifetime member "${member.name}"?`)) return;
+		try {
+			const res = await fetch(`/api/lifetime-members?id=${encodeURIComponent(member.id)}`, {
+				method: 'DELETE',
+				headers: authApiHeaders(false)
+			});
+			if (!res.ok) {
+				const data = await res.json().catch(() => ({}));
+				throw new Error(data.error || 'Failed to delete');
+			}
+			await loadLifetimeMembers();
+		} catch (e) {
+			alert(e.message || 'Delete failed');
+		}
+	}
+
+	async function deleteSponsor(sponsor) {
+		if (!confirm(`Delete sponsor "${sponsor.company}" (${sponsor.name})?`)) return;
+		try {
+			const res = await fetch(`/api/sponsors?id=${encodeURIComponent(sponsor.id)}`, {
+				method: 'DELETE',
+				headers: authApiHeaders(false)
+			});
+			if (!res.ok) {
+				const data = await res.json().catch(() => ({}));
+				throw new Error(data.error || 'Failed to delete');
+			}
+			await loadSponsors();
+		} catch (e) {
+			alert(e.message || 'Delete failed');
+		}
+	}
+
 	// Create sponsor directly using Supabase
 	async function createSponsor() {
 		if (!sponsor.name || !sponsor.company) {
@@ -992,6 +1060,7 @@
 												<th>UID</th>
 												<th>Member Since</th>
 												<th>Status</th>
+												<th class="text-end">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1022,6 +1091,11 @@
 														{:else}
 															<span class="badge bg-warning">Pending</span>
 														{/if}
+													</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deleteMember(member)} title="Delete member" aria-label="Delete member">
+															<i class="fas fa-trash-alt"></i>
+														</button>
 													</td>
 												</tr>
 											{/each}
@@ -1206,6 +1280,7 @@
 												<th>Position</th>
 												<th>Year</th>
 												<th>Image File</th>
+												<th class="text-end">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1231,6 +1306,11 @@
 														{:else}
 															<span class="text-muted small">No image</span>
 														{/if}
+													</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deletePastMember(member)} title="Delete past member" aria-label="Delete past member">
+															<i class="fas fa-trash-alt"></i>
+														</button>
 													</td>
 												</tr>
 											{/each}
@@ -1404,6 +1484,7 @@
 												<th>Name</th>
 												<th>Tag Line</th>
 												<th>Image File</th>
+												<th class="text-end">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1433,6 +1514,11 @@
 														{:else}
 															<span class="text-muted small">No image</span>
 														{/if}
+													</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deleteLifetimeMember(member)} title="Delete lifetime member" aria-label="Delete lifetime member">
+															<i class="fas fa-trash-alt"></i>
+														</button>
 													</td>
 												</tr>
 											{/each}
@@ -1809,6 +1895,7 @@
 												<th>Company</th>
 												<th>Logo</th>
 												<th>Website</th>
+												<th class="text-end">Actions</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1840,6 +1927,11 @@
 														{:else}
 															<span class="text-muted small">N/A</span>
 														{/if}
+													</td>
+													<td class="text-end">
+														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deleteSponsor(sponsor)} title="Delete sponsor" aria-label="Delete sponsor">
+															<i class="fas fa-trash-alt"></i>
+														</button>
 													</td>
 												</tr>
 											{/each}

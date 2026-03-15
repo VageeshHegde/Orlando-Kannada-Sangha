@@ -77,3 +77,32 @@ export async function POST({ request }) {
 		return json({ error: 'Internal server error' }, { status: 500 });
 	}
 }
+
+export async function DELETE({ request, url }) {
+	try {
+		const id = url.searchParams.get('id');
+		if (!id) {
+			return json({ error: 'id is required' }, { status: 400 });
+		}
+
+		const { data: { user }, error: authError } = await supabase.auth.getUser();
+		if (authError || !user) {
+			return json({ error: 'Authentication required' }, { status: 401 });
+		}
+
+		const { error } = await supabase
+			.from('lifetime_members')
+			.delete()
+			.eq('id', id);
+
+		if (error) {
+			console.error('Error deleting lifetime member:', error);
+			return json({ error: 'Failed to delete lifetime member' }, { status: 500 });
+		}
+
+		return json({ success: true, message: 'Lifetime member deleted' });
+	} catch (error) {
+		console.error('Lifetime member delete error:', error);
+		return json({ error: 'Internal server error' }, { status: 500 });
+	}
+}

@@ -38,3 +38,35 @@ export async function GET({ request }) {
 		}, { status: 500 });
 	}
 }
+
+/**
+ * DELETE /api/sponsors?id=...
+ */
+export async function DELETE({ url }) {
+	try {
+		const id = url.searchParams.get('id');
+		if (!id) {
+			return json({ error: 'id is required' }, { status: 400 });
+		}
+
+		const { data: { user }, error: authError } = await supabase.auth.getUser();
+		if (authError || !user) {
+			return json({ error: 'Authentication required' }, { status: 401 });
+		}
+
+		const { error } = await supabase
+			.from('sponsors')
+			.delete()
+			.eq('id', id);
+
+		if (error) {
+			console.error('Error deleting sponsor:', error);
+			return json({ error: 'Failed to delete sponsor' }, { status: 500 });
+		}
+
+		return json({ success: true, message: 'Sponsor deleted' });
+	} catch (error) {
+		console.error('Delete sponsor error:', error);
+		return json({ error: 'Internal server error' }, { status: 500 });
+	}
+}

@@ -69,3 +69,32 @@ export async function POST({ request }) {
 		return json({ error: 'Internal server error' }, { status: 500 });
 	}
 }
+
+export async function DELETE({ request, url }) {
+	try {
+		const id = url.searchParams.get('id');
+		if (!id) {
+			return json({ error: 'id is required' }, { status: 400 });
+		}
+
+		const { data: { user }, error: authError } = await supabase.auth.getUser();
+		if (authError || !user) {
+			return json({ error: 'Authentication required' }, { status: 401 });
+		}
+
+		const { error } = await supabase
+			.from('past_board_members')
+			.delete()
+			.eq('id', id);
+
+		if (error) {
+			console.error('Error deleting past member:', error);
+			return json({ error: 'Failed to delete past member' }, { status: 500 });
+		}
+
+		return json({ success: true, message: 'Past member deleted' });
+	} catch (error) {
+		console.error('Past member delete error:', error);
+		return json({ error: 'Internal server error' }, { status: 500 });
+	}
+}
