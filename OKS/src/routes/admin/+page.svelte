@@ -1060,7 +1060,7 @@
 												<th>UID</th>
 												<th>Member Since</th>
 												<th>Status</th>
-												<th class="text-end">Action</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1092,7 +1092,7 @@
 															<span class="badge bg-warning">Pending</span>
 														{/if}
 													</td>
-													<td class="text-end">
+													<td>
 														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deleteMember(member)} title="Delete member" aria-label="Delete member">
 															<i class="fas fa-trash-alt"></i>
 														</button>
@@ -1280,7 +1280,7 @@
 												<th>Position</th>
 												<th>Year</th>
 												<th>Image File</th>
-												<th class="text-end">Action</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1307,7 +1307,7 @@
 															<span class="text-muted small">No image</span>
 														{/if}
 													</td>
-													<td class="text-end">
+													<td>
 														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deletePastMember(member)} title="Delete past member" aria-label="Delete past member">
 															<i class="fas fa-trash-alt"></i>
 														</button>
@@ -1484,7 +1484,7 @@
 												<th>Name</th>
 												<th>Tag Line</th>
 												<th>Image File</th>
-												<th class="text-end">Action</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1515,7 +1515,7 @@
 															<span class="text-muted small">No image</span>
 														{/if}
 													</td>
-													<td class="text-end">
+													<td>
 														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deleteLifetimeMember(member)} title="Delete lifetime member" aria-label="Delete lifetime member">
 															<i class="fas fa-trash-alt"></i>
 														</button>
@@ -1895,7 +1895,7 @@
 												<th>Company</th>
 												<th>Logo</th>
 												<th>Website</th>
-												<th class="text-end">Action</th>
+												<th>Action</th>
 											</tr>
 										</thead>
 										<tbody>
@@ -1928,7 +1928,7 @@
 															<span class="text-muted small">N/A</span>
 														{/if}
 													</td>
-													<td class="text-end">
+													<td>
 														<button type="button" class="btn btn-sm btn-outline-danger" on:click={() => deleteSponsor(sponsor)} title="Delete sponsor" aria-label="Delete sponsor">
 															<i class="fas fa-trash-alt"></i>
 														</button>
